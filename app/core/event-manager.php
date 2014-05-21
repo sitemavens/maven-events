@@ -44,15 +44,17 @@ class EventManager implements iSearchManager {
 
 		if ( $event->hasVenue() ) {
 			$venue = $venueMapper->get( $event->getVenue()->getId() );
-			if ( ! $venue )
+			if ( !$venue ) {
 				throw new \Maven\Exceptions\NotFoundException( 'The venue doesn\'t exist: ' . $event->getVenue()->getId() );
+			}
 
 			$event->setVenue( $venue );
 		}
 
 		$update = false;
-		if ( $event->getId() )
+		if ( $event->getId() ) {
 			$update = true;
+		}
 
 		//We save the event, we need the id for the related data
 		$savedEvent = $this->eventMapper->save( $event );
@@ -230,8 +232,9 @@ class EventManager implements iSearchManager {
 	 */
 	public function get( $eventId ) {
 
-		if ( intval( $eventId ) === 0 )
+		if ( intval( $eventId ) === 0 ) {
 			throw new \Maven\Exceptions\MissingParameterException( "Event id is required" );
+		}
 
 		$event = $this->eventMapper->get( $eventId );
 

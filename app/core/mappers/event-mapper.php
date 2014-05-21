@@ -225,23 +225,23 @@ class EventMapper extends \Maven\Core\Db\WordpressMapper {
 
 		$event = new \MavenEvents\Core\Domain\Event();
 
-		if ( ! $id )
+		if ( !$id ) {
 			throw new \Maven\Exceptions\MissingParameterException( 'Id: is required' );
+		}
 
 
 		$row = $this->getRowById( $id );
 
-		if ( ! $row )
-			throw new \Maven\Exceptions\NotFoundException();
+		if ( ! $row ){
+			return $event;
+		}
 
 		if ( $readWpPost ) {
 			$postEvent = get_post( $id );
 
-			//if ( ! $postEvent )
-			//	throw new \Maven\Exceptions\NotFoundException( 'PostEvent not found!' );
-
-			if ( $postEvent )
+			if ( $postEvent ) {
 				$event->setUrl( $postEvent->post_name );
+			}
 		}
 
 		$this->fillObject( $event, $row );
@@ -329,58 +329,58 @@ class EventMapper extends \Maven\Core\Db\WordpressMapper {
 
 				$currentUserID = get_current_user_id();
 
-				$postData = array(
-				    'post_status' => 'publish',
-				    'post_type' => EventsConfig::eventTypeName,
-				    'post_author' => $currentUserID,
-				    'post_title' => $event->getName(),
-				    'post_content' => $event->getDescription(),
-				    'post_excerpt' => $event->getSummary(),
-				    'tax_input' => array( )
-				);
+//				$postData = array(
+//				    'post_status' => 'publish',
+//				    'post_type' => EventsConfig::eventTypeName,
+//				    'post_author' => $currentUserID,
+//				    'post_title' => $event->getName(),
+//				    'post_content' => $event->getDescription(),
+//				    'post_excerpt' => $event->getSummary(),
+//				    'tax_input' => array( )
+//				);
+//
+//
+//				// Check if it has a venue associated
+//				if ( $event->getVenueId() ) {
+//					$postData[ 'tax_input' ][ EventsConfig::venueTypeName ] = $event->getVenueId();
+//				} else {
+//					$postData[ 'tax_input' ][ EventsConfig::venueTypeName ] = array( );
+//				}
+//				//Related Presenters
+//				$presentersId = array( );
+//				if ( $event->hasPresenters() ) {
+//					$presenters = $event->getPresenters();
+//					foreach ( $presenters as $presenter ) {
+//						$presentersId[ ] = $presenter->getId();
+//					}
+//				}
+//				$postData[ 'tax_input' ][ EventsConfig::presenterTypeName ] = $presentersId;
+//
+//				//Related Categories
+//				$categoriesID = array( );
+//				if ( $event->hasCategories() ) {
+//					$categories = $event->getCategories();
+//					foreach ( $categories as $category ) {
+//						$categoriesID[ ] = $category->getId();
+//					}
+//				}
+//				$postData[ 'tax_input' ][ EventsConfig::categoryTypeName ] = $categoriesID;
+//
+//				$postId = wp_insert_post( $postData );
+//
+//				if ( is_wp_error( $postId ) )
+//					throw new \Maven\Exceptions\MapperException( $postId->get_error_message() );
 
-
-				// Check if it has a venue associated
-				if ( $event->getVenueId() ) {
-					$postData[ 'tax_input' ][ EventsConfig::venueTypeName ] = $event->getVenueId();
-				} else {
-					$postData[ 'tax_input' ][ EventsConfig::venueTypeName ] = array( );
-				}
-				//Related Presenters
-				$presentersId = array( );
-				if ( $event->hasPresenters() ) {
-					$presenters = $event->getPresenters();
-					foreach ( $presenters as $presenter ) {
-						$presentersId[ ] = $presenter->getId();
-					}
-				}
-				$postData[ 'tax_input' ][ EventsConfig::presenterTypeName ] = $presentersId;
-
-				//Related Categories
-				$categoriesID = array( );
-				if ( $event->hasCategories() ) {
-					$categories = $event->getCategories();
-					foreach ( $categories as $category ) {
-						$categoriesID[ ] = $category->getId();
-					}
-				}
-				$postData[ 'tax_input' ][ EventsConfig::categoryTypeName ] = $categoriesID;
-
-				$postId = wp_insert_post( $postData );
-
-				if ( is_wp_error( $postId ) )
-					throw new \Maven\Exceptions\MapperException( $postId->get_error_message() );
-
-				set_post_thumbnail( $postId, $event->getFeaturedImage() );
+//				set_post_thumbnail( $postId, $event->getFeaturedImage() );
 
 				// Post and event share the same id
-				$eventData[ 'id' ] = $postId;
+//				$eventData[ 'id' ] = $postId;
 
 				$eventId = $this->insert( $eventData, $format );
 
 				// Check if it has a venue associated
-				if ( $event->getVenue() && $event->getVenue()->getId() )
-					$this->insert( array( 'event_id' => $eventId, 'venue_id' => $event->getVenue()->getId() ), array( '%d', '%d' ), $this->eventsVenuesTable );
+//				if ( $event->getVenue() && $event->getVenue()->getId() )
+//					$this->insert( array( 'event_id' => $eventId, 'venue_id' => $event->getVenue()->getId() ), array( '%d', '%d' ), $this->eventsVenuesTable );
 			} catch ( \Exception $ex ) {
 
 				return \Maven\Core\Message\MessageManager::createErrorMessage( $ex->getMessage() );
@@ -391,48 +391,48 @@ class EventMapper extends \Maven\Core\Db\WordpressMapper {
 
 			$this->updateById( $event->getId(), $eventData, $format );
 
-			$postData = array(
-			    'ID' => $event->getId(),
-			    'post_name' => $event->getUrl(),
-			    'post_title' => $event->getName(),
-			    'post_content' => $event->getDescription(),
-			    'post_excerpt' => $event->getSummary(),
-			    'tax_input' => array( )
-			);
-
-			// Check if it has a venue associated
-			if ( $event->getVenueId() ) {
-				$postData[ 'tax_input' ][ EventsConfig::venueTypeName ] = $event->getVenueId();
-			} else {
-				$postData[ 'tax_input' ][ EventsConfig::venueTypeName ] = array( );
-			}
-
-			//Related Presenters
-			$presentersId = array( );
-			if ( $event->hasPresenters() ) {
-				$presenters = $event->getPresenters();
-				foreach ( $presenters as $presenter ) {
-					$presentersId[ ] = $presenter->getId();
-				}
-			}
-			$postData[ 'tax_input' ][ EventsConfig::presenterTypeName ] = $presentersId;
-
-			//Related Categories
-			$categoriesID = array( );
-			if ( $event->hasCategories() ) {
-				$categories = $event->getCategories();
-				foreach ( $categories as $category ) {
-					$categoriesID[ ] = $category->getId();
-				}
-			}
-
-			$postData[ 'tax_input' ][ EventsConfig::categoryTypeName ] = $categoriesID;
-
-
-			//TODO: check this
-			wp_update_post( $postData );
-
-			set_post_thumbnail( $event->getId(), $event->getFeaturedImage() );
+//			$postData = array(
+//			    'ID' => $event->getId(),
+//			    'post_name' => $event->getUrl(),
+//			    'post_title' => $event->getName(),
+//			    'post_content' => $event->getDescription(),
+//			    'post_excerpt' => $event->getSummary(),
+//			    'tax_input' => array( )
+//			);
+//
+//			// Check if it has a venue associated
+//			if ( $event->getVenueId() ) {
+//				$postData[ 'tax_input' ][ EventsConfig::venueTypeName ] = $event->getVenueId();
+//			} else {
+//				$postData[ 'tax_input' ][ EventsConfig::venueTypeName ] = array( );
+//			}
+//
+//			//Related Presenters
+//			$presentersId = array( );
+//			if ( $event->hasPresenters() ) {
+//				$presenters = $event->getPresenters();
+//				foreach ( $presenters as $presenter ) {
+//					$presentersId[ ] = $presenter->getId();
+//				}
+//			}
+//			$postData[ 'tax_input' ][ EventsConfig::presenterTypeName ] = $presentersId;
+//
+//			//Related Categories
+//			$categoriesID = array( );
+//			if ( $event->hasCategories() ) {
+//				$categories = $event->getCategories();
+//				foreach ( $categories as $category ) {
+//					$categoriesID[ ] = $category->getId();
+//				}
+//			}
+//
+//			$postData[ 'tax_input' ][ EventsConfig::categoryTypeName ] = $categoriesID;
+//
+//
+//			//TODO: check this
+//			wp_update_post( $postData );
+//
+//			set_post_thumbnail( $event->getId(), $event->getFeaturedImage() );
 		}
 
 		return $event;
