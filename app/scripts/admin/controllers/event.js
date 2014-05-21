@@ -2,7 +2,7 @@
 
 angular.module('mavenEventsApp').controller('EventCtrl', ['$scope', '$http', function($scope, $http) {
 
-		$scope.event = {
+		$scope.otro = {
 			title: 'Update referrals'
 		};
 		

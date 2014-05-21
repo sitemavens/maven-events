@@ -57,6 +57,12 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 
 		global $post;
 
+		$event = new \MavenEvents\Core\Domain\Event();
+		$event->setRegistrationStartDate('05/21/2015');
+		$event->setRegistrationEndDate('05/21/2015');
+		 
+		$this->addJSONData( 'event', $event);
+		
 		echo $this->getOutput()->getWpAdminView( "event" );
 	}
 

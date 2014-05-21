@@ -1,14 +1,32 @@
+<?php \Maven\Core\UI\HtmlComponent::jSonComponent( 'CachedEvent', $event ); ?>
+
 <div ng-app="mavenEventsApp">	
 
-	<div class="panel panel-default" ng-controller="EventCtrl">
-		<div class="panel-heading">{{event.title}}</div>
-		<div class="panel-body">
-			<form role="form"  name="formSettings" >
-
-				<button type="submit" ng-disabled="formSettings.$invalid" class="btn btn-primary">Submit</button>
-			</form>
-		</div>
-	</div>
+	<form ng-controller="EventCtrl">
+		
+		<table class="form-table">
+			<tbody>
+				<tr>
+					<th>
+						<label for="input-text">{{otro.title}} - Registration Start:</label>
+					</th>
+					<td>
+						<input type="text" name="registrationStart"  /><br />
+					</td>
+				</tr>
+				     
+				<tr>
+					<th>
+						<label for="input-time">Registration End</label>
+					</th>
+					<td>
+						<input name="registrationEnd" type="text" />
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+	
 
 </div>
  
