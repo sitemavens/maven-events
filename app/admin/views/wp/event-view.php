@@ -1,8 +1,9 @@
 <?php \Maven\Core\UI\HtmlComponent::jSonComponent( 'CachedEvent', $event ); ?>
 
 <div ng-controller="EventCtrl">	
- 
+		
 		<input type="hidden" name="mvn[event][id]" ng-value="event.id" />
+		
 		
 		<div class="alert alert-danger" ng-show="post.$invalid">
 				<span ng-show="post.$error.required">Required elements</span>

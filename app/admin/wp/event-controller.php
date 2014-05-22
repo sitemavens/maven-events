@@ -18,21 +18,30 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 			return;
 		}
 
+		$this->getHookManager()->addAction( 'current_screen', array( $this, 'currentScreen' ) );
 
 		//post_edit_form_tag
-		add_action( 'add_meta_boxes_'.\MavenEvents\Core\EventsConfig::eventTypeName, array( $this, 'addEventsMetaBox' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'addScripts' ), 10, 1 );
+		$this->getHookManager()->addAction( 'add_meta_boxes_' . \MavenEvents\Core\EventsConfig::eventTypeName, array( $this, 'addEventsMetaBox' ) );
+		$this->getHookManager()->addAction( 'admin_enqueue_scripts', array( $this, 'addScripts' ), 10, 1 );
 		//add_action('edit_form_advanced', array( $this, 'editFormBottom' ), 10, 1 );
 		//add_action('add_meta_boxes',array( $this, 'editFormTop' ),10,2);
-		add_action('admin_xml_ns',array( $this, 'adminXml' ),10,2);
+
 		$this->getHookManager()->addAction( 'save_post_' . \MavenEvents\Core\EventsConfig::eventTypeName, array( $this, 'save' ), 10, 2 );
 		$this->getHookManager()->addAction( 'insert_post_' . \MavenEvents\Core\EventsConfig::eventTypeName, array( $this, 'insert' ), 10, 2 );
 		$this->getHookManager()->addAction( 'delete_' . \MavenEvents\Core\EventsConfig::eventTypeName, array( $this, 'delete' ), 10, 3 );
 	}
 
-	function adminXml(){
+	public function currentScreen ( $screen ) {
+
+		if ( $screen->post_type === \MavenEvents\Core\EventsConfig::eventTypeName ) {
+			$this->getHookManager()->addAction( 'admin_xml_ns', array( $this, 'adminXml' ), 10, 2 );
+		}
+	}
+
+	function adminXml () {
 		echo 'ng-app="mavenEventsApp"';
 	}
+
 	function addScripts ( $hook ) {
 
 		global $post;
@@ -56,7 +65,6 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 			}
 		}
 	}
-	
 
 	// Add the Events Meta Boxes
 	function addEventsMetaBox () {
@@ -70,8 +78,8 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 
 		$eventManager = new \MavenEvents\Core\EventManager();
 		$event = $eventManager->get( $post->ID );
-		
-		if ( $event->isEmpty() ){
+
+		if ( $event->isEmpty() ) {
 			$event->setId( $post->ID );
 		}
 
@@ -86,13 +94,13 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 	 * @param object $post
 	 */
 	public function save ( $postId, $post ) {
- 
+
 		$event = new \MavenEvents\Core\Domain\Event();
 
 		$mvn = $this->getRequest()->getProperty( 'mvn' );
 
 		$event->load( $mvn[ 'event' ] );
- 
+
 		$event->setName( $post->post_title );
 		$event->setDescription( $post->post_content );
 

@@ -2,6 +2,7 @@ angular.module('mavenEventsApp').controller('EventCtrl', ['$scope', '$http', fun
 
 		$scope.event = CachedEvent;
 		
+		
 //		var chatbox = angular.element(document.getElementById('publish'));
 //		chatbox.val('holaaa');
 //		
