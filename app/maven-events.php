@@ -79,6 +79,7 @@ $hookManager->addFilter( 'maven\core\intelligenceReport:data', array( 'MavenEven
 if ( is_admin() ) {
 
 	Admin\Main::init();
+	
 }
 
 

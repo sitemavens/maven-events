@@ -10,6 +10,7 @@ class Main {
 
 	public static function init () {
 
+		\MavenEvents\Admin\Wp\EventListController::init();
 		\MavenEvents\Admin\Wp\EventController::init();
 	}
  
