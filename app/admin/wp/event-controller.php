@@ -12,26 +12,36 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 		parent::__construct();
 	}
 
-	public static function init () {
+	public function init () {
 
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return;
 		}
 
-		$me = new self();
-		add_action( 'add_meta_boxes', array( $me, 'addEvents' ) );
-		add_action( 'admin_enqueue_scripts', array( $me, 'addScripts' ), 10, 1 );
+
+		//post_edit_form_tag
+		add_action( 'add_meta_boxes_'.\MavenEvents\Core\EventsConfig::eventTypeName, array( $this, 'addEventsMetaBox' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'addScripts' ), 10, 1 );
+		//add_action('edit_form_advanced', array( $this, 'editFormBottom' ), 10, 1 );
+		//add_action('add_meta_boxes',array( $this, 'editFormTop' ),10,2);
+		add_action('admin_xml_ns',array( $this, 'adminXml' ),10,2);
+		$this->getHookManager()->addAction( 'save_post_' . \MavenEvents\Core\EventsConfig::eventTypeName, array( $this, 'save' ), 10, 2 );
+		$this->getHookManager()->addAction( 'insert_post_' . \MavenEvents\Core\EventsConfig::eventTypeName, array( $this, 'insert' ), 10, 2 );
+		$this->getHookManager()->addAction( 'delete_' . \MavenEvents\Core\EventsConfig::eventTypeName, array( $this, 'delete' ), 10, 3 );
 	}
 
+	function adminXml(){
+		echo 'ng-app="mavenEventsApp"';
+	}
 	function addScripts ( $hook ) {
 
 		global $post;
 
 		if ( $hook == 'post-new.php' || $hook == 'post.php' ) {
 			if ( 'mvn_event' === $post->post_type ) {
-				
+
 				$registry = \MavenEvents\Settings\EventsRegistry::instance();
-				
+
 				wp_enqueue_script( 'angular', $registry->getBowerComponentUrl() . "angular/angular.js", 'jquery', $registry->getPluginVersion() );
 				wp_enqueue_script( 'bootstrap', $registry->getBowerComponentUrl() . "bootstrap/dist/js/bootstrap.js", 'jquery', $registry->getPluginVersion() );
 				wp_enqueue_script( 'angular-resource', $registry->getBowerComponentUrl() . "angular-resource/angular-resource.js", 'angular', $registry->getPluginVersion() );
@@ -46,9 +56,10 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 			}
 		}
 	}
+	
 
 	// Add the Events Meta Boxes
-	function addEvents () {
+	function addEventsMetaBox () {
 		add_meta_box( 'wpt_events_location', 'Event Information', array( $this, 'showEvents' ), \MavenEvents\Core\EventsConfig::eventTypeName, 'normal', 'default' );
 	}
 
@@ -57,16 +68,36 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 
 		global $post;
 
+		$eventManager = new \MavenEvents\Core\EventManager();
+		$event = $eventManager->get( $post->ID );
+		
+		if ( $event->isEmpty() ){
+			$event->setId( $post->ID );
+		}
+
+		$this->addJSONData( 'event', $event );
+
 		echo $this->getOutput()->getWpAdminView( "event" );
 	}
 
 	/**
-	 * update a Maven product
+	 * Update a Maven product
 	 * @param int $postId
 	 * @param object $post
 	 */
 	public function save ( $postId, $post ) {
-		
+ 
+		$event = new \MavenEvents\Core\Domain\Event();
+
+		$mvn = $this->getRequest()->getProperty( 'mvn' );
+
+		$event->load( $mvn[ 'event' ] );
+ 
+		$event->setName( $post->post_title );
+		$event->setDescription( $post->post_content );
+
+		$eventManager = new \MavenEvents\Core\EventManager();
+		$eventManager->addEvent( $event );
 	}
 
 	/**

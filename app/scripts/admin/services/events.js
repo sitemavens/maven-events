@@ -8,7 +8,7 @@ events.factory('EventsFilterService', [function() {
 		};
 	}]);
 
-events.factory('Events', ['$http', function($http) {
+events.factory('EventsService', ['$http', function($http) {
 
 		return {
 			getList: function(filter, callback) {

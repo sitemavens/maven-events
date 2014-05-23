@@ -14,17 +14,16 @@ class EventListController extends \MavenEvents\Admin\EventsAdminController {
 		parent::__construct();
 	}
 
-	public static function init() {
+	public function init() {
 
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return;
 		}
 
-		$me = new self();
-		add_action( 'admin_menu', array( $me, 'register_menu_page' ) );
-		add_action( 'admin_enqueue_scripts', array( $me, 'addScripts' ), 10, 1 );
+		$this->getHookManager()->addAction( 'admin_menu', array( $this, 'register_menu_page' ) );
+		$this->getHookManager()->addAction( 'admin_enqueue_scripts', array( $this, 'addScripts' ), 10, 1 );
 
-		add_action( 'wp_ajax_mvn_getEventsList', array( $me, 'getEvents' ) );
+		$this->getHookManager()->addAjaxAction( 'mvn_getEventsList', array( $this, 'getEvents' ) );
 	}
 
 	function addScripts( $hook ) {
@@ -45,8 +44,8 @@ class EventListController extends \MavenEvents\Admin\EventsAdminController {
 			wp_enqueue_script( 'angular-google-chart', $registry->getBowerComponentUrl() . "angular-google-chart/ng-google-chart.js", 'angular', $registry->getPluginVersion() );
 
 			wp_enqueue_script( 'mavenEventsListApp', $registry->getScriptsUrl() . "admin/app.js", 'angular', $registry->getPluginVersion() );
-			wp_enqueue_script( 'admin/services/events.js', $registry->getScriptsUrl() . "admin/services/events.js", 'mavenEventsApp', $registry->getPluginVersion() );
-			wp_enqueue_script( 'admin/controllers/event-list.js', $registry->getScriptsUrl() . "admin/controllers/event-list.js", 'mavenEventsApp', $registry->getPluginVersion() );
+			wp_enqueue_script( 'admin/services/events.js', $registry->getScriptsUrl() . "admin/services/events.js", 'mavenEventsListApp', $registry->getPluginVersion() );
+			wp_enqueue_script( 'admin/controllers/event-list.js', $registry->getScriptsUrl() . "admin/controllers/event-list.js", 'mavenEventsListApp', $registry->getPluginVersion() );
 		}
 	}
 

@@ -3,19 +3,22 @@
 namespace MavenEvents\Admin;
 
 // Exit if accessed directly 
-if ( !defined( 'ABSPATH' ) )
+if ( ! defined( 'ABSPATH' ) )
 	exit;
 
 class Main {
 
-	public static function init () {
+	public static function init() {
 
-		\MavenEvents\Admin\Wp\EventListController::init();
-		\MavenEvents\Admin\Wp\EventController::init();
+
+		$eventController = new \MavenEvents\Admin\Wp\EventController();
+		$eventController->init();
+
+		$eventListController = new Wp\EventListController();
+		$eventListController->init();
 	}
- 
 
-	public static function registerStyles () {
+	public static function registerStyles() {
 
 		$registry = \GFSeoMarketingAddOn\Core\Settings\GfRegistry::instance();
 
@@ -29,7 +32,7 @@ class Main {
 		}
 	}
 
-	public static function registerScripts () {
+	public static function registerScripts() {
 
 		$registry = \GFSeoMarketingAddOn\Core\Settings\GfRegistry::instance();
 
@@ -58,13 +61,13 @@ class Main {
 		}
 
 		wp_localize_script( 'mainApp', 'GFSeoMk', array(
-			'adminUrl' => admin_url(),
-			'ajaxUrl' => admin_url( 'admin-ajax.php' ),
-			'viewsUrl' => $registry->getViewsUrl()
+		    'adminUrl' => admin_url(),
+		    'ajaxUrl' => admin_url( 'admin-ajax.php' )
+		    
 		) );
 	}
 
-	public static function registerMenu ( $menus ) {
+	public static function registerMenu( $menus ) {
 
 		$menus[] = array( "name" => "gf_ggseomarketing", "label" => "Marketing addon", "callback" => array( __CLASS__, 'showApp' ), "permission" => 'manage_options' );
 
@@ -74,7 +77,7 @@ class Main {
 		//add_menu_page( 'Marketing Addon', 'GF SEO Marketing Addon', 'manage_options', 'ggseomarketing', array( __CLASS__, 'showApp' ) );
 	}
 
-	public static function showApp () {
+	public static function showApp() {
 		$registry = \GFSeoMarketingAddOn\Core\Settings\GfRegistry::instance();
 
 

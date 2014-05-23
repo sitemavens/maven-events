@@ -87,8 +87,7 @@ class Event extends \Maven\Core\DomainObject {
 		    'maxGroupRegistrants' => \Maven\Core\SanitizationRule::Integer,
 		    'closed' => \Maven\Core\SanitizationRule::Boolean,
 		    'attendeeLimit' => \Maven\Core\SanitizationRule::Integer,
-		    'summary' => \Maven\Core\SanitizationRule::Text,
-		    'closed' => \Maven\Core\SanitizationRule::Boolean
+		    'summary' => \Maven\Core\SanitizationRule::Text
 		);
 
 		$this->setSanitizationRules( $rules );
