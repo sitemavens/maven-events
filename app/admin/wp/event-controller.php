@@ -14,7 +14,8 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 
 	public function init () {
 
-		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		
+		if ( $this->getRequest()->isDoingAutoSave() ) {
 			return;
 		}
 
@@ -34,7 +35,7 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 	public function currentScreen ( $screen ) {
 
 		if ( $screen->post_type === \MavenEvents\Core\EventsConfig::eventTypeName ) {
-			$this->getHookManager()->addAction( 'admin_xml_ns', array( $this, 'adminXml' ), 10, 2 );
+			$this->getHookManager()->addAction( 'admin_xml_ns', array( $this, 'adminXml' ));
 		}
 	}
 
@@ -73,9 +74,11 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 
 	// The Event Location Metabox
 	function showEvents () {
-
+		
 		global $post;
 
+		\Maven\Loggers\Logger::log()->message('\MavenEvents\Admin\Wp\EventController: showEvents: '.$post->ID);
+		
 		$eventManager = new \MavenEvents\Core\EventManager();
 		$event = $eventManager->get( $post->ID );
 
@@ -95,17 +98,33 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 	 */
 	public function save ( $postId, $post ) {
 
+		\Maven\Loggers\Logger::log()->message('\MavenEvents\Admin\Wp\EventController: save: '.$postId);
+		
+		$this->saveEvent( $post );
+	}
+	
+	private function saveEvent( $post ){
+		
 		$event = new \MavenEvents\Core\Domain\Event();
 
 		$mvn = $this->getRequest()->getProperty( 'mvn' );
+		
+		//Check if we have something in the post, because it can be the quick edit mode
+		if ( $mvn ){
+			
+			\Maven\Loggers\Logger::log()->message('\MavenEvents\Admin\Wp\EventController: saveEvent: '.$post->ID);
+			
+			$event->load( $mvn[ 'event' ] );
 
-		$event->load( $mvn[ 'event' ] );
+			$event->setId( $post->ID );
+			$event->setName( $post->post_title );
+			$event->setDescription( $post->post_content );
 
-		$event->setName( $post->post_title );
-		$event->setDescription( $post->post_content );
-
-		$eventManager = new \MavenEvents\Core\EventManager();
-		$eventManager->addEvent( $event );
+			$eventManager = new \MavenEvents\Core\EventManager();
+			$eventManager->addEvent( $event );
+			
+		}
+		
 	}
 
 	/**
@@ -115,6 +134,9 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 	 */
 	public function insert ( $postId, $post ) {
 		
+		\Maven\Loggers\Logger::log()->message('\MavenEvents\Admin\Wp\EventController: insert');
+		
+		$this->saveEvent( $post );
 	}
 
 	/**

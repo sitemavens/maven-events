@@ -279,6 +279,7 @@ class EventMapper extends \Maven\Core\Db\WordpressMapper {
 		$event->sanitize();
 
 		$eventData = array(
+			'id' => $event->getId(),
 		    'name' => $event->getName(),
 		    'description' => $event->getDescription(),
 		    'registration_start_date' => $event->getRegistrationStartDate(),
@@ -302,6 +303,7 @@ class EventMapper extends \Maven\Core\Db\WordpressMapper {
 		);
 
 		$format = array(
+			'%d', //id
 		    '%s', //name
 		    '%s', //description
 		    '%s', //registration_start_date
@@ -323,11 +325,30 @@ class EventMapper extends \Maven\Core\Db\WordpressMapper {
 		    '%s', // summary
 		    '%d'  // closed
 		);
-
+		
+		$columns = '';
+		$values  = '';
+		$updateValues = '';
+		$i =0;
+		
+		foreach( $eventData as $key=>$value ){
+			$columns =  $columns ?  $columns.", ".$key : $key;
+			$values = $values ? $values.", ".$format[$i] : $format[$i];
+			$updateValues = $updateValues ? $updateValues.", "."{$key}=values({$key})" : "{$key}=values({$key})";
+			$i++;
+		}
+		
+		$query = $this->prepare( "INSERT INTO {$this->tableName} ({$columns}) VALUES ($values)
+					ON DUPLICATE KEY UPDATE {$updateValues};",  array_values($eventData));
+		
+		$this->executeQuery($query);
+		die($query);
+		return $event;
+		
 		if ( ! $event->getId() ) {
 			try {
 
-				$currentUserID = get_current_user_id();
+				//$currentUserID = get_current_user_id();
 
 //				$postData = array(
 //				    'post_status' => 'publish',
