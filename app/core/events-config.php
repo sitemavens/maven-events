@@ -10,12 +10,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class EventsConfig {
 
 	const eventTypeName = 'mvn_event';
+	const eventCategoryName = 'mvne_category';
 	const venueTypeName = 'mvne_venue';
-	const categoryTypeName = 'mvne_category';
+	const venueCategoryName = 'mvne_venue_category';
 	const presenterTypeName = 'mvne_presenter';
-	
-	const eventContentTypeName='mvn_event_content';
-	const categoryContentTypeName = 'mvne_category_content';
+	const presenterCategoryName = 'mvne_presenter_category';
 	
 	const eventTableName = 'mvne_events';
 	const eventPricesTableName = 'mvne_events_prices';
@@ -34,11 +33,11 @@ class EventsConfig {
 	}
 
 	static function registerTypes() {
-
+		// Add events
 		$labels = array(
 		    'name' => _x( 'Events', 'Post Type General Name', 'text_domain' ),
 		    'singular_name' => _x( 'Event', 'Post Type Singular Name', 'text_domain' ),
-		    'menu_name' => __( 'Event', 'text_domain' ),
+		    'menu_name' => __( 'Maven Event', 'text_domain' ),
 		    'parent_item_colon' => __( 'Parent Event:', 'text_domain' ),
 		    'all_items' => __( 'All Events', 'text_domain' ),
 		    'view_item' => __( 'View Event', 'text_domain' ),
@@ -46,9 +45,9 @@ class EventsConfig {
 		    'add_new' => __( 'New Event', 'text_domain' ),
 		    'edit_item' => __( 'Edit Event', 'text_domain' ),
 		    'update_item' => __( 'Update Event', 'text_domain' ),
-		    'search_items' => __( 'Search products', 'text_domain' ),
-		    'not_found' => __( 'No products found', 'text_domain' ),
-		    'not_found_in_trash' => __( 'No products found in Trash', 'text_domain' ),
+		    'search_items' => __( 'Search events', 'text_domain' ),
+		    'not_found' => __( 'No events found', 'text_domain' ),
+		    'not_found_in_trash' => __( 'No events found in Trash', 'text_domain' ),
 		);
 
 		$registry = \MavenEvents\Settings\EventsRegistry::instance();
@@ -83,88 +82,24 @@ class EventsConfig {
 
 		register_post_type( EventsConfig::eventTypeName, $args );
 
-		// Add venue taxonomy. It's not hierarchical
-		$labels = array(
-		    'name' => _x( 'Venue', 'taxonomy general name' ),
-		    'singular_name' => _x( 'Venue', 'taxonomy singular name' ),
-		    'search_items' => __( 'Search Venues' ),
-		    'popular_items' => __( 'Popular Venues' ),
-		    'all_items' => __( 'All Venues' ),
-		    'parent_item' => null,
-		    'parent_item_colon' => null,
-		    'edit_item' => __( 'Edit Venue' ),
-		    'update_item' => __( 'Update Venue' ),
-		    'add_new_item' => __( 'Add New Venue' ),
-		    'new_item_name' => __( 'New Venue Name' ),
-		    'separate_items_with_commas' => __( 'Separate writers with commas' ),
-		    'add_or_remove_items' => __( 'Add or remove writers' ),
-		    'choose_from_most_used' => __( 'Choose from the most used writers' ),
-		    'not_found' => __( 'No writers found.' ),
-		    'menu_name' => __( 'Venues' )
-		);
-
-		$args = array(
-		    'hierarchical' => true,
-		    'labels' => $labels,
-		    'show_ui' => true,
-		    'show_admin_column' => true,
-		    'update_count_callback' => '',
-		    'query_var' => true,
-		    'rewrite' => array( 'slug' => 'venue' )
-		);
-
-		register_taxonomy( EventsConfig::venueTypeName, EventsConfig::eventTypeName, $args );
-
-		// Add presenter taxonomy. It's not hierarchical
-		$labels = array(
-		    'name' => _x( 'Presenter', 'taxonomy general name' ),
-		    'singular_name' => _x( 'Presenter', 'taxonomy singular name' ),
-		    'search_items' => __( 'Search Presenters' ),
-		    'popular_items' => __( 'Popular Presenters' ),
-		    'all_items' => __( 'All Presenters' ),
-		    'parent_item' => null,
-		    'parent_item_colon' => null,
-		    'edit_item' => __( 'Edit Presenter' ),
-		    'update_item' => __( 'Update Presenter' ),
-		    'add_new_item' => __( 'Add New Presenter' ),
-		    'new_item_name' => __( 'New Presenter Name' ),
-		    'separate_items_with_commas' => __( 'Separate presenters with commas' ),
-		    'add_or_remove_items' => __( 'Add or remove presenters' ),
-		    'choose_from_most_used' => __( 'Choose from the most used presenters' ),
-		    'not_found' => __( 'No presenter found.' ),
-		    'menu_name' => __( 'Presenter' )
-		);
-
-		$args = array(
-		    'hierarchical' => true,
-		    'labels' => $labels,
-		    'show_ui' => true,
-		    'show_admin_column' => true,
-		    'update_count_callback' => '',
-		    'query_var' => true,
-		    'rewrite' => array( 'slug' => 'presenter' )
-		);
-
-		register_taxonomy( EventsConfig::presenterTypeName, EventsConfig::eventTypeName, $args );
-
 		// Add category taxonomy. It's not hierarchical
 		$labels = array(
-		    'name' => _x( 'Category', 'taxonomy general name' ),
-		    'singular_name' => _x( 'Category', 'taxonomy singular name' ),
-		    'search_items' => __( 'Search Categories' ),
-		    'popular_items' => __( 'Popular Categories' ),
-		    'all_items' => __( 'All Categories' ),
+		    'name' => _x( 'Event Category', 'taxonomy general name' ),
+		    'singular_name' => _x( 'Event Category', 'taxonomy singular name' ),
+		    'search_items' => __( 'Search Event Categories' ),
+		    'popular_items' => __( 'Popular Event Categories' ),
+		    'all_items' => __( 'All Event Categories' ),
 		    'parent_item' => null,
 		    'parent_item_colon' => null,
-		    'edit_item' => __( 'Edit Category' ),
-		    'update_item' => __( 'Update Category' ),
-		    'add_new_item' => __( 'Add New Category' ),
-		    'new_item_name' => __( 'New Category Name' ),
-		    'separate_items_with_commas' => __( 'Separate categories with commas' ),
-		    'add_or_remove_items' => __( 'Add or remove categories' ),
-		    'choose_from_most_used' => __( 'Choose from the most used categories' ),
-		    'not_found' => __( 'No category found.' ),
-		    'menu_name' => __( 'Categories' )
+		    'edit_item' => __( 'Edit Event Category' ),
+		    'update_item' => __( 'Update Event Category' ),
+		    'add_new_item' => __( 'Add New Event Category' ),
+		    'new_item_name' => __( 'New Event Category Name' ),
+		    'separate_items_with_commas' => __( 'Separate event categories with commas' ),
+		    'add_or_remove_items' => __( 'Add or remove event categories' ),
+		    'choose_from_most_used' => __( 'Choose from the most used event categories' ),
+		    'not_found' => __( 'No event category found.' ),
+		    'menu_name' => __( 'Event Categories' )
 		);
 
 		$args = array(
@@ -174,34 +109,36 @@ class EventsConfig {
 		    'show_admin_column' => true,
 		    'update_count_callback' => '_update_post_term_count',
 		    'query_var' => true,
-		    'rewrite' => array( 'slug' => 'category' )
+		    'rewrite' => array( 'slug' => 'event-category' )
 		);
 
-		register_taxonomy( EventsConfig::categoryTypeName, EventsConfig::eventTypeName, $args );
-	
-		//Register Event Content
+		register_taxonomy( EventsConfig::eventCategoryName, EventsConfig::eventTypeName, $args );
+		
+		
+		
+		// Add venues.
 		$labels = array(
-		    'name' => _x( 'Events Content', 'Post Type General Name', 'text_domain' ),
-		    'singular_name' => _x( 'Event Content', 'Post Type Singular Name', 'text_domain' ),
-		    'menu_name' => __( 'Events Content', 'text_domain' ),
-		    'parent_item_colon' => __( 'Parent Event:', 'text_domain' ),
-		    'all_items' => __( 'All Events Content', 'text_domain' ),
-		    'view_item' => __( 'View Event Content', 'text_domain' ),
-		    'add_new_item' => __( 'Add New Event Content', 'text_domain' ),
-		    'add_new' => __( 'New Event Content', 'text_domain' ),
-		    'edit_item' => __( 'Edit Event Content', 'text_domain' ),
-		    'update_item' => __( 'Update Event Content', 'text_domain' ),
-		    'search_items' => __( 'Search event content', 'text_domain' ),
-		    'not_found' => __( 'No events content found', 'text_domain' ),
-		    'not_found_in_trash' => __( 'No events content found in Trash', 'text_domain' ),
+		    'name' => _x( 'Venues', 'Post Type General Name', 'text_domain' ),
+		    'singular_name' => _x( 'Venue', 'Post Type Singular Name', 'text_domain' ),
+		    'menu_name' => __( 'Maven Venue', 'text_domain' ),
+		    'parent_item_colon' => __( 'Parent Venue:', 'text_domain' ),
+		    'all_items' => __( 'All Venues', 'text_domain' ),
+		    'view_item' => __( 'View Venue', 'text_domain' ),
+		    'add_new_item' => __( 'Add New Venue', 'text_domain' ),
+		    'add_new' => __( 'New Venue', 'text_domain' ),
+		    'edit_item' => __( 'Edit Venue', 'text_domain' ),
+		    'update_item' => __( 'Update Venue', 'text_domain' ),
+		    'search_items' => __( 'Search Venues', 'text_domain' ),
+		    'not_found' => __( 'No venues found', 'text_domain' ),
+		    'not_found_in_trash' => __( 'No venues found in Trash', 'text_domain' ),
 		);
 
+		$slug = EventsConfig::venueTypeName;
 		$args = array(
-		    'label' => __( 'mvn_event', 'text_domain' ),
-		    'description' => __( 'Maven events', 'text_domain' ),
+		    'label' => __( EventsConfig::venueTypeName, 'text_domain' ),
+		    'description' => __( 'Maven venues', 'text_domain' ),
 		    'labels' => $labels,
-		    'supports' => array('title', 'editor' ,'page-attributes', EventsContent::eventColumnName),
-		    //'taxonomies' => array( 'mvn_venue' ),
+		    'supports' => array( ),
 		    'hierarchical' => true,
 		    'public' => true,
 		    'show_ui' => true,
@@ -215,29 +152,29 @@ class EventsConfig {
 		    'exclude_from_search' => false,
 		    'publicly_queryable' => true,
 		    'capability_type' => 'post',
-		    'rewrite' => array( 'slug' => EventsConfig::eventContentTypeName, 'with_front' => false )
+		    'rewrite' => array( 'slug' => $slug, 'with_front' => false )
 		);
 
-		register_post_type( EventsConfig::eventContentTypeName, $args );
-		
-		// Add category taxonomy for Event Content. It's not hierarchical
+		register_post_type( EventsConfig::venueTypeName, $args );
+
+		// Add category taxonomy. It's not hierarchical
 		$labels = array(
-		    'name' => _x( 'Category', 'taxonomy general name' ),
-		    'singular_name' => _x( 'Category', 'taxonomy singular name' ),
-		    'search_items' => __( 'Search Categories' ),
-		    'popular_items' => __( 'Popular Categories' ),
-		    'all_items' => __( 'All Categories' ),
+		    'name' => _x( 'Venue Category', 'taxonomy general name' ),
+		    'singular_name' => _x( 'Venue Category', 'taxonomy singular name' ),
+		    'search_items' => __( 'Search Venue Categories' ),
+		    'popular_items' => __( 'Popular Venue Categories' ),
+		    'all_items' => __( 'All Venue Categories' ),
 		    'parent_item' => null,
 		    'parent_item_colon' => null,
-		    'edit_item' => __( 'Edit Category' ),
-		    'update_item' => __( 'Update Category' ),
-		    'add_new_item' => __( 'Add New Category' ),
-		    'new_item_name' => __( 'New Category Name' ),
-		    'separate_items_with_commas' => __( 'Separate categories with commas' ),
-		    'add_or_remove_items' => __( 'Add or remove categories' ),
-		    'choose_from_most_used' => __( 'Choose from the most used categories' ),
-		    'not_found' => __( 'No category found.' ),
-		    'menu_name' => __( 'Categories' )
+		    'edit_item' => __( 'Edit Venue Category' ),
+		    'update_item' => __( 'Update Venue Category' ),
+		    'add_new_item' => __( 'Add New Venue Category' ),
+		    'new_item_name' => __( 'New Venue Category Name' ),
+		    'separate_items_with_commas' => __( 'Separate venue categories with commas' ),
+		    'add_or_remove_items' => __( 'Add or remove venue categories' ),
+		    'choose_from_most_used' => __( 'Choose from the most used venue categories' ),
+		    'not_found' => __( 'No venue category found.' ),
+		    'menu_name' => __( 'Venue Categories' )
 		);
 
 		$args = array(
@@ -247,10 +184,84 @@ class EventsConfig {
 		    'show_admin_column' => true,
 		    'update_count_callback' => '_update_post_term_count',
 		    'query_var' => true,
-		    'rewrite' => array( 'slug' => 'category' )
+		    'rewrite' => array( 'slug' => 'venue-category' )
 		);
 
-		register_taxonomy( EventsConfig::categoryContentTypeName, EventsConfig::eventContentTypeName, $args );
+		register_taxonomy( EventsConfig::venueCategoryName, EventsConfig::venueTypeName, $args );
+		
+		
+		// Add presenters.
+		$labels = array(
+		    'name' => _x( 'Presenters', 'Post Type General Name', 'text_domain' ),
+		    'singular_name' => _x( 'Presenter', 'Post Type Singular Name', 'text_domain' ),
+		    'menu_name' => __( 'Maven Presenter', 'text_domain' ),
+		    'parent_item_colon' => __( 'Parent Presenter:', 'text_domain' ),
+		    'all_items' => __( 'All Presenters', 'text_domain' ),
+		    'view_item' => __( 'View Presenter', 'text_domain' ),
+		    'add_new_item' => __( 'Add New Presenter', 'text_domain' ),
+		    'add_new' => __( 'New Presenter', 'text_domain' ),
+		    'edit_item' => __( 'Edit Presenter', 'text_domain' ),
+		    'update_item' => __( 'Update Presenter', 'text_domain' ),
+		    'search_items' => __( 'Search Presenters', 'text_domain' ),
+		    'not_found' => __( 'Nop presenters found', 'text_domain' ),
+		    'not_found_in_trash' => __( 'No presenters found in Trash', 'text_domain' ),
+		);
+
+		$slug = EventsConfig::presenterTypeName;
+		$args = array(
+		    'label' => __( EventsConfig::presenterTypeName, 'text_domain' ),
+		    'description' => __( 'Maven presenters', 'text_domain' ),
+		    'labels' => $labels,
+		    'supports' => array( ),
+		    'hierarchical' => true,
+		    'public' => true,
+		    'show_ui' => true,
+		    'show_in_menu' => true,
+		    'show_in_nav_menus' => true,
+		    'show_in_admin_bar' => true,
+		    'menu_position' => 5,
+		    'menu_icon' => $registry->getImagesUrl()."icon.png",
+		    'can_export' => true,
+		    'has_archive' => true,
+		    'exclude_from_search' => false,
+		    'publicly_queryable' => true,
+		    'capability_type' => 'post',
+		    'rewrite' => array( 'slug' => $slug, 'with_front' => false )
+		);
+
+		register_post_type( EventsConfig::presenterTypeName, $args );
+
+		// Add category taxonomy. It's not hierarchical
+		$labels = array(
+		    'name' => _x( 'Presenter Category', 'taxonomy general name' ),
+		    'singular_name' => _x( 'Presenter Category', 'taxonomy singular name' ),
+		    'search_items' => __( 'Search Presenter Categories' ),
+		    'popular_items' => __( 'Popular Presenter Categories' ),
+		    'all_items' => __( 'All Presenter Categories' ),
+		    'parent_item' => null,
+		    'parent_item_colon' => null,
+		    'edit_item' => __( 'Edit Presenter Category' ),
+		    'update_item' => __( 'Update Presenter Category' ),
+		    'add_new_item' => __( 'Add New Presenter Category' ),
+		    'new_item_name' => __( 'New Presenter Category Name' ),
+		    'separate_items_with_commas' => __( 'Separate presenter categories with commas' ),
+		    'add_or_remove_items' => __( 'Add or remove presenter categories' ),
+		    'choose_from_most_used' => __( 'Choose from the most used presenter categories' ),
+		    'not_found' => __( 'No presenter category found.' ),
+		    'menu_name' => __( 'Presenter Categories' )
+		);
+
+		$args = array(
+		    'hierarchical' => true,
+		    'labels' => $labels,
+		    'show_ui' => true,
+		    'show_admin_column' => true,
+		    'update_count_callback' => '_update_post_term_count',
+		    'query_var' => true,
+		    'rewrite' => array( 'slug' => 'presenter-category' )
+		);
+
+		register_taxonomy( EventsConfig::presenterCategoryName, EventsConfig::presenterTypeName, $args );
 	
 	}
 
