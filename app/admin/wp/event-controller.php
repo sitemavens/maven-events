@@ -63,6 +63,12 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 
 				wp_enqueue_script( 'mavenEventsApp', $registry->getScriptsUrl() . "admin/app.js", 'angular', $registry->getPluginVersion() );
 				wp_enqueue_script( 'admin/controllers/event.js', $registry->getScriptsUrl() . "admin/controllers/event.js", 'mavenEventsApp', $registry->getPluginVersion() );
+				
+				
+				wp_enqueue_style( 'bootstrap', $registry->getBowerComponentUrl() . "bootstrap/dist/css/bootstrap.css", null, $registry->getPluginVersion() );
+				wp_enqueue_style( 'bootstrap-theme', $registry->getBowerComponentUrl() . "bootstrap/dist/css/bootstrap-theme.css", null, $registry->getPluginVersion() );
+
+				wp_enqueue_style( 'main', $registry->getStylesUrl() . "main.css", array( 'bootstrap', 'bootstrap-theme' ), $registry->getPluginVersion() );
 			}
 		}
 	}

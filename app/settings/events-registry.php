@@ -89,5 +89,9 @@ class EventsRegistry extends \Maven\Settings\WordpressRegistry {
 	public function getScriptsUrl () {
 		return $this->getPluginUrl() . "scripts/";
 	}
+	
+	public function getStylesUrl(){
+		return $this->getPluginUrl() . "styles/";
+	}
 
 }
