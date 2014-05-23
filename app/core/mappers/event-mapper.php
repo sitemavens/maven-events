@@ -342,7 +342,7 @@ class EventMapper extends \Maven\Core\Db\WordpressMapper {
 					ON DUPLICATE KEY UPDATE {$updateValues};",  array_values($eventData));
 		
 		$this->executeQuery($query);
-		die($query);
+		
 		return $event;
 		
 		if ( ! $event->getId() ) {
