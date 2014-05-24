@@ -1,2 +1,2 @@
-Maven Events
+maven-books
 ===========
