@@ -37,7 +37,7 @@ class EventsConfig {
 		$labels = array(
 		    'name' => _x( 'Events', 'Post Type General Name', 'text_domain' ),
 		    'singular_name' => _x( 'Event', 'Post Type Singular Name', 'text_domain' ),
-		    'menu_name' => __( 'Maven Event', 'text_domain' ),
+		    'menu_name' => __( 'Event', 'text_domain' ),
 		    'parent_item_colon' => __( 'Parent Event:', 'text_domain' ),
 		    'all_items' => __( 'All Events', 'text_domain' ),
 		    'view_item' => __( 'View Event', 'text_domain' ),
@@ -60,7 +60,7 @@ class EventsConfig {
 
 		$args = array(
 		    'label' => __( 'mvn_event', 'text_domain' ),
-		    'description' => __( 'Maven events', 'text_domain' ),
+		    'description' => __( 'Events', 'text_domain' ),
 		    'labels' => $labels,
 		    'supports' => array( ),
 		    //'taxonomies' => array( 'mvn_venue' ),
@@ -120,7 +120,7 @@ class EventsConfig {
 		$labels = array(
 		    'name' => _x( 'Venues', 'Post Type General Name', 'text_domain' ),
 		    'singular_name' => _x( 'Venue', 'Post Type Singular Name', 'text_domain' ),
-		    'menu_name' => __( 'Maven Venue', 'text_domain' ),
+		    'menu_name' => __( 'Venues', 'text_domain' ),
 		    'parent_item_colon' => __( 'Parent Venue:', 'text_domain' ),
 		    'all_items' => __( 'All Venues', 'text_domain' ),
 		    'view_item' => __( 'View Venue', 'text_domain' ),
@@ -136,7 +136,7 @@ class EventsConfig {
 		$slug = EventsConfig::venueTypeName;
 		$args = array(
 		    'label' => __( EventsConfig::venueTypeName, 'text_domain' ),
-		    'description' => __( 'Maven venues', 'text_domain' ),
+		    'description' => __( 'Venues', 'text_domain' ),
 		    'labels' => $labels,
 		    'supports' => array( ),
 		    'hierarchical' => true,
@@ -194,7 +194,7 @@ class EventsConfig {
 		$labels = array(
 		    'name' => _x( 'Presenters', 'Post Type General Name', 'text_domain' ),
 		    'singular_name' => _x( 'Presenter', 'Post Type Singular Name', 'text_domain' ),
-		    'menu_name' => __( 'Maven Presenter', 'text_domain' ),
+		    'menu_name' => __( 'Presenters', 'text_domain' ),
 		    'parent_item_colon' => __( 'Parent Presenter:', 'text_domain' ),
 		    'all_items' => __( 'All Presenters', 'text_domain' ),
 		    'view_item' => __( 'View Presenter', 'text_domain' ),
@@ -210,7 +210,7 @@ class EventsConfig {
 		$slug = EventsConfig::presenterTypeName;
 		$args = array(
 		    'label' => __( EventsConfig::presenterTypeName, 'text_domain' ),
-		    'description' => __( 'Maven presenters', 'text_domain' ),
+		    'description' => __( 'Presenters', 'text_domain' ),
 		    'labels' => $labels,
 		    'supports' => array( ),
 		    'hierarchical' => true,
