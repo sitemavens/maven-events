@@ -4,7 +4,6 @@
 
 	<input type="hidden" name="mvn[event][id]" ng-value="event.id" />
 
-
 	<tabset>
 		<tab heading="General">
 			<div class="form-horizontal"  >
@@ -44,21 +43,23 @@
 				</div>
 			</div>
 		</tab>
-		<tab heading="Prices">
+		<tab heading="Prices" ng-controller="PricesCtrl">
 			
-			<form name="priceForm">
+			<form name="priceForm" >
 				<div class="form-group"  >
-					<label for="input-text"  >Name:</label>		
-					<input  type="text" ng-model="" name=""  />
+					<label for="input-text"  >Name:</label>
+					<input  type="text" ng-model="selectedPrice.name"  />
 				</div>
 				
 				<div class="form-group"  >
-					<label for="input-text"  >Price:</label>		
-					<input  type="number" ng-model="" name=""  />
+					<label for="input-text"  >Price:</label>
+					<input  type="number" ng-model="selectedPrice.price"   />
 				</div>
-				<button type="submit"  class="btn btn-primary">Add</button>
+				<button type="button" ng-click="addPrice(selectedPrice)" class="btn btn-primary">{{labels.addButton}}</button>
+				<button type="button" ng-click="delete(selectedPrice)" ng-show="selectedPrice.id" class="btn btn-danger">Delete</button>
+				<button type="button" ng-click="cancel()" ng-show="selectedPrice.id" class="btn btn-default">Cancel</button>
 				<ul>
-					<li ng-repeat="price in prices">{{name}} - {{price}}</li>
+					<li ng-repeat="item in prices" ng-click="showPrice(item)">{{item.name}} - {{item.price}}</li>
 				</ul>
 			</form>
 			
