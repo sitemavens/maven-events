@@ -12,27 +12,29 @@ class MavenValidation {
 		;
 	}
 	
-	public static function isMavenMissing(){
-		
-		$result = class_exists('\Maven\Settings\MavenRegistry');
-		
+	public static function isMavenMissing () {
+
+		$result = class_exists( '\Maven\Settings\MavenRegistry' );
+
 		// If the common plugin isn't activate, lets add a default option.
-		if ( ! $result )
-			self::addMenu();
-			
-		return ! $result;
+		if ( !$result ) {
+			if ( is_plugin_active( 'maven/maven.php' ) ) {
+				$result = require_once( ABSPATH . "wp-content/plugins/maven/maven.php" );
+			} else {
+				self::addMenu();
+			}
+		}
+
+		return !$result;
 	}
 	
 	public static function addMenu(){
 		add_action('admin_menu','\MavenValidation::init');
-		
 	}
 	
 	public static function init(){
-		add_menu_page('Maven', 'Maven', 'manage_options', 'maven', '\MavenValidation::showHelp' );
-		
+		add_menu_page('Maven Missing', 'Maven Missing', 'manage_options', 'maven-missing', '\MavenValidation::showHelp' );
 	}
-	
 
 	public static function showHelp() {
 		?>
