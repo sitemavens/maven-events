@@ -18,7 +18,8 @@ class MavenValidation {
 
 		// If the common plugin isn't activate, lets add a default option.
 		if ( !$result ) {
-			if ( is_plugin_active( 'maven/maven.php' ) ) {
+			$exists = in_array( 'maven/maven.php', (array) get_option( 'active_plugins', array() ) );
+			if ( $exists ) {
 				$result = require_once( ABSPATH . "wp-content/plugins/maven/maven.php" );
 			} else {
 				self::addMenu();
