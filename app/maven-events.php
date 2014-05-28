@@ -12,6 +12,7 @@
 namespace MavenEvents;
 
 use Maven\Core\Loader;
+ 
 
 //If the validation was already loaded
 if ( ! class_exists( 'MavenValidation' ) )

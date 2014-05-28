@@ -1,7 +1,6 @@
 angular.module('mavenEventsApp').controller('EventCtrl', ['$scope', '$http', function($scope, $http) {
 
 		$scope.event = CachedEvent;
-console.log('EventCtrl');
 
 //		var chatbox = angular.element(document.getElementById('publish'));
 //		chatbox.val('holaaa');
@@ -94,8 +93,4 @@ angular.module('mavenEventsApp').controller('PricesCtrl', ['$scope', '$http', fu
 		
 	}]);
 
-
-
-
-
-mañana 
+ 
