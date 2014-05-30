@@ -64,6 +64,40 @@
 			</form>
 			
 		</tab>
+		<tab heading="<?php esc_attr_e( 'Variations' ) ?>" ng-controller="VariationCtrl">
+			
+			<form name="variationsForm" >
+				<button type="button" ng-click="addVariation(selectedVariation)" class="btn btn-primary"><?php esc_html_e( 'Add Variation') ?></button>
+				<div class="form-group"  >
+					<button type="button" ng-click="deleteVariation(selectedVariation)" ng-show="selectedVariation.id" class="btn btn-danger"><?php esc_html_e( 'Delete') ?></button>
+					<input type="text" ng-model="selectedVariation.name"  />
+					<div class="form-group">
+						<button type="button" ng-click="addOption(selectedVariation)" class="btn btn-primary"><?php esc_html_e( 'Add Option') ?></button>
+						<button type="button" ng-click="deleteOption(selectedVariation)" ng-show="selectedVariation.id" class="btn btn-danger"><?php esc_html_e( 'Delete') ?></button>
+						<input  type="text" ng-model="selectedVariation.option.name"   />
+					</div>
+				</div>
+				<div>
+					Select - Boton ADD - Boton Generate All
+				</div>
+				Listado de variaciones agregadas.
+				<ul>
+					
+					<li ng-repeat="item in variations" ng-click="showVariation(item)">
+						NOMBRE
+						Price
+						Sale Price
+						Manage Stock
+						Stock
+						SKU
+						IMAGE
+						REMOVE
+						{{item.name}} - {{item.price}}
+					</li>
+				</ul>
+			</form>
+			
+		</tab>
 	</tabset>
 
 
