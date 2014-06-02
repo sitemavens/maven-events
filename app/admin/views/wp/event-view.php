@@ -43,57 +43,35 @@
 				</div>
 			</div>
 		</tab>
-		<tab heading="Prices" ng-controller="PricesCtrl">
-			
+		<tab heading="Variations" ng-controller="VariationsCtrl">
+			<button type="button" ng-click="addVariation()"  class="btn btn-default">Add Variation</button>
+
 			<form name="priceForm" >
-				<div class="form-group"  >
-					<label for="input-text"  >Name:</label>
-					<input  type="text" ng-model="selectedPrice.name"  />
+				<div class="row" ng-repeat="variation in variations">
+					<div class="col-md-4">
+						<div class="form-group"  >
+							<label for="input-text"  >Name:</label>
+							<input  type="text" ng-value="variation.name"  />
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group" ng-repeat="option in variation.options" >
+							<label for="input-text"  >Name:</label>
+							<input  type="text" ng-model="option.name"  />
+							<button type="button" ng-click="deleteOption(variation,option)" class="btn btn-danger">Delete</button>
+						</div>
+						
+					</div>
 				</div>
 				
-				<div class="form-group"  >
-					<label for="input-text"  >Price:</label>
-					<input  type="number" ng-model="selectedPrice.price"   />
-				</div>
+				<select ng-model="selectedVariation" ng-options="variation.name for variation in variations"></select>
+				<select ng-model="selectedVariation.optionId" ng-options="option.name for option in selectedVariation.options"></select>
+				
 				<button type="button" ng-click="addPrice(selectedPrice)" class="btn btn-primary">{{labels.addButton}}</button>
 				<button type="button" ng-click="delete(selectedPrice)" ng-show="selectedPrice.id" class="btn btn-danger">Delete</button>
 				<button type="button" ng-click="cancel()" ng-show="selectedPrice.id" class="btn btn-default">Cancel</button>
 				<ul>
 					<li ng-repeat="item in prices" ng-click="showPrice(item)">{{item.name}} - {{item.price}}</li>
-				</ul>
-			</form>
-			
-		</tab>
-		<tab heading="<?php esc_attr_e( 'Variations' ) ?>" ng-controller="VariationCtrl">
-			
-			<form name="variationsForm" >
-				<button type="button" ng-click="addVariation(selectedVariation)" class="btn btn-primary"><?php esc_html_e( 'Add Variation') ?></button>
-				<div class="form-group"  >
-					<button type="button" ng-click="deleteVariation(selectedVariation)" ng-show="selectedVariation.id" class="btn btn-danger"><?php esc_html_e( 'Delete') ?></button>
-					<input type="text" ng-model="selectedVariation.name"  />
-					<div class="form-group">
-						<button type="button" ng-click="addOption(selectedVariation)" class="btn btn-primary"><?php esc_html_e( 'Add Option') ?></button>
-						<button type="button" ng-click="deleteOption(selectedVariation)" ng-show="selectedVariation.id" class="btn btn-danger"><?php esc_html_e( 'Delete') ?></button>
-						<input  type="text" ng-model="selectedVariation.option.name"   />
-					</div>
-				</div>
-				<div>
-					Select - Boton ADD - Boton Generate All
-				</div>
-				Listado de variaciones agregadas.
-				<ul>
-					
-					<li ng-repeat="item in variations" ng-click="showVariation(item)">
-						NOMBRE
-						Price
-						Sale Price
-						Manage Stock
-						Stock
-						SKU
-						IMAGE
-						REMOVE
-						{{item.name}} - {{item.price}}
-					</li>
 				</ul>
 			</form>
 			

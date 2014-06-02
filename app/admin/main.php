@@ -35,15 +35,7 @@ class Main {
 		$registry = \GFSeoMarketingAddOn\Core\Settings\GfRegistry::instance();
 
 		if ( $registry->isDevEnv() ) {
-			wp_enqueue_script( 'angular', $registry->getBowerComponentUrl() . "angular/angular.js", 'jquery', $registry->getPluginVersion() );
-			wp_enqueue_script( 'bootstrap', $registry->getBowerComponentUrl() . "bootstrap/dist/js/bootstrap.js", 'jquery', $registry->getPluginVersion() );
-			wp_enqueue_script( 'angular-resource', $registry->getBowerComponentUrl() . "angular-resource/angular-resource.js", 'angular', $registry->getPluginVersion() );
-			wp_enqueue_script( 'angular-cookies', $registry->getBowerComponentUrl() . "angular-cookies/angular-cookies.js", 'angular', $registry->getPluginVersion() );
-			wp_enqueue_script( 'angular-sanitize', $registry->getBowerComponentUrl() . "angular-sanitize/angular-sanitize.js", 'angular', $registry->getPluginVersion() );
-			wp_enqueue_script( 'angular-route', $registry->getBowerComponentUrl() . "angular-route/angular-route.js", 'angular', $registry->getPluginVersion() );
-			wp_enqueue_script( 'angular-bootstrap', $registry->getBowerComponentUrl() . "angular-bootstrap/ui-bootstrap-tpls.js", 'angular', $registry->getPluginVersion() );
-			wp_enqueue_script( 'angular-google-chart', $registry->getBowerComponentUrl() . "angular-google-chart/ng-google-chart.js", 'angular', $registry->getPluginVersion() );
-
+			
 			wp_enqueue_script( 'mainApp', $registry->getScriptsUrl() . "app.js", 'angular', $registry->getPluginVersion() );
 			wp_enqueue_script( 'services/forms.js', $registry->getScriptsUrl() . "services/forms.js", 'mainApp', $registry->getPluginVersion() );
 			wp_enqueue_script( 'controllers/main.js', $registry->getScriptsUrl() . "controllers/main.js", 'mainApp', $registry->getPluginVersion() );

@@ -14,94 +14,60 @@ angular.module('mavenEventsApp').controller('EventCtrl', ['$scope', '$http', fun
 	}]);
 
 
-angular.module('mavenEventsApp').controller('PricesCtrl', ['$scope', '$http', function($scope, $http) {
+angular.module('mavenEventsApp').controller('VariationsCtrl', ['$scope', '$http', function($scope, $http) {
 		
-		this.getEmptyPrice = function(){
-			return {name:'',price:'',id:false};
-		};
-		
-		this.showAddButton = function( ){
-			$scope.labels.addButton = 'Add';
-		};
-		
-		this.showSaveButton = function( ){
-			$scope.labels.addButton = 'Save';
-		};
-		
-		
-		var that = this;
-		
-		$scope.selectedPrice = this.getEmptyPrice();
-		$scope.labels = {
-			addButton:'Add'
-		};
-		
-		$scope.prices = [{
+		 
+		$scope.variations = [{
 				id:1,
-				name: 'Member',
-				price: 123
+				name: 'Color',
+				options: [
+					{id:1, name:'Red'},
+					{id:2, name:'Blue'}
+				]
 			},
 			{
 				id:2,
-				name: 'Non member',
-				price: 456
+				name: 'Size',
+				options: [
+					{id:1, name:'Small'},
+					{id:2, name:'Medium'}
+				]
 			}];
 		
-		$scope.showPrice = function(price){
+		$scope.addVariation = function(){
+			var defaultVariation = {
+				id:-1,
+				name: 'Variation',
+				options: [
+					{id:1, name:'Option 1'},
+					{id:2, name:'Option 2'}
+				]
+			};
 			
-			$scope.selectedPrice.id = price.id; 
-			$scope.selectedPrice.price = price.price;
-			$scope.selectedPrice.name = price.name;
-			
-			that.showSaveButton();
+			$scope.variations.push(defaultVariation);
 		};
 		
-		$scope.cancel = function(){
-			$scope.selectedPrice = that.getEmptyPrice();
-			that.showAddButton();
-		};
-		
-		$scope.delete = function( price ){
+		$scope.deleteOption = function( variation, option ){
 			
-			angular.forEach($scope.prices, function(item){
-					if ( item.id === price.id ){
-						$scope.prices.unshift(item);
+			angular.forEach($scope.variations, function(_variation){
+					if ( _variation.id === variation.id ){
+						var index = 0;
+						angular.forEach(variation.options,function(_option){
+							if ( _option.id === option.id ){
+								variation.options.splice(index, 1);
+								//_variation.options.unshift(_option);
+							}
+							index++;
+						});
+						
 					}
+					
+					
 				});
-			
-			$scope.selectedPrice = that.getEmptyPrice();
+				
 		};
-		
-		$scope.addPrice = function(price){
-			
-			if ( price.id !== false){
-				angular.forEach($scope.prices, function(item){
-					if ( item.id === price.id ){
-						item.name = price.name;
-						item.price = price.price;
-					}
-				});
-			}else{
-				$scope.prices.push(price);
-			}
-			
-			// Save in db
-			$scope.selectedPrice = that.getEmptyPrice();
-			that.showAddButton();
-		};
-		
+		 
 		
 	}]);
 
  
-angular.module('mavenEventsApp').controller('VariationCtrl', ['$scope', '$http', function($scope, $http) {
-//		var chatbox = angular.element(document.getElementById('publish'));
-//		chatbox.val('holaaa');
-//		
-//		var postForm = angular.element(document.getElementById('post'));
-//		angular.element.bind("submit", function(event) {
-//			console.log('binded');
-//		}
-
-		//ng-disabled="formSettings.$invalid"
-}]);
