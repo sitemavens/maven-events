@@ -52,13 +52,14 @@
 						<div class="form-group"  >
 							<label for="input-text"  >Name:</label>
 							<input  type="text" ng-value="variation.name"  />
+							<button type="button" ng-click="deleteVariation(variation)" class="btn btn-danger btn-xs">Delete</button>
 						</div>
 					</div>
 					<div class="col-md-4">
 						<div class="form-group" ng-repeat="option in variation.options" >
 							<label for="input-text"  >Name:</label>
 							<input  type="text" ng-model="option.name"  />
-							<button type="button" ng-click="deleteOption(variation,option)" class="btn btn-danger">Delete</button>
+							<button type="button" ng-click="deleteOption(variation,option)" class="btn btn-danger btn-xs">Delete</button>
 						</div>
 						
 					</div>
