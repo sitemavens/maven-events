@@ -22,6 +22,7 @@ class Event extends \Maven\Core\DomainObject {
 	private $closed = false;
 	private $attendeeLimit;
 	private $summary;
+	private $price;
 
 	/**
 	 *
@@ -87,7 +88,8 @@ class Event extends \Maven\Core\DomainObject {
 		    'maxGroupRegistrants' => \Maven\Core\SanitizationRule::Integer,
 		    'closed' => \Maven\Core\SanitizationRule::Boolean,
 		    'attendeeLimit' => \Maven\Core\SanitizationRule::Integer,
-		    'summary' => \Maven\Core\SanitizationRule::Text
+		    'summary' => \Maven\Core\SanitizationRule::Text,
+			'price' => \Maven\Core\SanitizationRule::Float
 		);
 
 		$this->setSanitizationRules( $rules );
@@ -327,6 +329,14 @@ class Event extends \Maven\Core\DomainObject {
 	 */
 	public function addPrice( \MavenEvents\Core\Domain\EventPrices $eventPrice ) {
 		$this->prices[ ] = $eventPrice;
+	}
+	
+	public function getPrice () {
+		return $this->price;
+	}
+
+	public function setPrice ( $price ) {
+		$this->price = $price;
 	}
 
 	public function getVenueId() {

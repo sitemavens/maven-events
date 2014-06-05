@@ -8,6 +8,10 @@
 		<tab heading="General">
 			<div class="form-horizontal"  >
 				<div class="form-group"  >
+					<label for=""  >Price:</label>		
+					<input  type="input" ng-model="event.price" name="mvn[event][price]"  />
+				</div>
+				<div class="form-group"  >
 					<label for=""  >Registration Start:</label>		
 					<input required type="date" ng-model="event.registrationStartDate" name="mvn[event][registrationStartDate]"  />
 				</div>
