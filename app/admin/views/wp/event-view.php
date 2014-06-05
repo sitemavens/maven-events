@@ -8,7 +8,7 @@
 		<tab heading="General">
 			<div class="form-horizontal"  >
 				<div class="form-group"  >
-					<label for="input-text"  >Registration Start:</label>		
+					<label for=""  >Registration Start:</label>		
 					<input required type="date" ng-model="event.registrationStartDate" name="mvn[event][registrationStartDate]"  />
 				</div>
 				<div class="form-group"  >
@@ -50,32 +50,42 @@
 				<div class="row" ng-repeat="variation in variations">
 					<div class="col-md-4">
 						<div class="form-group"  >
-							<label for="input-text"  >Name:</label>
+							<label for=""  >Name:</label>
 							<input  type="text" ng-value="variation.name"  />
 							<button type="button" ng-click="deleteVariation(variation)" class="btn btn-danger btn-xs">Delete</button>
 						</div>
 					</div>
 					<div class="col-md-4">
 						<div class="form-group" ng-repeat="option in variation.options" >
-							<label for="input-text"  >Name:</label>
+							<label for=""  >Name:</label>
 							<input  type="text" ng-model="option.name"  />
-							<button type="button" ng-click="deleteOption(variation,option)" class="btn btn-danger btn-xs">Delete</button>
+							<button type="button" ng-click="deleteOption(variation, option)" class="btn btn-danger btn-xs">Delete</button>
 						</div>
-						
+
 					</div>
 				</div>
-				
-				<select ng-model="selectedVariation" ng-options="variation.name for variation in variations"></select>
-				<select ng-model="selectedVariation.optionId" ng-options="option.name for option in selectedVariation.options"></select>
-				
-				<button type="button" ng-click="addPrice(selectedPrice)" class="btn btn-primary">{{labels.addButton}}</button>
-				<button type="button" ng-click="delete(selectedPrice)" ng-show="selectedPrice.id" class="btn btn-danger">Delete</button>
-				<button type="button" ng-click="cancel()" ng-show="selectedPrice.id" class="btn btn-default">Cancel</button>
-				<ul>
-					<li ng-repeat="item in prices" ng-click="showPrice(item)">{{item.name}} - {{item.price}}</li>
-				</ul>
+
+				<div class='row' ng-repeat="variation in variations">
+					<div class="col-md-4">
+						{{variation.name}}
+						<select ng-model="selectedVariation.selectedOption" ng-options="option.name for option in variation.options"></select>
+					</div>
+				</div>
+
+				<button type="button" ng-click="addCombination(selectedVariation)" ng-disabled="selectedVariation.id == '-1' || !selectedVariation.selectedOption" class="btn btn-primary">Add variation</button>
+				<button type="button" ng-click="addAll()" class="btn btn-primary"  >Add all</button>
+				<div class="row" ng-repeat="variationCombination in variationsCombinations"  >
+					<div class="col-md-4">
+						<label for=""  >{{variationCombination.variation.name}},{{variationCombination.option.name}} </label>
+						<div class="form-group"  >
+							<label for=""  >Price</label>
+							<input  type="text" ng-value="variationCombination.price"  />
+						</div>
+					</div>
+				</div>
+
 			</form>
-			
+
 		</tab>
 	</tabset>
 
