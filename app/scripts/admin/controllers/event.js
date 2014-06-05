@@ -16,6 +16,7 @@ angular.module('mavenEventsApp').controller('EventCtrl', ['$scope', '$http', fun
 
 angular.module('mavenEventsApp').controller('VariationsCtrl', ['$scope', '$http', function($scope, $http) {
 
+		$scope.variationsCombinations = [];
 		$scope.selectedVariation = {
 			id: -1,
 			options: []
@@ -59,7 +60,6 @@ angular.module('mavenEventsApp').controller('VariationsCtrl', ['$scope', '$http'
 					angular.forEach(variation.options, function(_option) {
 						if (_option.id === option.id) {
 							variation.options.splice(index, 1);
-							//_variation.options.unshift(_option);
 						}
 						index++;
 					});
@@ -73,7 +73,6 @@ angular.module('mavenEventsApp').controller('VariationsCtrl', ['$scope', '$http'
 			angular.forEach($scope.variations, function(_variation) {
 				if (_variation.id === variation.id) {
 					$scope.variations.splice(index, 1);
-
 					if ($scope.selectedVariation.id == variation.id) {
 						$scope.selectedVariation = {
 							id: -1,
@@ -85,7 +84,19 @@ angular.module('mavenEventsApp').controller('VariationsCtrl', ['$scope', '$http'
 
 			});
 
-
+		};
+		
+		$scope.addAll = function(){
+			console.log('Add all');
+		};
+		
+		$scope.addCombination = function(variation){
+			
+			var variationCombination = {
+				variation: variation,
+				option: variation.selectedOption
+			};
+			$scope.variationsCombinations.push(variationCombination);
 		};
 
 
