@@ -87,6 +87,7 @@ class EventMapper extends \Maven\Core\Db\WordpressMapper {
 						{$this->tableName}.`id`,
 						{$this->tableName}.`name`,
 						`description`,
+						`price`,
 						`registration_start_date`,
 						`registration_end_date`,
 						`registration_start_time`,
@@ -282,6 +283,7 @@ class EventMapper extends \Maven\Core\Db\WordpressMapper {
 			'id' => $event->getId(),
 		    'name' => $event->getName(),
 		    'description' => $event->getDescription(),
+			'price' => $event->getPrice(),
 		    'registration_start_date' => $event->getRegistrationStartDate(),
 		    'registration_end_date' => $event->getRegistrationEndDate(),
 		    'registration_end_time' => $event->getRegistrationEndTime(),
@@ -306,6 +308,7 @@ class EventMapper extends \Maven\Core\Db\WordpressMapper {
 			'%d', //id
 		    '%s', //name
 		    '%s', //description
+			'%f', //price
 		    '%s', //registration_start_date
 		    '%s', //registration_end_date
 		    '%s', //registration_end_time
@@ -340,7 +343,7 @@ class EventMapper extends \Maven\Core\Db\WordpressMapper {
 		
 		$query = $this->prepare( "INSERT INTO {$this->tableName} ({$columns}) VALUES ($values)
 					ON DUPLICATE KEY UPDATE {$updateValues};",  array_values($eventData));
-		
+		//die($query);
 		$this->executeQuery($query);
 		
 		return $event;
