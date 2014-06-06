@@ -14,8 +14,8 @@ class Main {
 		$eventController = new \MavenEvents\Admin\Wp\EventController();
 		$eventController->init();
 
-		$eventListController = new Wp\EventListController();
-		$eventListController->init();
+		//$eventListController = new Wp\EventListController();
+		//$eventListController->init();
 	}
 
 	public static function registerStyles() {
