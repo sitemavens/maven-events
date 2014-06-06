@@ -57,6 +57,7 @@
 							<label for=""  >Name:</label>
 							<input  type="text" ng-value="variation.name"  />
 							<button type="button" ng-click="deleteVariation(variation)" class="btn btn-danger btn-xs">Delete</button>
+							<button type="button" ng-click="addOption($index)" class="btn btn-primary btn-xs">Add Option</button>
 						</div>
 					</div>
 					<div class="col-md-4">
@@ -72,15 +73,15 @@
 				<div class='row' ng-repeat="variation in variations">
 					<div class="col-md-4">
 						{{variation.name}}
-						<select ng-model="selectedVariation.selectedOption" ng-options="option.name for option in variation.options"></select>
+						<select ng-model="selectedCombination[variation.name]" ng-options="option.name for option in variation.options"></select>
 					</div>
 				</div>
-
-				<button type="button" ng-click="addCombination(selectedVariation)" ng-disabled="selectedVariation.id == '-1' || !selectedVariation.selectedOption" class="btn btn-primary">Add variation</button>
+				<button type="button" ng-click="addCombination(selectedCombination)" ng-disabled="selectedCombination.length===0" class="btn btn-primary">Add variation</button>
 				<button type="button" ng-click="addAll()" class="btn btn-primary"  >Add all</button>
-				<div class="row" ng-repeat="variationCombination in variationsCombinations"  >
-					<div class="col-md-4">
-						<label for=""  >{{variationCombination.variation.name}},{{variationCombination.option.name}} </label>
+				<div class="row" >
+					<div class="col-md-6" ng-repeat="variationCombination in variationsCombinations">
+						<label for="" ng-repeat="option in variationCombination.options"  >{{option.option}},</label>
+						<button type="button" ng-click="deleteCombination($index)" class="btn btn-danger btn-xs">Remove</button>
 						<div class="form-group"  >
 							<label for=""  >Price</label>
 							<input  type="text" ng-value="variationCombination.price"  />
