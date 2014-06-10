@@ -3,18 +3,18 @@
 namespace MavenEvents\Admin\Wp;
 
 // Exit if accessed directly 
-if ( !defined( 'ABSPATH' ) )
+if ( ! defined( 'ABSPATH' ) )
 	exit;
 
 class EventController extends \MavenEvents\Admin\EventsAdminController {
 
-	public function __construct () {
+	public function __construct() {
 		parent::__construct();
 	}
 
-	public function init () {
+	public function init() {
 
-		
+
 		if ( $this->getRequest()->isDoingAutoSave() ) {
 			return;
 		}
@@ -32,18 +32,18 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 		$this->getHookManager()->addAction( 'delete_' . \MavenEvents\Core\EventsConfig::eventTypeName, array( $this, 'delete' ), 10, 3 );
 	}
 
-	public function currentScreen ( $screen ) {
+	public function currentScreen( $screen ) {
 
 		if ( $screen->post_type === \MavenEvents\Core\EventsConfig::eventTypeName ) {
-			$this->getHookManager()->addAction( 'admin_xml_ns', array( $this, 'adminXml' ));
+			$this->getHookManager()->addAction( 'admin_xml_ns', array( $this, 'adminXml' ) );
 		}
 	}
 
-	function adminXml () {
+	function adminXml() {
 		echo 'ng-app="mavenEventsApp"';
 	}
 
-	function addScripts ( $hook ) {
+	function addScripts( $hook ) {
 
 		global $post;
 
@@ -63,8 +63,8 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 
 				wp_enqueue_script( 'mavenEventsApp', $registry->getScriptsUrl() . "admin/app.js", 'angular', $registry->getPluginVersion() );
 				wp_enqueue_script( 'admin/controllers/event.js', $registry->getScriptsUrl() . "admin/controllers/event.js", 'mavenEventsApp', $registry->getPluginVersion() );
-				
-				
+
+
 				wp_enqueue_style( 'bootstrap', $registry->getBowerComponentUrl() . "bootstrap/dist/css/bootstrap.css", null, $registry->getPluginVersion() );
 				wp_enqueue_style( 'bootstrap-theme', $registry->getBowerComponentUrl() . "bootstrap/dist/css/bootstrap-theme.css", null, $registry->getPluginVersion() );
 
@@ -74,17 +74,17 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 	}
 
 	// Add the Events Meta Boxes
-	function addEventsMetaBox () {
+	function addEventsMetaBox() {
 		add_meta_box( 'wpt_events_location', 'Event Information', array( $this, 'showEvents' ), \MavenEvents\Core\EventsConfig::eventTypeName, 'normal', 'default' );
 	}
 
 	// The Event Location Metabox
-	function showEvents () {
-		
+	function showEvents() {
+
 		global $post;
 
-		\Maven\Loggers\Logger::log()->message('\MavenEvents\Admin\Wp\EventController: showEvents: '.$post->ID);
-		
+		\Maven\Loggers\Logger::log()->message( '\MavenEvents\Admin\Wp\EventController: showEvents: ' . $post->ID );
+
 		$eventManager = new \MavenEvents\Core\EventManager();
 		$event = $eventManager->get( $post->ID );
 
@@ -94,6 +94,12 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 
 		$this->addJSONData( 'event', $event );
 
+		$pricesOperators = \Maven\Core\Domain\VariationOptionPriceOperator::getOperators();
+
+		$this->addJSONData( 'priceOperators', $pricesOperators );
+
+		$this->addJSONData( 'defaultPriceOperator', \Maven\Core\Domain\VariationOptionPriceOperator::NoChange );
+
 		echo $this->getOutput()->getWpAdminView( "event" );
 	}
 
@@ -102,24 +108,24 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 	 * @param int $postId
 	 * @param object $post
 	 */
-	public function save ( $postId, $post ) {
+	public function save( $postId, $post ) {
 
-		\Maven\Loggers\Logger::log()->message('\MavenEvents\Admin\Wp\EventController: save: '.$postId);
-		
+		\Maven\Loggers\Logger::log()->message( '\MavenEvents\Admin\Wp\EventController: save: ' . $postId );
+
 		$this->saveEvent( $post );
 	}
-	
-	private function saveEvent( $post ){
-		
+
+	private function saveEvent( $post ) {
+
 		$event = new \MavenEvents\Core\Domain\Event();
 
 		$mvn = $this->getRequest()->getProperty( 'mvn' );
-		
+
 		//Check if we have something in the post, because it can be the quick edit mode
-		if ( $mvn ){
-			
-			\Maven\Loggers\Logger::log()->message('\MavenEvents\Admin\Wp\EventController: saveEvent: '.$post->ID);
-			
+		if ( $mvn ) {
+
+			\Maven\Loggers\Logger::log()->message( '\MavenEvents\Admin\Wp\EventController: saveEvent: ' . $post->ID );
+
 			$event->load( $mvn[ 'event' ] );
 
 			$event->setId( $post->ID );
@@ -128,9 +134,23 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 
 			$eventManager = new \MavenEvents\Core\EventManager();
 			$eventManager->addEvent( $event );
-			
+
+			$variationManager = new \MavenEvents\Core\VariationManager();
+			$variations = $variationManager->saveMultiple( $event->getVariations(), $event->getId() );
+
+			$combinations = $mvn[ 'event' ][ 'combinations' ];
+			if ( $combinations ) {
+				$variationGroupManager=new \MavenEvents\Core\VariationGroupManager();
+				
+				foreach($combinations as $combination){
+					foreach($combination->options as $option){
+						
+					}
+				}
+			}
+
+			//$event->setVariations($variations);
 		}
-		
 	}
 
 	/**
@@ -138,10 +158,10 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 	 * @param int $termId
 	 * @param int $taxonomyId
 	 */
-	public function insert ( $postId, $post ) {
-		
-		\Maven\Loggers\Logger::log()->message('\MavenEvents\Admin\Wp\EventController: insert');
-		
+	public function insert( $postId, $post ) {
+
+		\Maven\Loggers\Logger::log()->message( '\MavenEvents\Admin\Wp\EventController: insert' );
+
 		$this->saveEvent( $post );
 	}
 
@@ -151,15 +171,15 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 	 * @param int $taxonomyId
 	 * @param object $deletedTerm
 	 */
-	public function delete ( $termId, $taxonomyId, $deletedTerm ) {
+	public function delete( $termId, $taxonomyId, $deletedTerm ) {
 		
 	}
 
-	public function showForm () {
+	public function showForm() {
 		
 	}
 
-	public function showList () {
+	public function showList() {
 		
 	}
 

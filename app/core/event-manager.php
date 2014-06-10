@@ -102,6 +102,12 @@ class EventManager implements iSearchManager {
 
 		$categoriesMapper->addCategories( $event->getCategories(), $savedEvent );
 
+		// If variations isn't enabled we have to delete everything. Just in case the product had variations before.
+		if ( ! $event->isVariationsEnabled() ) {
+			$variationsManager = new VariationManager();
+			$variationsManager->deleteThingVariations( $event->getId() );
+		}
+		
 		if ( $update )
 			Actions::UpdateEvent( $event );
 		else
@@ -313,6 +319,12 @@ class EventManager implements iSearchManager {
 			$event->setClosed( true );
 //			var_dump( date('G:i:s', $currentTime ) );
 //			var_dump( date('G:i:s',$eventRegistrationEndTime )) ;
+		}
+		
+		$variationsManager = new VariationManager();
+		
+		if ( $event->isVariationsEnabled() ) {
+			$event->setVariations( $variationsManager->getVariations( $event->getId() ) );
 		}
 
 		return $event;

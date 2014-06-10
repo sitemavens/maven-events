@@ -63,3 +63,6 @@
 .ng-invalid-minlength 		{  }
 .ng-valid-max-length 		{  }
 
+h4.options span{
+	margin-right: 5px;
+}
