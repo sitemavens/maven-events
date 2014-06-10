@@ -88,10 +88,13 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 		$eventManager = new \MavenEvents\Core\EventManager();
 		$event = $eventManager->get( $post->ID );
 
+		$combinations = array();
 		if ( $event->isEmpty() ) {
 			$event->setId( $post->ID );
+		} else {
+			$combinations = $this->getCombinations( $event->getId() );
 		}
-		
+
 		$this->addJSONData( 'event', $event );
 
 		$pricesOperators = \Maven\Core\Domain\VariationOptionPriceOperator::getOperators();
@@ -99,6 +102,8 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 		$this->addJSONData( 'priceOperators', $pricesOperators );
 
 		$this->addJSONData( 'defaultPriceOperator', \Maven\Core\Domain\VariationOptionPriceOperator::NoChange );
+
+		$this->addJSONData( 'combinations', $combinations );
 
 		echo $this->getOutput()->getWpAdminView( "event" );
 	}
@@ -113,6 +118,37 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 		\Maven\Loggers\Logger::log()->message( '\MavenEvents\Admin\Wp\EventController: save: ' . $postId );
 
 		$this->saveEvent( $post );
+	}
+
+	private function getCombinations( $thingId ) {
+		$variationGroupManager = new \MavenEvents\Core\VariationGroupManager();
+		$variationOptionManager = new \Maven\Core\VariationOptionManager();
+		$groups = $variationGroupManager->getVariationGroups( $thingId );
+
+		foreach ( $groups as $group ) {
+			$combination = array();
+			$combination[ 'id' ] = $group->getId();
+			$combination[ 'groupKey' ] = $group->getGroupKey();
+			$combination[ 'price' ] = $group->getPrice();
+			$combination[ 'priceOperator' ] = $group->getPriceOperator();
+
+			$options = array();
+			$keys = explode( '-', $group->getGroupKey() );
+			foreach ( $keys as $key ) {
+				$option = $variationOptionManager->get( $key );
+
+				$options[] = array(
+				    'id' => $option->getId(),
+				    'name' => $option->getName(),
+				    'variationId' => $option->getVariationId(),
+				    'variation' => ''
+				);
+			}
+			$combination[ 'options' ] = $options;
+
+			$combinations[ $group->getGroupKey() ] = $combination;
+		}
+		return $combinations;
 	}
 
 	private function saveEvent( $post ) {
@@ -140,10 +176,10 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 
 			$combinations = $mvn[ 'event' ][ 'combinations' ];
 			if ( $combinations ) {
-				$variationGroupManager=new \MavenEvents\Core\VariationGroupManager();
-				
-				foreach($combinations as $combination){
-					foreach($combination->options as $option){
+				$variationGroupManager = new \MavenEvents\Core\VariationGroupManager();
+
+				foreach ( $combinations as $combination ) {
+					foreach ( $combination->options as $option ) {
 						
 					}
 				}

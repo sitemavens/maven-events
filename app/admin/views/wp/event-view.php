@@ -1,5 +1,6 @@
 <?php \Maven\Core\UI\HtmlComponent::jSonComponent( 'CachedEvent', $event ); ?>
 <?php \Maven\Core\UI\HtmlComponent::jSonComponent( 'CachedPriceOperators', $priceOperators ); ?>
+<?php \Maven\Core\UI\HtmlComponent::jSonComponent( 'CachedCombinations', $combinations ); ?>
 <?php \Maven\Core\UI\HtmlComponent::jSonComponent( 'DefaultPriceOperator', $defaultPriceOperator ); ?>
 
 <div ng-controller="EventCtrl">	
@@ -109,10 +110,10 @@
 					<div class="panel panel-default " >
 						<div class="panel-body">
 							<div class="row  form-group"  ng-repeat="variation in variations">
-								<div class="col-md-4" >
-									<label for="" class="col-sm-2 control-label">{{variation.name}}</label>
-									<div class="col-sm-10">
-										<select class="form-control"  ng-model="selectedCombination[variation.name]" ng-options="option.name for option in variation.options"></select>
+								<div class="col-md-6" >
+									<label for="" class="col-sm-4 control-label">{{variation.name}}</label>
+									<div class="col-sm-8">
+										<select class="form-control" ng-model="selectedCombination[$index]" ng-options="option.name for option in variation.options"></select>
 									</div>
 								</div>
 							</div>
@@ -126,21 +127,22 @@
 						<div class="col-md-6" ng-repeat="variationCombination in variationsCombinations">
 							<div class="panel panel-default" >
 								<div class="panel-body">
-									<h4 class="options"><span class="label label-default" ng-repeat="option in variationCombination.options">{{option.option.name}}</span></h4>
+									<h4 class="options"><span class="label label-default" ng-repeat="option in variationCombination.options">{{option.name}}</span></h4>
 									<div class="form-group"  >
 										<label for=""  >Price</label>
-										<input type="hidden" ng-repeat="option in variationCombination.options" name="mvn[event][combinations][{{$parent.$index}}][options][{{option.option.variationId}}][variationId]" ng-value="option.option.variationId"/>
-										<input type="hidden" ng-repeat="option in variationCombination.options" name="mvn[event][combinations][{{$parent.$index}}][options][{{option.option.variationId}}][id]" ng-value="option.option.id"/>
+										<input type="hidden" ng-repeat="option in variationCombination.options" name="mvn[event][combinations][{{$parent.$index}}][options][{{option.variationId}}][variationId]" ng-value="option.variationId"/>
+										<input type="hidden" ng-repeat="option in variationCombination.options" name="mvn[event][combinations][{{$parent.$index}}][options][{{option.variationId}}][id]" ng-value="option.id"/>
 										<select name="mvn[event][combinations][{{$index}}][priceOperator]" ng-model="variationCombination.priceOperator" ng-options="key as  value for (key, value) in priceOperators"></select>
 										<input name="mvn[event][combinations][{{$index}}][price]"  type="text" ng-model="variationCombination.price" />
 										<button type="button" ng-click="deleteCombination($index)" class="btn btn-danger btn-xs">Remove</button>									
 									</div>
 								</div>
 							</div>
-						</div>
+						</div>						
 					</div>
 
 				</div>
+			</div>
 		</tab>
 	</tabset>
 

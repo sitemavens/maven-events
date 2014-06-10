@@ -2,15 +2,6 @@ angular.module('mavenEventsApp').controller('EventCtrl', ['$scope', '$http', fun
 
 		console.log(CachedEvent);
 		$scope.event = CachedEvent;
-//		var chatbox = angular.element(document.getElementById('publish'));
-//		chatbox.val('holaaa');
-//		
-//		var postForm = angular.element(document.getElementById('post'));
-//		angular.element.bind("submit", function(event) {
-//			console.log('binded');
-//		}
-
-		//ng-disabled="formSettings.$invalid"
 	}]);
 angular.module('mavenEventsApp').controller('VariationsCtrl', ['$scope', '$http', function($scope, $http) {
 
@@ -21,31 +12,16 @@ angular.module('mavenEventsApp').controller('VariationsCtrl', ['$scope', '$http'
 			});
 		}
 
-
 		$scope.eventId = CachedEvent.id;
 		$scope.variations = CachedEvent.variations;
-
 		$scope.priceOperators = CachedPriceOperators;
 
+		console.log(CachedCombinations);
+		$scope.variationsCombinations = CachedCombinations;
 
-		$scope.variationsCombinations = [];
+		//$scope.variationsCombinations = [];
+
 		$scope.selectedCombination = {};
-		/*$scope.variations = [{
-		 id: $scope.guid(),
-		 name: 'Color',
-		 options: [
-		 {id: $scope.guid(), name: 'Red'},
-		 {id: $scope.guid(), name: 'Blue'}
-		 ]
-		 },
-		 {
-		 id: $scope.guid(),
-		 name: 'Size',
-		 options: [
-		 {id: $scope.guid(), name: 'Small'},
-		 {id: $scope.guid(), name: 'Medium'}
-		 ]
-		 }];*/
 		$scope.addVariation = function() {
 			var defaultVariation = {
 				id: null,
@@ -101,36 +77,55 @@ angular.module('mavenEventsApp').controller('VariationsCtrl', ['$scope', '$http'
 			}
 			//console.log(i, $scope.variations.length);
 			return !(i === $scope.variations.length);
-		}
-
+		};
+		/*
+		 var found = $scope.items.reduce(function(previous, i){
+		 if ($scope.item === i) return true;
+		 return previous;
+		 }, false);
+		 if (found){
+		 alert('duplicate value');
+		 }
+		 else{
+		 $scope.items.push($scope.item);
+		 }
+		 */
 		$scope.addCombination = function(variationCombination) {
-			var id = 'id';
+			var id = [];
 			var options = [];
+
 			for (var property in variationCombination) {
-				id += '-' + variationCombination[property].id;
+				id.push(variationCombination[property].id);
 				options.push(
 					{
-						variation: property,
-						option: {
-							variationId: variationCombination[property].variationId,
-							id: variationCombination[property].id,
-							name: variationCombination[property].name
-						}
-					})
+						variationId: variationCombination[property].variationId,
+						id: variationCombination[property].id,
+						name: variationCombination[property].name
+					});
+			}
+			//we need to sort the array, always the ids need to be ordered.
+			id.sort();
+			if (!$scope.variationsCombinations.hasOwnProperty(id.join('-'))) {
+
+				var combination = {
+					id: null,
+					groupKey: id.join('-'),
+					priceOperator: DefaultPriceOperator,
+					price: 0,
+					options: options
+				};
+
+
+
+				$scope.variationsCombinations[combination.groupKey] = combination;
+			} else {
+				alert("Combination already defined");
 			}
 
-			var combination = {
-				groupKey: id,
-				priceOperator: DefaultPriceOperator,
-				options: options
-			}
-
-			$scope.variationsCombinations.push(combination);
 		};
 		$scope.deleteCombination = function($index) {
 			$scope.variationsCombinations.splice($index, 1);
-		}
-
+		};
 
 	}]);
 
