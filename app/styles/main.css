@@ -1,4 +1,6 @@
-
+body {
+	background-color: transparent;
+}
 .container{
 	width: 100%;
 }
@@ -63,6 +65,17 @@
 .ng-invalid-minlength 		{  }
 .ng-valid-max-length 		{  }
 
+<<<<<<< HEAD
 h4.options span{
 	margin-right: 5px;
 }
+=======
+#mvne_category-adder h4 {
+	font-size: 1em;
+}
+#titlediv #title-prompt-text {
+	font-family: "Open Sans",sans-serif;
+	font-weight: normal;
+	line-height: 1em;
+}
+>>>>>>> dfa582d0b7ca645787f4f4a637def457483d9b8a

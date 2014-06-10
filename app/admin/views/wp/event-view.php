@@ -8,49 +8,70 @@
 
 	<tabset>
 		<tab heading="General">
-			<div class="form"  >
+			<div class="form-horizontal" style="margin:15px 0;">
 				<div class="form-group"  >
-					<label for=""  >Price:</label>		
-					<input class="form-control"  type="input" ng-model="event.price" name="mvn[event][price]"  />
+					<label for="" class="col-sm-2 control-label">Price:</label>
+					<div class="col-sm-2">
+						<input class="form-control" type="input" ng-model="event.price" name="mvn[event][price]"  />
+					</div>
 				</div>
 				<div class="form-group"  >
-					<label for=""  >Registration Start:</label>		
-					<input class="form-control" required type="date" ng-model="event.registrationStartDate" name="mvn[event][registrationStartDate]"  />
+					<label for="" class="col-sm-2 control-label">Registration Start:</label>
+					<div class="col-sm-2">
+						<input class="form-control" required type="date" ng-model="event.registrationStartDate" name="mvn[event][registrationStartDate]"  />
+					</div>
 				</div>
 				<div class="form-group"  >
-					<label for="input-time">Registration End:</label>		
-					<input class="form-control" required ng-model="event.registrationEndDate" type="date" name="mvn[event][registrationEndDate]" />
+					<label for="input-time" class="col-sm-2 control-label">Registration End:</label>		
+					<div class="col-sm-2">
+						<input class="form-control" required ng-model="event.registrationEndDate" type="date" name="mvn[event][registrationEndDate]" />
+					</div>
 				</div>
 				<div class="form-group"  >
-					<label for="input-time">Event Start:</label>
-					<input class="form-control" required ng-model="event.eventStartDate" type="date" name="mvn[event][eventStartDate]" />
+					<label for="input-time" class="col-sm-2 control-label">Event Start:</label>
+					<div class="col-sm-2">
+						<input class="form-control" required ng-model="event.eventStartDate" type="date" name="mvn[event][eventStartDate]" />
+					</div>
 				</div>
 
 				<div class="form-group"  >
-					<label for="input-time">Event End:</label>
-					<input class="form-control" required ng-model="event.eventEndDate" type="date" name="mvn[event][eventEndDate]" />
-				</div>
-				<div class="checkbox"  >
-					<label >Allow group registration:
-						<input class="form-control" type="checkbox" value="1"  ng-model="event.allowGroupRegistration"   name="mvn[event][allowGroupRegistration]" />
-					</label>
-				</div>
-				<div class="form-group"  >
-					<label for="input-time">Max group registrants:</label>
-					<input class="form-control" type="text"  ng-model="event.maxGroupRegistrants"   name="mvn[event][maxGroupRegistrants]" />
-				</div>
-				<div class="form-group"  >
-					<label for="input-time">Attendee Limit:</label>
-					<input class="form-control" type="text" ng-model="event.attendeeLimit"  name="mvn[event][attendeeLimit]" />
+					<label for="input-time" class="col-sm-2 control-label">Event End:</label>
+					<div class="col-sm-2">
+						<input class="form-control" required ng-model="event.eventEndDate" type="date" name="mvn[event][eventEndDate]" />
+					</div>
 				</div>
 				<div class="form-group">
-					<label for="input-time">Closed:</label>
-					<input class="form-control" disabled="disabled" type="checkbox" value="1" ng-model="event.closed"  name="mvn[event][closed]" />
+					<div class="col-sm-offset-2 col-sm-2">
+						<div class="checkbox"  >
+							<label >Allow group registration:
+							<input class="form-control" type="checkbox" value="1"  ng-model="event.allowGroupRegistration"   name="mvn[event][allowGroupRegistration]" />
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group"  >
+					<label for="input-time" class="col-sm-2 control-label">Max group registrants:</label>
+					<div class="col-sm-2">
+						<input class="form-control" type="text"  ng-model="event.maxGroupRegistrants"   name="mvn[event][maxGroupRegistrants]" />
+					</div>
+				</div>
+				<div class="form-group"  >
+					<label for="input-time" class="col-sm-2 control-label">Attendee Limit:</label>
+					<div class="col-sm-2">
+						<input class="form-control" type="text" ng-model="event.attendeeLimit"  name="mvn[event][attendeeLimit]" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="input-time" class="col-sm-2 control-label">Closed:</label>
+					<div class="col-sm-2">
+						<input class="form-control" disabled="disabled" type="checkbox" value="1" ng-model="event.closed"  name="mvn[event][closed]" />
+					</div>
 				</div>
 			</div>
 		</tab>
 		<tab heading="Variations" ng-controller="VariationsCtrl">
-			<button type="button" ng-click="addVariation()"  class="btn btn-default">Add Variation</button>
+			<div style="margin:15px 0;">
+			<button type="button" ng-click="addVariation()"  class="btn btn-default" style="margin-bottom:15px;">Add Variation</button>
 
 			<div class="form-horizontal" >
 				<div class="panel panel-default" ng-repeat="variation in variations">
@@ -113,7 +134,6 @@
 				</div>
 
 			</div>
-
 		</tab>
 	</tabset>
 
