@@ -91,7 +91,7 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 		if ( $event->isEmpty() ) {
 			$event->setId( $post->ID );
 		}
-
+		
 		$this->addJSONData( 'event', $event );
 
 		$pricesOperators = \Maven\Core\Domain\VariationOptionPriceOperator::getOperators();
