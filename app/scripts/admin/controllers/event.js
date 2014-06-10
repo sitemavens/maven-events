@@ -21,39 +21,14 @@ angular.module('mavenEventsApp').controller('VariationsCtrl', ['$scope', '$http'
 			});
 		}
 
-		$scope.join = function(arr1, arr2)
-		{
-			var union = arr1.concat(arr2);
-
-			for (var i = 0; i < union.length; i++)
-			{
-				for (var j = i + 1; j < union.length; j++)
-				{
-					if ($scope.sameCombination(union[i], union[j]))
-						union.splice(i, 1);
-				}
-			}
-
-			return union;
-		}
-
-		$scope.sameCombination = function(g1, g2)
-		{
-			return g1.groupKey === g2.groupKey;
-		}
 
 		$scope.eventId = CachedEvent.id;
 		$scope.variations = CachedEvent.variations;
 
 		$scope.priceOperators = CachedPriceOperators;
 
-		$scope.variationsCombinations = [];
-		for (var i = 0; i < CachedEvent.variations.length; i++) {
 
-			$scope.variationsCombinations = $scope.join($scope.variationsCombinations, CachedEvent.variations[i].groups);
-		}
-		console.log($scope.variationsCombinations);
-		//$scope.variationsCombinations = [];
+		$scope.variationsCombinations = [];
 		$scope.selectedCombination = {};
 		/*$scope.variations = [{
 		 id: $scope.guid(),
@@ -132,7 +107,7 @@ angular.module('mavenEventsApp').controller('VariationsCtrl', ['$scope', '$http'
 			var id = 'id';
 			var options = [];
 			for (var property in variationCombination) {
-				id += '_' + variationCombination[property].id;
+				id += '-' + variationCombination[property].id;
 				options.push(
 					{
 						variation: property,
@@ -145,7 +120,7 @@ angular.module('mavenEventsApp').controller('VariationsCtrl', ['$scope', '$http'
 			}
 
 			var combination = {
-				id: id,
+				groupKey: id,
 				priceOperator: DefaultPriceOperator,
 				options: options
 			}
