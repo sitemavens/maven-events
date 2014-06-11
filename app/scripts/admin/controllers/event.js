@@ -9,6 +9,13 @@ angular.module('mavenEventsApp').controller('VariationsCtrl', ['$scope', '$http'
 				return v.toString(16);
 			});
 		}
+		$scope.lastId = 1;
+		$scope.newClientId = function() {
+			var id = $scope.lastId;
+			$scope.lastId++;
+			return id;
+
+		}
 
 		$scope.eventId = CachedEvent.id;
 		$scope.variations = CachedEvent.variations;
@@ -22,18 +29,16 @@ angular.module('mavenEventsApp').controller('VariationsCtrl', ['$scope', '$http'
 		$scope.addVariation = function() {
 			var defaultVariation = {
 				id: null,
-				c_id: $scope.guid(),
+				c_id: $scope.newClientId(),
 				name: '',
 				options: [
-					{id: null, c_id: $scope.guid(), name: ''}
+					{id: null, c_id: $scope.newClientId(), name: ''}
 				]
 			};
-			$scope.variations.push(defaultVariation);
-			$scope.lastId++;
+			$scope.variations.push(defaultVariation);			
 		};
 		$scope.addOption = function($index) {
-			$scope.variations[$index].options.push({id: null, c_id: $scope.guid(), name: ''});
-			$scope.lastId++;
+			$scope.variations[$index].options.push({id: null, c_id: $scope.newClientId(), name: ''});			
 		};
 		$scope.deleteOption = function(variation, option) {
 
@@ -49,17 +54,18 @@ angular.module('mavenEventsApp').controller('VariationsCtrl', ['$scope', '$http'
 				}
 			});
 		};
+		
 		$scope.deleteVariation = function(variation) {
 			var index = 0;
 			angular.forEach($scope.variations, function(_variation) {
 				if (_variation.id === variation.id) {
 					$scope.variations.splice(index, 1);
-					if ($scope.selectedVariation.id === variation.id) {
+					/*if ($scope.selectedVariation.id === variation.id) {
 						$scope.selectedVariation = {
 							id: -1,
 							options: []
 						};
-					}
+					}*/
 				}
 				index++;
 			});
@@ -67,7 +73,19 @@ angular.module('mavenEventsApp').controller('VariationsCtrl', ['$scope', '$http'
 		$scope.addAll = function() {
 			console.log('Add all');
 		};
-		$scope.combinationsSelected = function() {
+
+		$scope.allCombinationsDisabled = function() {
+			//if there is no variations, disable combination button
+			return $scope.variations.length === 0;
+
+		}
+
+		$scope.addCombinationDisabled = function() {
+			//if there is no variations, disable combination button
+			if ($scope.variations.length === 0) {
+				return true;
+			}
+
 			var i = 0;
 			for (var property in $scope.selectedCombination) {
 				i++;

@@ -72,78 +72,84 @@
 		</tab>
 		<tab heading="Variations" ng-controller="VariationsCtrl">
 			<div style="margin:15px 0;">
-				<button type="button" ng-click="addVariation()"  class="btn btn-default" style="margin-bottom:15px;">Add Variation</button>
-
-				<div class="form-horizontal" >
-					<div class="panel panel-default form-horizontal" ng-repeat="variation in variations">
-						<div class="panel-body">
-							<div class="col-md-6">
-								<div class="form-group"  >
-									<label for="" class="col-sm-2 control-label" >Name:</label>
-									<div class="col-sm-10">
-										<div class="col-sm-8">
-											<input type="hidden" name="mvn[event][variations][{{$index}}][id]" ng-value="variation.id" />
-											<input type="hidden" name="mvn[event][variations][{{$index}}][thingId]" ng-value="eventId" />
-											<input  type="text" class="form-control" ng-model="variation.name" name="mvn[event][variations][{{$index}}][name]" placeholder="Variation"/>
-										</div>
-										<button type="button" ng-click="deleteVariation(variation)" class="btn btn-danger btn-xs">Delete</button>
-										<button type="button" ng-click="addOption($index)" class="btn btn-primary btn-xs">Add Option</button>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group" ng-repeat="option in variation.options" >
-									<label for="" class="col-sm-2 control-label" >Name:</label>
-									<div class="col-sm-10">
-										<div class="col-sm-8">
-											<input type="hidden"  name="mvn[event][variations][{{$parent.$index}}][options][{{$index}}][id]" ng-value="option.id">
-											<input type="hidden"  name="mvn[event][variations][{{$parent.$index}}][options][{{$index}}][variationId]" ng-value="variation.id">
-											<input  type="text" class="form-control" name="mvn[event][variations][{{$parent.$index}}][options][{{$index}}][name]" ng-model="option.name"  placeholder="Option" />
-										</div>
-										<button type="button" ng-click="deleteOption(variation, option)" class="btn btn-danger btn-xs">Delete</button>
-									</div>
-								</div>
-
-							</div>
-						</div>
+				<div class="row">
+					<div class="col-md-2">
+						<button type="button" ng-click="addVariation()"  class="btn btn-default" style="margin-bottom:15px;">Add Variation</button>
 					</div>
-					<div class="panel panel-default " >
-						<div class="panel-body">
-							<div class="row  form-group"  ng-repeat="variation in variations">
-								<div class="col-md-6" >
-									<label for="" class="col-sm-4 control-label">{{variation.name}}</label>
-									<div class="col-sm-8">
-										<select class="form-control" ng-model="selectedCombination[$index]" ng-options="option.name for option in variation.options"></select>
-									</div>
-								</div>
-							</div>
-							<div class='row pull-right'>
-								<button type="button" ng-click="addCombination(selectedCombination)" ng-disabled="combinationsSelected()" class="btn btn-primary">Add variation</button>
-								<button type="button" ng-click="addAll()" class="btn btn-primary"  >Add all</button>
-							</div>
-						</div>
+					<div class="col-md-10 alert alert-info alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						Adding or removing variations will delete all your previously created combinations.<p />
+						Removing options will delete related combinations only.
 					</div>
-					<div class="row" >
-						<div class="col-md-6" ng-repeat="variationCombination in variationsCombinations">
-							<div class="panel panel-default form-horizontal" >
-								<div class="panel-body">
-									<h4 class="options"><span class="label label-default" ng-repeat="option in variationCombination.options">{{option.name}}</span></h4>
-									<div class="form-group">
-										<label for=""  >Price</label>
-										<input type="hidden" name="mvn[event][combinations][{{$index}}][groupKey]" ng-value="variationCombination.groupKey" />
-										<input type="hidden" name="mvn[event][combinations][{{$index}}][id]" ng-value="variationCombination.id" />
-										<input type="hidden" ng-repeat="option in variationCombination.options" name="mvn[event][combinations][{{$parent.$index}}][options][{{option.variationId}}][variationId]" ng-value="option.variationId"/>
-										<input type="hidden" ng-repeat="option in variationCombination.options" name="mvn[event][combinations][{{$parent.$index}}][options][{{option.variationId}}][id]" ng-value="option.id"/>
-										<select name="mvn[event][combinations][{{$index}}][priceOperator]" ng-model="variationCombination.priceOperator" ng-options="key as  value for (key, value) in priceOperators"></select>
-										<input name="mvn[event][combinations][{{$index}}][price]"  type="text" ng-model="variationCombination.price" />
-										<button type="button" ng-click="deleteCombination(variationCombination.groupKey)" class="btn btn-danger btn-xs">Remove</button>									
-									</div>
-								</div>
-							</div>
-						</div>						
-					</div>
-
 				</div>
+				<div class="panel panel-default form-horizontal" ng-repeat="variation in variations">
+					<div class="panel-body">
+						<div class="col-md-6">
+							<div class="form-group"  >
+								<label for="" class="col-sm-2 control-label" >Name:</label>
+								<div class="col-sm-10">
+									<div class="col-sm-8">
+										<input type="hidden" name="mvn[event][variations][{{$index}}][id]" ng-value="variation.id" />
+										<input type="hidden" name="mvn[event][variations][{{$index}}][thingId]" ng-value="eventId" />
+										<input  type="text" class="form-control" ng-model="variation.name" name="mvn[event][variations][{{$index}}][name]" placeholder="Variation"/>
+									</div>
+									<button type="button" ng-click="deleteVariation(variation)" class="btn btn-danger btn-xs">Delete</button>
+									<button type="button" ng-click="addOption($index)" class="btn btn-primary btn-xs">Add Option</button>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group" ng-repeat="option in variation.options" >
+								<label for="" class="col-sm-2 control-label" >Name:</label>
+								<div class="col-sm-10">
+									<div class="col-sm-8">
+										<input type="hidden"  name="mvn[event][variations][{{$parent.$index}}][options][{{$index}}][id]" ng-value="option.id">
+										<input type="hidden"  name="mvn[event][variations][{{$parent.$index}}][options][{{$index}}][variationId]" ng-value="variation.id">
+										<input  type="text" class="form-control" name="mvn[event][variations][{{$parent.$index}}][options][{{$index}}][name]" ng-model="option.name"  placeholder="Option" />
+									</div>
+									<button type="button" ng-click="deleteOption(variation, option)" class="btn btn-danger btn-xs">Delete</button>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default " >
+					<div class="panel-body">
+						<div class="row  form-group"  ng-repeat="variation in variations">
+							<div class="col-md-6" >
+								<label for="" class="col-sm-4 control-label">{{variation.name}}</label>
+								<div class="col-sm-8">
+									<select class="form-control" ng-model="selectedCombination[$index]" ng-options="option.name for option in variation.options"></select>
+								</div>
+							</div>
+						</div>
+						<div class='row pull-right'>
+							<button type="button" ng-click="addCombination(selectedCombination)" ng-disabled="addCombinationDisabled()" class="btn btn-primary">Add combination</button>
+							<button type="button" ng-click="addAll()" ng-disabled="allCombinationsDisabled()" class="btn btn-primary"  >Add all</button>
+						</div>
+					</div>
+				</div>
+				<div class="row" >
+					<div class="col-md-6" ng-repeat="variationCombination in variationsCombinations">
+						<div class="panel panel-default form-horizontal" >
+							<div class="panel-body">
+								<h4 class="options"><span class="label label-default" ng-repeat="option in variationCombination.options">{{option.name}}</span></h4>
+								<div class="form-group">
+									<label for=""  >Price</label>
+									<input type="hidden" name="mvn[event][combinations][{{$index}}][groupKey]" ng-value="variationCombination.groupKey" />
+									<input type="hidden" name="mvn[event][combinations][{{$index}}][id]" ng-value="variationCombination.id" />
+									<input type="hidden" ng-repeat="option in variationCombination.options" name="mvn[event][combinations][{{$parent.$index}}][options][{{option.variationId}}][variationId]" ng-value="option.variationId"/>
+									<input type="hidden" ng-repeat="option in variationCombination.options" name="mvn[event][combinations][{{$parent.$index}}][options][{{option.variationId}}][id]" ng-value="option.id"/>
+									<select name="mvn[event][combinations][{{$index}}][priceOperator]" ng-model="variationCombination.priceOperator" ng-options="key as  value for (key, value) in priceOperators"></select>
+									<input name="mvn[event][combinations][{{$index}}][price]"  type="text" ng-model="variationCombination.price" />
+									<button type="button" ng-click="deleteCombination(variationCombination.groupKey)" class="btn btn-danger btn-xs">Remove</button>									
+								</div>
+							</div>
+						</div>
+					</div>						
+				</div>
+
+
 			</div>
 		</tab>
 	</tabset>
