@@ -176,7 +176,10 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 			$variationManager = new \MavenEvents\Core\VariationManager();
 			$variations = $variationManager->saveMultiple( $event->getVariations(), $event->getId() );
 
-			$combinations = $mvn[ 'event' ][ 'combinations' ];
+			$combinations = array();
+			if ( isset( $mvn[ 'event' ][ 'combinations' ] ) ) {
+				$combinations = $mvn[ 'event' ][ 'combinations' ];
+			}
 			if ( $combinations ) {
 				$variationGroupManager = new \MavenEvents\Core\VariationGroupManager();
 
