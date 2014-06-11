@@ -323,7 +323,7 @@ class EventManager implements iSearchManager {
 		
 		$variationsManager = new VariationManager();
 		
-		if ( $event->isVariationsEnabled() ) {
+		if ($event->getId() && $event->isVariationsEnabled() ) {
 			$event->setVariations( $variationsManager->getVariations( $event->getId() ) );
 		}
 
