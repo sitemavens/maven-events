@@ -88,7 +88,7 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 		$eventManager = new \MavenEvents\Core\EventManager();
 		$event = $eventManager->get( $post->ID );
 
-		$combinations = array();
+		$combinations = new \stdClass();
 		if ( $event->isEmpty() ) {
 			$event->setId( $post->ID );
 		} else {
@@ -121,6 +121,8 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 	}
 
 	private function getCombinations( $thingId ) {
+		$combinations = array();
+
 		$variationGroupManager = new \MavenEvents\Core\VariationGroupManager();
 		$variationOptionManager = new \Maven\Core\VariationOptionManager();
 		$groups = $variationGroupManager->getVariationGroups( $thingId );
@@ -148,7 +150,7 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 
 			$combinations[ $group->getGroupKey() ] = $combination;
 		}
-		return $combinations;
+		return empty( $combinations ) ? new \stdClass() : $combinations;
 	}
 
 	private function saveEvent( $post ) {
@@ -178,11 +180,26 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 			if ( $combinations ) {
 				$variationGroupManager = new \MavenEvents\Core\VariationGroupManager();
 
+				$groupKeys = array();
+
 				foreach ( $combinations as $combination ) {
-					foreach ( $combination->options as $option ) {
-						
-					}
+
+					$variationGroup = new \Maven\Core\Domain\VariationGroup();
+
+					$variationGroup->setId( $combination[ 'id' ] );
+					$variationGroup->setGroupKey( $combination[ 'groupKey' ] );
+					$variationGroup->setPrice( $combination[ 'price' ] );
+					$variationGroup->setPriceOperator( $combination[ 'priceOperator' ] );
+
+					$variationGroup->setThingId( $event->getId() );
+
+					$variationGroupManager->save( $variationGroup );
+
+					$groupKeys[] = $combination[ 'groupKey' ];
 				}
+
+				//remove group keys absent on the post data
+				$variationGroupManager->deleteMissingGroupKeys( $event->getId(), $groupKeys );
 			}
 
 			//$event->setVariations($variations);

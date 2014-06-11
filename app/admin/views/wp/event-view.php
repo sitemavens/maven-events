@@ -120,21 +120,23 @@
 							<div class='row pull-right'>
 								<button type="button" ng-click="addCombination(selectedCombination)" ng-disabled="combinationsSelected()" class="btn btn-primary">Add variation</button>
 								<button type="button" ng-click="addAll()" class="btn btn-primary"  >Add all</button>
-							</div>							
+							</div>
 						</div>
 					</div>
 					<div class="row" >
 						<div class="col-md-6" ng-repeat="variationCombination in variationsCombinations">
-							<div class="panel panel-default" >
+							<div class="panel panel-default form-horizontal" >
 								<div class="panel-body">
 									<h4 class="options"><span class="label label-default" ng-repeat="option in variationCombination.options">{{option.name}}</span></h4>
-									<div class="form-group"  >
+									<div class="form-group">
 										<label for=""  >Price</label>
+										<input type="hidden" name="mvn[event][combinations][{{$index}}][groupKey]" ng-value="variationCombination.groupKey" />
+										<input type="hidden" name="mvn[event][combinations][{{$index}}][id]" ng-value="variationCombination.id" />
 										<input type="hidden" ng-repeat="option in variationCombination.options" name="mvn[event][combinations][{{$parent.$index}}][options][{{option.variationId}}][variationId]" ng-value="option.variationId"/>
 										<input type="hidden" ng-repeat="option in variationCombination.options" name="mvn[event][combinations][{{$parent.$index}}][options][{{option.variationId}}][id]" ng-value="option.id"/>
 										<select name="mvn[event][combinations][{{$index}}][priceOperator]" ng-model="variationCombination.priceOperator" ng-options="key as  value for (key, value) in priceOperators"></select>
 										<input name="mvn[event][combinations][{{$index}}][price]"  type="text" ng-model="variationCombination.price" />
-										<button type="button" ng-click="deleteCombination($index)" class="btn btn-danger btn-xs">Remove</button>									
+										<button type="button" ng-click="deleteCombination(variationCombination.groupKey)" class="btn btn-danger btn-xs">Remove</button>									
 									</div>
 								</div>
 							</div>

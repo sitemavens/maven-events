@@ -17,6 +17,21 @@ class VariationGroupManager extends \Maven\Core\VariationGroupManager {
 		parent::__construct( $this->registry );
 	}
 
+	/**
+	 * Delete variation goups "NOT" in the group keys array
+	 * 
+	 * @param int $thingId
+	 * @param array $groupKeys
+	 * @return int
+	 */
+	public function deleteMissingGroupKeys( $thingId, $groupKeys = array() ) {
+		$pluginKey = $this->registry->getPluginKey();
+		//get groupkeys in incoming array
+		$variationGroupMapper = new \Maven\Core\Mappers\VariationGroupMapper();
+
+		return $variationGroupMapper->deleteMissingGroupKeys( $thingId, $pluginKey, $groupKeys );
+	}
+
 	public function save( \Maven\Core\Domain\VariationGroup $variationGroup ) {
 
 		if ( ! $variationGroup->getPluginKey() ) {

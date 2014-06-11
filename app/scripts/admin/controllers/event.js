@@ -1,6 +1,4 @@
 angular.module('mavenEventsApp').controller('EventCtrl', ['$scope', '$http', function($scope, $http) {
-
-		console.log(CachedEvent);
 		$scope.event = CachedEvent;
 	}]);
 angular.module('mavenEventsApp').controller('VariationsCtrl', ['$scope', '$http', function($scope, $http) {
@@ -16,10 +14,9 @@ angular.module('mavenEventsApp').controller('VariationsCtrl', ['$scope', '$http'
 		$scope.variations = CachedEvent.variations;
 		$scope.priceOperators = CachedPriceOperators;
 
-		console.log(CachedCombinations);
+		//console.log(CachedCombinations);
 		$scope.variationsCombinations = CachedCombinations;
 
-		//$scope.variationsCombinations = [];
 
 		$scope.selectedCombination = {};
 		$scope.addVariation = function() {
@@ -123,8 +120,8 @@ angular.module('mavenEventsApp').controller('VariationsCtrl', ['$scope', '$http'
 			}
 
 		};
-		$scope.deleteCombination = function($index) {
-			$scope.variationsCombinations.splice($index, 1);
+		$scope.deleteCombination = function(groupKey) {
+			delete $scope.variationsCombinations[groupKey];
 		};
 
 	}]);
