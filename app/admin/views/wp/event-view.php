@@ -23,11 +23,26 @@
 					</div>
 				</div>
 				<div class="form-group"  >
+					<label for="" class="col-sm-2 control-label">Registration Start Time:</label>
+					<div class="col-sm-5">
+						<input class="form-control" required type="time" ng-model="event.registrationStartTime" name="mvn[event][registrationStartTime]"  />
+					</div>
+				</div>
+				
+				<div class="form-group"  >
 					<label for="input-time" class="col-sm-2 control-label">Registration End:</label>		
 					<div class="col-sm-5">
 						<input class="form-control" required ng-model="event.registrationEndDate" type="date" name="mvn[event][registrationEndDate]" />
 					</div>
 				</div>
+				
+				<div class="form-group"  >
+					<label for="input-time" class="col-sm-2 control-label">Registration End Time:</label>		
+					<div class="col-sm-5">
+						<input class="form-control" required ng-model="event.registrationEndTime" type="time" name="mvn[event][registrationEndTime]" />
+					</div>
+				</div>
+				
 				<div class="form-group"  >
 					<label for="input-time" class="col-sm-2 control-label">Event Start:</label>
 					<div class="col-sm-5">
@@ -36,11 +51,26 @@
 				</div>
 
 				<div class="form-group"  >
+					<label for="input-time" class="col-sm-2 control-label">Event Start Time:</label>
+					<div class="col-sm-5">
+						<input class="form-control" required ng-model="event.eventStartTime" type="time" name="mvn[event][eventStartTime]" />
+					</div>
+				</div>
+				
+				<div class="form-group"  >
 					<label for="input-time" class="col-sm-2 control-label">Event End:</label>
 					<div class="col-sm-5">
 						<input class="form-control" required ng-model="event.eventEndDate" type="date" name="mvn[event][eventEndDate]" />
 					</div>
 				</div>
+				
+				<div class="form-group"  >
+					<label for="input-time" class="col-sm-2 control-label">Event End Time:</label>
+					<div class="col-sm-5">
+						<input class="form-control" required ng-model="event.eventEndTime" type="time" name="mvn[event][eventEndTime]" />
+					</div>
+				</div>
+				
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-3">
 						<div class="checkbox"  >
