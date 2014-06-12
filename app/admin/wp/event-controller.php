@@ -174,36 +174,40 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 			$eventManager->addEvent( $event );
 
 			$variationManager = new \MavenEvents\Core\VariationManager();
-			$variations = $variationManager->saveMultiple( $event->getVariations(), $event->getId() );
+			//$variations = $variationManager->saveMultiple( $event->getVariations(), $event->getId() );
 
 			$combinations = array();
 			if ( isset( $mvn[ 'event' ][ 'combinations' ] ) ) {
 				$combinations = $mvn[ 'event' ][ 'combinations' ];
 			}
-			if ( $combinations ) {
-				$variationGroupManager = new \MavenEvents\Core\VariationGroupManager();
 
-				$groupKeys = array();
+			//save variations, oprtions and groups
+			$variationManager->saveAll( $event->getId(), $event->getVariations(), $combinations );
 
-				foreach ( $combinations as $combination ) {
+			/* if ( $combinations ) {
+			  $variationGroupManager = new \MavenEvents\Core\VariationGroupManager();
 
-					$variationGroup = new \Maven\Core\Domain\VariationGroup();
+			  $groupKeys = array();
 
-					$variationGroup->setId( $combination[ 'id' ] );
-					$variationGroup->setGroupKey( $combination[ 'groupKey' ] );
-					$variationGroup->setPrice( $combination[ 'price' ] );
-					$variationGroup->setPriceOperator( $combination[ 'priceOperator' ] );
+			  foreach ( $combinations as $combination ) {
 
-					$variationGroup->setThingId( $event->getId() );
+			  $variationGroup = new \Maven\Core\Domain\VariationGroup();
 
-					$variationGroupManager->save( $variationGroup );
+			  $variationGroup->setId( $combination[ 'id' ] );
+			  $variationGroup->setGroupKey( $combination[ 'groupKey' ] );
+			  $variationGroup->setPrice( $combination[ 'price' ] );
+			  $variationGroup->setPriceOperator( $combination[ 'priceOperator' ] );
 
-					$groupKeys[] = $combination[ 'groupKey' ];
-				}
+			  $variationGroup->setThingId( $event->getId() );
 
-				//remove group keys absent on the post data
-				$variationGroupManager->deleteMissingGroupKeys( $event->getId(), $groupKeys );
-			}
+			  $variationGroupManager->save( $variationGroup );
+
+			  $groupKeys[] = $combination[ 'groupKey' ];
+			  }
+
+			  //remove group keys absent on the post data
+			  $variationGroupManager->deleteMissingGroupKeys( $event->getId(), $groupKeys );
+			  } */
 
 			//$event->setVariations($variations);
 		}
