@@ -101,6 +101,7 @@ class EventMapper extends \Maven\Core\Db\WordpressMapper {
 						summary,
 						featured_image,
 						gallery_images,
+						seats_enabled,
 						{$this->tableName}.maillist
 					from {$this->tableName} 
 					where  1=1 
@@ -301,7 +302,9 @@ class EventMapper extends \Maven\Core\Db\WordpressMapper {
 		    'gallery_images' => $event->getGalleryImagesForDB(),
 		    'posts_content' => $event->getPostsContentForDB(),
 		    'summary' => $event->getSummary(),
-		    'closed' => $event->isClosed() ? 1 : 0
+		    'closed' => $event->isClosed() ? 1 : 0,
+			'seats_enabled' => $event->isSeatsEnabled() ? 1 : 0,
+			'available_seats' => $event->getAvailableSeats()
 		);
 
 		$format = array(
@@ -326,7 +329,9 @@ class EventMapper extends \Maven\Core\Db\WordpressMapper {
 		    '%s', // gallery_images
 		    '%s', // posts_content
 		    '%s', // summary
-		    '%d'  // closed
+		    '%d',  // closed
+			'%d',  // seats_enabled
+			'%d'  // available_seats
 		);
 		
 		$columns = '';

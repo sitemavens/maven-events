@@ -92,6 +92,19 @@
 						<input class="form-control" type="text" ng-model="event.attendeeLimit"  name="mvn[event][attendeeLimit]" />
 					</div>
 				</div>
+				<div class="form-group"  >
+					<label for="input-time" class="col-sm-2 control-label">Seats Enabled:</label>
+					<div class="col-sm-5">
+						<input class="form-control" type="checkbox" value="1" ng-model="event.seatsEnabled"  name="mvn[event][seatsEnabled]" />
+						<p class="help-block">Indicate if you want to manage available seats. It will be used for variations also</p>
+					</div>
+				</div>
+				<div class="form-group"  >
+					<label for="input-time" class="col-sm-2 control-label">Available Seats:</label>
+					<div class="col-sm-5">
+						<input class="form-control" type="text" ng-model="event.availableSeats"  name="mvn[event][availableSeats]" />
+					</div>
+				</div>
 				<div class="form-group">
 					<label for="input-time" class="col-sm-2 control-label">Closed:</label>
 					<div class="col-sm-5">

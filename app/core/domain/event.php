@@ -23,7 +23,9 @@ class Event extends \Maven\Core\DomainObject {
 	private $attendeeLimit;
 	private $summary;
 	private $price;
-
+	private $seatsEnabled = false;
+	private $availableSeats ;
+	
 	/**
 	 *
 	 * This property it is not used to save a value, but to make toArray works, and fire getFeaturedImageUrl
@@ -97,7 +99,9 @@ class Event extends \Maven\Core\DomainObject {
 		    'attendeeLimit' => \Maven\Core\SanitizationRule::Integer,
 		    'summary' => \Maven\Core\SanitizationRule::Text,
 		    'price' => \Maven\Core\SanitizationRule::Float,
-		    'variationsEnabled' => \Maven\Core\SanitizationRule::Boolean
+		    'variationsEnabled' => \Maven\Core\SanitizationRule::Boolean,
+			'availableSeats' => \Maven\Core\SanitizationRule::Integer,
+			'seatsEnabled' => \Maven\Core\SanitizationRule::Boolean
 		);
 
 		$this->setSanitizationRules( $rules );
@@ -630,5 +634,23 @@ class Event extends \Maven\Core\DomainObject {
 	public function setVariationsEnabled( $variationsEnabled ) {
 		$this->variationsEnabled = $variationsEnabled;
 	}
+	
+	public function isSeatsEnabled () {
+		return $this->seatsEnabled;
+	}
+
+	public function setSeatsEnabled ( $seatsEnabled ) {
+		$this->seatsEnabled = $seatsEnabled;
+	}
+
+	public function getAvailableSeats () {
+		return $this->availableSeats;
+	}
+
+	public function setAvailableSeats ( $availableSeats ) {
+		$this->availableSeats = $availableSeats;
+	}
+
+
 
 }
