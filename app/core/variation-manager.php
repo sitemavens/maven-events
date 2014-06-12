@@ -93,7 +93,7 @@ class VariationManager extends \Maven\Core\VariationManager {
 		//delete missing variations
 		$variationMapper->deleteMissingVariations( $thingId, $pluginKey, $activeVariations );
 		//delete missing options
-		$variationOptionMapper->deleteMissingOptions( $thingId, $pluginKey, $activeVariations, $activeOptions );
+		$variationOptionMapper->deleteMissingOptions( $thingId, $pluginKey, $activeOptions );
 
 		//save combinations (variationGroups)
 		$variationGroupManager = new VariationGroupManager();
@@ -112,13 +112,17 @@ class VariationManager extends \Maven\Core\VariationManager {
 				}
 			}
 
+			//Store the ids in order
+			sort( $fixedGroupKey );
+
 			$variationGroup = new \Maven\Core\Domain\VariationGroup();
 
 			$variationGroup->setId( $combination[ 'id' ] );
 			$variationGroup->setGroupKey( implode( '-', $fixedGroupKey ) );
 			$variationGroup->setPrice( $combination[ 'price' ] );
 			$variationGroup->setPriceOperator( $combination[ 'priceOperator' ] );
-			//TODO: add the other 
+			$variationGroup->setQuantity( $combination[ 'quantity' ] );
+			//TODO: add the other fields
 
 			$variationGroup->setThingId( $thingId );
 

@@ -39,6 +39,9 @@ angular.module('mavenEventsApp').controller('VariationsCtrl', ['$scope', '$http'
 				]
 			};
 			$scope.variations.push(defaultVariation);
+
+			//we add a variation. remove all combinations
+			$scope.variationsCombinations = {};
 		};
 		$scope.addOption = function($index) {
 			$scope.variations[$index].options.push({id: $scope.newClientId(), name: ''});
@@ -56,6 +59,17 @@ angular.module('mavenEventsApp').controller('VariationsCtrl', ['$scope', '$http'
 					});
 				}
 			});
+
+			//we should remove combinations with this options
+			angular.forEach($scope.variationsCombinations, function(_combination) {
+				var keys = _combination.groupKey.split('-');
+
+				if (keys.indexOf(option.id) >= 0) {
+					//unset the combination
+					delete $scope.variationsCombinations[_combination.groupKey];
+				}
+			});
+
 		};
 
 		$scope.deleteVariation = function(variation) {
@@ -72,9 +86,66 @@ angular.module('mavenEventsApp').controller('VariationsCtrl', ['$scope', '$http'
 				}
 				index++;
 			});
+
+			//we delete a variation. remove all combinations
+			$scope.variationsCombinations = {};
 		};
-		$scope.addAll = function() {
-			console.log('Add all');
+		$scope.addAllCombinations = function() {
+			var options = [];
+			angular.forEach($scope.variations, function(_var) {
+				var opt = [];
+				angular.forEach(_var.options, function(_opt) {
+					opt.push(_opt);
+				});
+				options.push(opt);
+			});
+
+			//Create all options combinations
+			var r = [], arg = options, max = arg.length - 1;
+			function helper(arr, i) {
+				for (var j = 0, l = arg[i].length; j < l; j++) {
+					var a = arr.slice(0); // clone arr
+					a.push(arg[i][j])
+					if (i == max) {
+						r.push(a);
+					} else
+						helper(a, i + 1);
+				}
+			}
+			helper([], 0);
+
+			//add combinations to the object
+			angular.forEach(r, function(_group) {
+				var groupKey = []
+				//var options = [];
+				//construct groupKey and options array
+				angular.forEach(_group, function(_opt) {
+					groupKey.push(_opt.id);
+					/*options.push(
+					 {
+					 variationId: _opt.variationId,
+					 id: _opt.id,
+					 name: _opt.name
+					 });*/
+				});
+				groupKey.sort();
+
+				//if this combination is not already defined
+				if (!$scope.variationsCombinations.hasOwnProperty(groupKey.join('-'))) {
+					var combination = {
+						id: null,
+						groupKey: groupKey.join('-'),
+						priceOperator: DefaultPriceOperator,
+						price: 0,
+						quantity: 0,
+						options: _group
+					};
+
+					$scope.variationsCombinations[combination.groupKey] = combination;
+				}
+			});
+
+
 		};
 
 		$scope.allCombinationsDisabled = function() {
@@ -130,6 +201,7 @@ angular.module('mavenEventsApp').controller('VariationsCtrl', ['$scope', '$http'
 					groupKey: id.join('-'),
 					priceOperator: DefaultPriceOperator,
 					price: 0,
+					quantity: 0,
 					options: options
 				};
 

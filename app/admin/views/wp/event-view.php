@@ -125,7 +125,7 @@
 						</div>
 						<div class='row pull-right'>
 							<button type="button" ng-click="addCombination(selectedCombination)" ng-disabled="addCombinationDisabled()" class="btn btn-primary">Add combination</button>
-							<button type="button" ng-click="addAll()" ng-disabled="allCombinationsDisabled()" class="btn btn-primary"  >Add all</button>
+							<button type="button" ng-click="addAllCombinations()" ng-disabled="allCombinationsDisabled()" class="btn btn-primary"  >Add all</button>
 						</div>
 					</div>
 				</div>
@@ -133,23 +133,39 @@
 					<div class="col-md-6" ng-repeat="variationCombination in variationsCombinations">
 						<div class="panel panel-default form-horizontal" >
 							<div class="panel-body">
-								<h4 class="options"><span class="label label-default" ng-repeat="option in variationCombination.options">{{option.name}}</span></h4>
+								<h4 class="options">
+									<span class="label label-default" ng-repeat="option in variationCombination.options">{{option.name}}</span>
+									<button type="button" ng-click="deleteCombination(variationCombination.groupKey)" class="btn btn-danger btn-xs pull-right">Remove</button>																		
+								</h4>
 								<div class="form-group">
-									<label for=""  >Price</label>
+
 									<input type="hidden" name="mvn[event][combinations][{{$index}}][groupKey]" ng-value="variationCombination.groupKey" />
 									<input type="hidden" name="mvn[event][combinations][{{$index}}][id]" ng-value="variationCombination.id" />
 									<input type="hidden" ng-repeat="option in variationCombination.options" name="mvn[event][combinations][{{$parent.$index}}][options][{{option.variationId}}][variationId]" ng-value="option.variationId"/>
 									<input type="hidden" ng-repeat="option in variationCombination.options" name="mvn[event][combinations][{{$parent.$index}}][options][{{option.variationId}}][id]" ng-value="option.id"/>
-									<select name="mvn[event][combinations][{{$index}}][priceOperator]" ng-model="variationCombination.priceOperator" ng-options="key as  value for (key, value) in priceOperators"></select>
-									<input name="mvn[event][combinations][{{$index}}][price]"  type="text" ng-model="variationCombination.price" />
-									<button type="button" ng-click="deleteCombination(variationCombination.groupKey)" class="btn btn-danger btn-xs">Remove</button>									
+									<div class="row">
+										<label for=""  class="col-sm-4 control-label">Operator</label>
+										<div class="col-sm-8">
+											<select class="form-control" name="mvn[event][combinations][{{$index}}][priceOperator]" ng-model="variationCombination.priceOperator" ng-options="key as  value for (key, value) in priceOperators"></select>
+										</div>
+									</div>
+									<div class="row">
+										<label for=""  class="col-sm-4 control-label">Price</label>
+										<div class="col-sm-8">
+											<input class="form-control" name="mvn[event][combinations][{{$index}}][price]"  type="text" ng-model="variationCombination.price" />
+										</div>
+									</div>
+									<div class="row">
+										<label for=""  class="col-sm-4 control-label">Seats</label>
+										<div class="col-sm-8">
+											<input class="form-control" name="mvn[event][combinations][{{$index}}][quantity]"  type="text" ng-model="variationCombination.quantity" />										
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>						
 				</div>
-
-
 			</div>
 		</tab>
 	</tabset>

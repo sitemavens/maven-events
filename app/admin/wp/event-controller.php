@@ -133,6 +133,7 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 			$combination[ 'groupKey' ] = $group->getGroupKey();
 			$combination[ 'price' ] = $group->getPrice();
 			$combination[ 'priceOperator' ] = $group->getPriceOperator();
+			$combination[ 'quantity' ] = $group->getQuantity();
 
 			$options = array();
 			$keys = explode( '-', $group->getGroupKey() );
