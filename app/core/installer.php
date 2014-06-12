@@ -42,6 +42,8 @@ class Installer {
 				`timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 				`summary` varchar(500) DEFAULT NULL,
 				`price` float DEFAULT NULL,
+				`seats_enabled` BOOLEAN NOT NULL,
+				`available_seats` INT NOT NULL,
 				PRIMARY KEY (`id`)
 
 			  )  ",
