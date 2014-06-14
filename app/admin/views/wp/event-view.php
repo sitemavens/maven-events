@@ -4,7 +4,6 @@
 <?php \Maven\Core\UI\HtmlComponent::jSonComponent( 'DefaultPriceOperator', $defaultPriceOperator ); ?>
 
 <div ng-controller="EventCtrl">	
-
 	<input type="hidden" name="mvn[event][id]" ng-value="event.id" />
 
 	<tabset>
@@ -13,68 +12,84 @@
 				<div class="form-group"  >
 					<label for="" class="col-sm-2 control-label">Price:</label>
 					<div class="col-sm-5">
-						<input class="form-control" type="input" ng-model="event.price" name="mvn[event][price]"  />
+						<div class="input-group">
+							<span class="input-group-addon">$</span>
+							<input class="form-control" type="number" step="0.01" ng-model="event.price" name="mvn[event][price]"  />
+						</div>
 					</div>
 				</div>
 				<div class="form-group"  >
 					<label for="" class="col-sm-2 control-label">Registration Start:</label>
 					<div class="col-sm-5">
-						<input class="form-control" required type="date" ng-model="event.registrationStartDate" name="mvn[event][registrationStartDate]"  />
+						<input type="hidden" ng-value="event.registrationStartDate| date:'yyyy-MM-dd'" name="mvn[event][registrationStartDate]" />
+						<input class="form-control" required type="text" ng-model="event.registrationStartDate" datepicker-popup="{{dateFormat}}"   
+						       datepicker-options="dateOptions" close-text="Close" show-button-bar="false" show-weeks="false"/>
 					</div>
 				</div>
 				<div class="form-group"  >
 					<label for="" class="col-sm-2 control-label">Registration Start Time:</label>
 					<div class="col-sm-5">
-						<input class="form-control" required type="time" ng-model="event.registrationStartTime" name="mvn[event][registrationStartTime]"  />
+						<input class="form-control" required type="hidden" value="{{event.registrationStartTime| date:'HH:mm:ss'}}" name="mvn[event][registrationStartTime]"  />
+						<timepicker ng-model="event.registrationStartTime" show-meridian="false"></timepicker>
 					</div>
 				</div>
-				
+
 				<div class="form-group"  >
 					<label for="input-time" class="col-sm-2 control-label">Registration End:</label>		
 					<div class="col-sm-5">
-						<input class="form-control" required ng-model="event.registrationEndDate" type="date" name="mvn[event][registrationEndDate]" />
+						<input type="hidden" ng-value="event.registrationEndDate| date:'yyyy-MM-dd'" name="mvn[event][registrationEndDate]" />
+						<input class="form-control" required ng-model="event.registrationEndDate" type="text" datepicker-popup="{{dateFormat}}"   
+						       datepicker-options="dateOptions" close-text="Close" show-button-bar="false" show-weeks="false"/>
 					</div>
 				</div>
-				
+
 				<div class="form-group"  >
 					<label for="input-time" class="col-sm-2 control-label">Registration End Time:</label>		
 					<div class="col-sm-5">
-						<input class="form-control" required ng-model="event.registrationEndTime" type="time" name="mvn[event][registrationEndTime]" />
+						<input class="form-control" required value="{{event.registrationEndTime| date:'HH:mm:ss'}}" type="hidden" name="mvn[event][registrationEndTime]" />
+						<timepicker ng-model="event.registrationEndTime"  show-meridian="false"></timepicker>
 					</div>
 				</div>
-				
+
 				<div class="form-group"  >
 					<label for="input-time" class="col-sm-2 control-label">Event Start:</label>
 					<div class="col-sm-5">
-						<input class="form-control" required ng-model="event.eventStartDate" type="date" name="mvn[event][eventStartDate]" />
+						<input type="hidden" ng-value="event.eventStartDate| date:'yyyy-MM-dd'" name="mvn[event][eventStartDate]" />
+						<input class="form-control" required ng-model="event.eventStartDate" type="text" datepicker-popup="{{dateFormat}}"   
+						       datepicker-options="dateOptions" close-text="Close" show-button-bar="false" show-weeks="false"/>
 					</div>
 				</div>
 
 				<div class="form-group"  >
 					<label for="input-time" class="col-sm-2 control-label">Event Start Time:</label>
 					<div class="col-sm-5">
-						<input class="form-control" required ng-model="event.eventStartTime" type="time" name="mvn[event][eventStartTime]" />
+						<input class="form-control" required value="{{event.eventStartTime| date:'HH:mm:ss'}}" type="hidden" name="mvn[event][eventStartTime]" />
+						<timepicker ng-model="event.eventStartTime"  show-meridian="false"></timepicker>
 					</div>
 				</div>
-				
+
 				<div class="form-group"  >
 					<label for="input-time" class="col-sm-2 control-label">Event End:</label>
 					<div class="col-sm-5">
-						<input class="form-control" required ng-model="event.eventEndDate" type="date" name="mvn[event][eventEndDate]" />
+						<input type="hidden" ng-value="event.eventEndDate| date:'yyyy-MM-dd'" name="mvn[event][eventEndDate]" />
+
+						<input class="form-control" required ng-model="event.eventEndDate" type="text" datepicker-popup="{{dateFormat}}"   
+						       datepicker-options="dateOptions" close-text="Close" show-button-bar="false" show-weeks="false"/>
 					</div>
 				</div>
-				
+
 				<div class="form-group"  >
 					<label for="input-time" class="col-sm-2 control-label">Event End Time:</label>
 					<div class="col-sm-5">
-						<input class="form-control" required ng-model="event.eventEndTime" type="time" name="mvn[event][eventEndTime]" />
+						<input class="form-control" required value="{{event.eventEndTime| date:'HH:mm:ss'}}" type="hidden" name="mvn[event][eventEndTime]" />
+						<timepicker ng-model="event.eventEndTime"  show-meridian="false"></timepicker>
 					</div>
 				</div>
-				
+
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-3">
 						<div class="checkbox"  >
-							<label >Allow group registration:
+							<label >Allow group registration
 								<input class="form-control" type="checkbox" value="1"  ng-model="event.allowGroupRegistration"   name="mvn[event][allowGroupRegistration]" />
 							</label>
 						</div>
@@ -195,7 +210,11 @@
 									<div class="row">
 										<label for=""  class="col-sm-4 control-label">Price</label>
 										<div class="col-sm-8">
-											<input class="form-control" name="mvn[event][combinations][{{$index}}][price]"  type="text" ng-model="variationCombination.price" />
+											<div class="input-group">
+												<span class="input-group-addon">$</span>
+												<input class="form-control" name="mvn[event][combinations][{{$index}}][price]"  type="number" step="0.01" ng-model="variationCombination.price" />
+											</div>
+
 										</div>
 									</div>
 									<div class="row">

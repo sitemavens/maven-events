@@ -5,7 +5,7 @@ angular.module('mavenEventsApp', [
 	'ngSanitize',
 	'ngRoute',
 	'ui.bootstrap',
-	'googlechart'
+		//'googlechart'
 ]).config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
 
 		$httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';

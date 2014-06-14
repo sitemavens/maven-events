@@ -1,5 +1,65 @@
 angular.module('mavenEventsApp').controller('EventCtrl', ['$scope', '$http', function($scope, $http) {
+		
+		//We need to fix the dates and times, and initialize them in case of new events
+		var midnight = new Date();
+		midnight.setHours(0, 0, 0, 0);
+		if (CachedEvent.registrationStartDate == null) {
+			CachedEvent.registrationStartDate = midnight;
+		}
+		if (CachedEvent.registrationEndDate == null) {
+			CachedEvent.registrationEndDate = midnight;
+		}
+		if (CachedEvent.eventStartDate == null) {
+			CachedEvent.eventStartDate = midnight;
+		}
+		if (CachedEvent.eventEndDate == null) {
+			CachedEvent.eventEndDate = midnight;
+		}
+		//Initialize time in case is null
+		if (CachedEvent.registrationStartTime == null) {
+			CachedEvent.registrationStartTime = midnight;
+		} else {
+			//Otherwise, convert string to date object
+			var time = CachedEvent.registrationStartTime.split(':');
+			var temp = new Date();
+			temp.setHours(time[0], time[1], time[2]);
+			CachedEvent.registrationStartTime = temp;
+		}
+		if (CachedEvent.registrationEndTime == null) {
+			CachedEvent.registrationEndTime = midnight;
+		} else {
+			//Otherwise, convert string to date object
+			var time = CachedEvent.registrationEndTime.split(':');
+			var temp = new Date();
+			temp.setHours(time[0], time[1], time[2]);
+			CachedEvent.registrationEndTime = temp;
+		}
+		if (CachedEvent.eventStartTime == null) {
+			CachedEvent.eventStartTime = midnight;
+		} else {
+			//Otherwise, convert string to date object
+			var time = CachedEvent.eventStartTime.split(':');
+			var temp = new Date();
+			temp.setHours(time[0], time[1], time[2]);
+			CachedEvent.eventStartTime = temp;
+		}
+		if (CachedEvent.eventEndTime == null) {
+			CachedEvent.eventEndTime = midnight;
+		} else {
+			//Otherwise, convert string to date object
+			var time = CachedEvent.eventEndTime.split(':');
+			var temp = new Date();
+			temp.setHours(time[0], time[1], time[2]);
+			CachedEvent.eventEndTime = temp;
+		}
+
 		$scope.event = CachedEvent;
+
+		$scope.dateFormat = 'MM/dd/yyyy';
+		$scope.dateOptions = {
+			'year-format': "'yy'",
+			'starting-day': 1
+		};
 	}]);
 angular.module('mavenEventsApp').controller('VariationsCtrl', ['$scope', '$http', function($scope, $http) {
 
