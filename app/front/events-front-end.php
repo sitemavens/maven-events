@@ -20,7 +20,7 @@ class EventsFrontEnd {
 		$item = new \MavenEvents\Core\Domain\OrderItem( $thing->getPluginKey() );
 
 		// Verify that the product has stock
-		if ( $event->isSeatsEnabled() && $event->getAvailableSeats() <= 0 ) {
+		if ( $event->isSeatsEnabled() && !$event->hasVariations() && $event->getAvailableSeats() <= 0 ) {
 			$item->setStatus( \Maven\Core\Message\MessageManager::createErrorMessage( 'Sorry, but we don\'t have available seats for the event' ) );
 			return $item;
 		}
