@@ -28,7 +28,12 @@ class EventsApi {
 	}
 	
 	
-	
+	public static function calculatePrice( $event, $variationsID = NULL) {
+
+		$manager = new \MavenEvents\Core\EventManager();
+
+		return $manager->calculatePrice( $event, $variationsID );
+	}
 	/**
 	 * 
 	 * @param int/object $event

@@ -87,6 +87,7 @@ class EventMapper extends \Maven\Core\Db\WordpressMapper {
 						{$this->tableName}.`id`,
 						{$this->tableName}.`name`,
 						`description`,
+						`price`,
 						`registration_start_date`,
 						`registration_end_date`,
 						`registration_start_time`,
@@ -100,6 +101,7 @@ class EventMapper extends \Maven\Core\Db\WordpressMapper {
 						summary,
 						featured_image,
 						gallery_images,
+						seats_enabled,
 						{$this->tableName}.maillist
 					from {$this->tableName} 
 					where  1=1 
@@ -282,6 +284,7 @@ class EventMapper extends \Maven\Core\Db\WordpressMapper {
 			'id' => $event->getId(),
 		    'name' => $event->getName(),
 		    'description' => $event->getDescription(),
+			'price' => $event->getPrice(),
 		    'registration_start_date' => $event->getRegistrationStartDate(),
 		    'registration_end_date' => $event->getRegistrationEndDate(),
 		    'registration_end_time' => $event->getRegistrationEndTime(),
@@ -299,13 +302,16 @@ class EventMapper extends \Maven\Core\Db\WordpressMapper {
 		    'gallery_images' => $event->getGalleryImagesForDB(),
 		    'posts_content' => $event->getPostsContentForDB(),
 		    'summary' => $event->getSummary(),
-		    'closed' => $event->isClosed() ? 1 : 0
+		    'closed' => $event->isClosed() ? 1 : 0,
+			'seats_enabled' => $event->isSeatsEnabled() ? 1 : 0,
+			'available_seats' => $event->getAvailableSeats()
 		);
 
 		$format = array(
 			'%d', //id
 		    '%s', //name
 		    '%s', //description
+			'%f', //price
 		    '%s', //registration_start_date
 		    '%s', //registration_end_date
 		    '%s', //registration_end_time
@@ -323,7 +329,9 @@ class EventMapper extends \Maven\Core\Db\WordpressMapper {
 		    '%s', // gallery_images
 		    '%s', // posts_content
 		    '%s', // summary
-		    '%d'  // closed
+		    '%d',  // closed
+			'%d',  // seats_enabled
+			'%d'  // available_seats
 		);
 		
 		$columns = '';
@@ -340,7 +348,7 @@ class EventMapper extends \Maven\Core\Db\WordpressMapper {
 		
 		$query = $this->prepare( "INSERT INTO {$this->tableName} ({$columns}) VALUES ($values)
 					ON DUPLICATE KEY UPDATE {$updateValues};",  array_values($eventData));
-		
+		//die($query);
 		$this->executeQuery($query);
 		
 		return $event;

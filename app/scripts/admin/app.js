@@ -5,11 +5,11 @@ angular.module('mavenEventsApp', [
 	'ngSanitize',
 	'ngRoute',
 	'ui.bootstrap',
-	'googlechart'
+		//'googlechart'
 ]).config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
 
 		$httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-	
+
 
 //		$routeProvider
 //			.when('/', {
@@ -31,4 +31,18 @@ angular.module('mavenEventsApp', [
 //			.otherwise({
 //				redirectTo: '/'
 //			});
+	}]);
+
+angular.module('mavenEventsListApp', [
+	'ngCookies',
+	'ngResource',
+	'ngSanitize',
+	'ngRoute',
+	'ui.bootstrap',
+	'googlechart',
+	'mavenEventsApp.services'
+]).config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
+
+		$httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
 	}]);

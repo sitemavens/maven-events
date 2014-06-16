@@ -29,6 +29,55 @@ class EventManager implements iSearchManager {
 		$this->eventMapper->setPrimaryAttendee( $attendee, $event, $order );
 	}
 
+	public function calculatePrice( Event $event, $variationsID ) {
+
+		$isWholesale = $this->isWholesale();
+
+		\Maven\Loggers\Logger::log()->message( 'MavenEvents/ProductManager/calculateProductPrice: Is wholesale: '.var_export($isWholesale,true) );
+		
+		$eventPrice = $event->getPrice(); //$isWholesale ? $event->getWholesalePrice() : $event->getPrice();
+
+		\Maven\Loggers\Logger::log()->message( 'MavenEvents/ProductManager/calculateProductPrice: Product Price: '.var_export($eventPrice,true) );
+		
+		if ( $variationsID ) {
+			
+			\Maven\Loggers\Logger::log()->message( 'MavenEvents/ProductManager/calculateProductPrice: Variations IDs: '.$variationsID );
+			
+			//TODO: Calculate variations price
+			$varManager = new VariationGroupManager();
+
+			$variationGroup = $varManager->getByKey( $variationsID );
+
+			\Maven\Loggers\Logger::log()->message( 'MavenEvents/ProductManager/calculateProductPrice: Variation Group: '.var_export($variationGroup,true) );
+		
+			if ( $variationGroup ) {
+				$eventPrice = $varManager->applyVariationPrice($eventPrice, $variationGroup, $isWholesale);
+			}
+		}
+		
+		//Check if price is negative
+		if ( $eventPrice < 0 ) {
+			$eventPrice = 0;
+		}
+
+
+		return $eventPrice;
+	}
+
+	private function isWholesale() {
+		if ( \Maven\Core\UserManager::isUserLoggedIn() ) {
+
+			$userLogged = \Maven\Core\UserManager::getLoggedUser();
+			if ( $userLogged->hasProfile() ){
+				return $userLogged->getProfile()->isWholesale();
+			}
+		} 
+		
+		return false;
+
+	}
+	
+	
 	/**
 	 * 
 	 * @param \MavenEvents\Core\Domain\Event $donation
@@ -102,6 +151,12 @@ class EventManager implements iSearchManager {
 
 		$categoriesMapper->addCategories( $event->getCategories(), $savedEvent );
 
+		// If variations isn't enabled we have to delete everything. Just in case the product had variations before.
+		if ( ! $event->isVariationsEnabled() ) {
+			$variationsManager = new VariationManager();
+			$variationsManager->deleteThingVariations( $event->getId() );
+		}
+		
 		if ( $update )
 			Actions::UpdateEvent( $event );
 		else
@@ -313,6 +368,12 @@ class EventManager implements iSearchManager {
 			$event->setClosed( true );
 //			var_dump( date('G:i:s', $currentTime ) );
 //			var_dump( date('G:i:s',$eventRegistrationEndTime )) ;
+		}
+		
+		$variationsManager = new VariationManager();
+		
+		if ($event->getId() && $event->isVariationsEnabled() ) {
+			$event->setVariations( $variationsManager->getVariations( $event->getId() ) );
 		}
 
 		return $event;

@@ -15,14 +15,17 @@ class Event extends \Maven\Core\DomainObject {
 	private $eventStartTime;
 	private $eventEndTime;
 	private $featuredImage;
-	private $galleryImages = array( );
-	private $postsContent = array( );
+	private $galleryImages = array();
+	private $postsContent = array();
 	private $allowGroupRegistration;
 	private $maxGroupRegistrants;
 	private $closed = false;
 	private $attendeeLimit;
 	private $summary;
-
+	private $price;
+	private $seatsEnabled = false;
+	private $availableSeats ;
+	
 	/**
 	 *
 	 * This property it is not used to save a value, but to make toArray works, and fire getFeaturedImageUrl
@@ -36,14 +39,14 @@ class Event extends \Maven\Core\DomainObject {
 	 * @var \MavenEvents\Core\Domain\Attendee[] 
 	 * @collectionType: \MavenEvents\Core\Domain\Attendee
 	 */
-	private $attendees = array( );
+	private $attendees = array();
 
 	/**
 	 *
 	 * @var \MavenEvents\Core\Domain\EventPrices[] 
 	 * @collectionType: \MavenEvents\Core\Domain\EventPrices
 	 */
-	private $prices = array( );
+	private $prices = array();
 
 	/**
 	 *
@@ -56,13 +59,20 @@ class Event extends \Maven\Core\DomainObject {
 	 * @collectionType: \MavenEvents\Core\Domain\Presenter
 	 * @var \MavenEvents\Core\Domain\Presenter[] 
 	 */
-	private $presenters = array( );
+	private $presenters = array();
 
 	/**
 	 * @collectionType: \MavenEvents\Core\Domain\Category
 	 * @var \MavenEvents\Core\Domain\Category[] 
 	 */
-	private $categories = array( );
+	private $categories = array();
+
+	/**
+	 *
+	 * @var \Maven\Core\Domain\Variation[] 
+	 */
+	private $variations;
+	private $variationsEnabled = TRUE;
 
 	public function __construct( $id = false ) {
 
@@ -87,10 +97,16 @@ class Event extends \Maven\Core\DomainObject {
 		    'maxGroupRegistrants' => \Maven\Core\SanitizationRule::Integer,
 		    'closed' => \Maven\Core\SanitizationRule::Boolean,
 		    'attendeeLimit' => \Maven\Core\SanitizationRule::Integer,
-		    'summary' => \Maven\Core\SanitizationRule::Text
+		    'summary' => \Maven\Core\SanitizationRule::Text,
+		    'price' => \Maven\Core\SanitizationRule::Float,
+		    'variationsEnabled' => \Maven\Core\SanitizationRule::Boolean,
+			'availableSeats' => \Maven\Core\SanitizationRule::Integer,
+			'seatsEnabled' => \Maven\Core\SanitizationRule::Boolean
 		);
 
 		$this->setSanitizationRules( $rules );
+
+		$this->variations = array();
 	}
 
 	public function getGalleryImages() {
@@ -98,9 +114,9 @@ class Event extends \Maven\Core\DomainObject {
 	}
 
 	public function getGalleryImagesForDB() {
-		$ids = array( );
+		$ids = array();
 		foreach ( $this->galleryImages as $image ) {
-			$ids[ ] = $image[ 'id' ];
+			$ids[] = $image[ 'id' ];
 		}
 		return implode( ',', $ids );
 	}
@@ -126,7 +142,7 @@ class Event extends \Maven\Core\DomainObject {
 
 		//If no attachment, the image maybe has been deleted or something, dont process
 		if ( $attachment ) {
-			$image = array( );
+			$image = array();
 			//set image id and url
 			$image[ 'id' ] = $id;
 			$image[ 'url' ] = wp_get_attachment_url( $id );
@@ -137,7 +153,7 @@ class Event extends \Maven\Core\DomainObject {
 			$image[ 'alt' ] = get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true );
 			$image[ 'description' ] = $attachment->post_content;
 
-			$this->galleryImages[ ] = $image;
+			$this->galleryImages[] = $image;
 		}
 	}
 
@@ -146,9 +162,9 @@ class Event extends \Maven\Core\DomainObject {
 	}
 
 	public function getPostsContentForDB() {
-		$ids = array( );
+		$ids = array();
 		foreach ( $this->postsContent as $post ) {
-			$ids[ ] = $post[ 'id' ];
+			$ids[] = $post[ 'id' ];
 		}
 		return implode( ',', $ids );
 	}
@@ -174,7 +190,7 @@ class Event extends \Maven\Core\DomainObject {
 
 		//If no post, maybe has been deleted or something, dont process
 		if ( $post ) {
-			$data = array( );
+			$data = array();
 			//set image id and url
 			$data[ 'id' ] = $id;
 
@@ -186,7 +202,7 @@ class Event extends \Maven\Core\DomainObject {
 
 			//Added this to avoid getting duplicated objects
 			if ( ! in_array( $data, $this->postsContent ) )
-				$this->postsContent[ ] = $data;
+				$this->postsContent[] = $data;
 		}
 	}
 
@@ -212,11 +228,11 @@ class Event extends \Maven\Core\DomainObject {
 	}
 
 	public function getNewAttendees() {
-		$newAttendees = array( );
+		$newAttendees = array();
 
 		foreach ( $this->attendees as $attendee ) {
 			if ( $attendee->isNew() )
-				$newAttendees[ ] = $attendee;
+				$newAttendees[] = $attendee;
 		}
 
 		return $newAttendees;
@@ -292,7 +308,7 @@ class Event extends \Maven\Core\DomainObject {
 	 * @param type \MavenEvents\Core\Domain\Attendee
 	 */
 	public function addPresenter( \MavenEvents\Core\Domain\Presenter $presenter ) {
-		$this->presenters[ ] = $presenter;
+		$this->presenters[] = $presenter;
 	}
 
 	/**
@@ -300,7 +316,7 @@ class Event extends \Maven\Core\DomainObject {
 	 * @param type \MavenEvents\Core\Domain\Attendee
 	 */
 	public function addAttendee( \MavenEvents\Core\Domain\Attendee $attendee ) {
-		$this->attendees[ ] = $attendee;
+		$this->attendees[] = $attendee;
 	}
 
 	/**
@@ -316,7 +332,7 @@ class Event extends \Maven\Core\DomainObject {
 
 		$attendee = new \MavenEvents\Core\Domain\Attendee();
 		$attendee->setEmail( $email );
-		$this->attendees[ ] = $attendee;
+		$this->attendees[] = $attendee;
 
 		return $attendee;
 	}
@@ -326,7 +342,15 @@ class Event extends \Maven\Core\DomainObject {
 	 * @param type \MavenEvents\Core\Domain\EventPrice
 	 */
 	public function addPrice( \MavenEvents\Core\Domain\EventPrices $eventPrice ) {
-		$this->prices[ ] = $eventPrice;
+		$this->prices[] = $eventPrice;
+	}
+
+	public function getPrice() {
+		return $this->price;
+	}
+
+	public function setPrice( $price ) {
+		$this->price = $price;
 	}
 
 	public function getVenueId() {
@@ -548,7 +572,7 @@ class Event extends \Maven\Core\DomainObject {
 	 * @param type \MavenEvents\Core\Domain\Category
 	 */
 	public function addCategory( \MavenEvents\Core\Domain\Category $category ) {
-		$this->categories[ ] = $category;
+		$this->categories[] = $category;
 	}
 
 	public function hasCategories() {
@@ -576,5 +600,57 @@ class Event extends \Maven\Core\DomainObject {
 			$presenter->sanitize();
 		}
 	}
+
+	/**
+	 * @collectionType: \Maven\Core\Domain\Variation
+	 * @return \Maven\Core\Domain\Variation[]
+	 */
+	public function getVariations() {
+
+		// We check if it is enabled first
+		if ( ! $this->isVariationsEnabled() ) {
+			return array();
+		}
+
+		return $this->variations;
+	}
+
+	/**
+	 * 
+	 * @param \Maven\Core\Domain\Variation[] $variations
+	 */
+	public function setVariations( $variations ) {
+		$this->variations = $variations;
+	}
+
+	public function hasVariations() {
+		return $this->variations && count( $this->variations ) > 0;
+	}
+
+	public function isVariationsEnabled() {
+		return $this->variationsEnabled;
+	}
+
+	public function setVariationsEnabled( $variationsEnabled ) {
+		$this->variationsEnabled = $variationsEnabled;
+	}
+	
+	public function isSeatsEnabled () {
+		return $this->seatsEnabled;
+	}
+
+	public function setSeatsEnabled ( $seatsEnabled ) {
+		$this->seatsEnabled = $seatsEnabled;
+	}
+
+	public function getAvailableSeats () {
+		return $this->availableSeats;
+	}
+
+	public function setAvailableSeats ( $availableSeats ) {
+		$this->availableSeats = $availableSeats;
+	}
+
+
 
 }

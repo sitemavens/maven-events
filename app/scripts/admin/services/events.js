@@ -1,19 +1,35 @@
 'use strict';
 
-var services = angular.module('gfMarketingApp.services', ['ngResource']);
+var events = angular.module('mavenEventsApp.services', ['ngResource']);
 
-services.factory('StatsFilterService', [function() {
+events.factory('EventsFilterService', [function() {
 		return {
-			forms: [],
-			stat: null,
-			vsStat: null,
-			from: null,
-			to: null,
-			interval: 'D'
+			search: null
 		};
 	}]);
 
-services.factory('Forms', ['$http', function($http) {
+events.factory('EventsService', ['$http', function($http) {
+
+		return {
+			getList: function(filter, callback) {
+				var data = {
+					action: 'mvn_getEventsList',
+					search: filter.search
+				};
+				
+				$http({
+					cache: true,
+					method: 'POST',
+					url: Maven.ajaxUrl,
+					data: jQuery.param(data), // pass in data as strings $.param(data);
+				}).success(function(data) {
+					return callback(data);
+				});
+			}			
+		};
+	}]);
+
+/*services.factory('Forms', ['$http', function($http) {
 		return {
 			getForms: function(callback) {
 
@@ -47,23 +63,6 @@ services.factory('FormsLoader', ['$http', '$q',
 			return delay.promise;
 		};
 	}]);
-
-
-/*services.factory('Stats', ['$http', function($http) {
- 
- return {
- getStats: function(filter, callback) {
- $http({
- cache: true,
- method: 'POST',
- url: GFSeoMk.ajaxUrl,
- data: 'action=getFormStats&forms=' + filter.forms + '&stat=' + filter.stat + '&from=' + filter.from + '&to=' + filter.to + '&interval=' + filter.interval, // pass in data as strings $.param(data);
- }).success(function(data) {
- return callback(data);
- });
- }
- };
- }]);*/
 
 services.factory('MetricsLoader', ['$http', '$q',
 	function($http, $q) {
@@ -172,3 +171,4 @@ services.factory('Referrals', ['$http', function($http) {
 			}
 		};
 	}]);
+*/
