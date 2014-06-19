@@ -51,7 +51,7 @@ class EventsConfig {
 		$registry = \MavenEvents\Settings\EventsRegistry::instance();
 		$prefix = $registry->getEventsSlugPrefix();
 
-		$slug = $registry->getEventsSlug();
+		$slug = apply_filters( 'core/config/eventSlug', $registry->getEventsSlug() );
 
 		if ( $prefix ) {
 			$slug = "{$prefix}/{$slug}";
@@ -103,14 +103,16 @@ class EventsConfig {
 			'menu_name' => __( 'Event Categories' )
 		);
 
+		$categorySlug = apply_filters( 'core/config/eventCategorySlug', 'event-category' );
+		
 		$args = array(
-			'hierarchical' => true,
-			'labels' => $labels,
-			'show_ui' => true,
-			'show_admin_column' => true,
-			'update_count_callback' => '_update_post_term_count',
-			'query_var' => true,
-			'rewrite' => array( 'slug' => 'event-category' )
+		    'hierarchical' => true,
+		    'labels' => $labels,
+		    'show_ui' => true,
+		    'show_admin_column' => true,
+		    'update_count_callback' => '_update_post_term_count',
+		    'query_var' => true,
+		    'rewrite' => array( 'slug' => $categorySlug )
 		);
 
 		register_taxonomy( EventsConfig::eventCategoryName, EventsConfig::eventTypeName, $args );
@@ -134,26 +136,26 @@ class EventsConfig {
 			'not_found_in_trash' => __( 'No venues found in Trash', 'text_domain' ),
 		);
 
-		$slug = EventsConfig::venueTypeName;
+		$venueSlug = apply_filters( 'core/config/venueSlug', 'venue' );
 		$args = array(
-			'label' => __( EventsConfig::venueTypeName, 'text_domain' ),
-			'description' => __( 'Venues', 'text_domain' ),
-			'labels' => $labels,
-			'supports' => array(),
-			'hierarchical' => true,
-			'public' => true,
-			'show_ui' => true,
-			'show_in_menu' => true,
-			'show_in_nav_menus' => true,
-			'show_in_admin_bar' => true,
-			'menu_position' => 5,
-			'menu_icon' => $registry->getImagesUrl() . "icon.png",
-			'can_export' => true,
-			'has_archive' => true,
-			'exclude_from_search' => false,
-			'publicly_queryable' => true,
-			'capability_type' => 'post',
-			'rewrite' => array( 'slug' => $slug, 'with_front' => false )
+		    'label' => __( EventsConfig::venueTypeName, 'text_domain' ),
+		    'description' => __( 'Venues', 'text_domain' ),
+		    'labels' => $labels,
+		    'supports' => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
+		    'hierarchical' => true,
+		    'public' => true,
+		    'show_ui' => true,
+		    'show_in_menu' => true,
+		    'show_in_nav_menus' => true,
+		    'show_in_admin_bar' => true,
+		    'menu_position' => 5,
+		    'menu_icon' => $registry->getImagesUrl()."icon.png",
+		    'can_export' => true,
+		    'has_archive' => true,
+		    'exclude_from_search' => false,
+		    'publicly_queryable' => true,
+		    'capability_type' => 'post',
+		    'rewrite' => array( 'slug' => $venueSlug, 'with_front' => false )
 		);
 
 		register_post_type( EventsConfig::venueTypeName, $args );
@@ -178,14 +180,15 @@ class EventsConfig {
 			'menu_name' => __( 'Venue Categories' )
 		);
 
+		$venueCategorySlug = apply_filters( 'core/config/venueCategorySlug', 'venue-category' );
 		$args = array(
-			'hierarchical' => true,
-			'labels' => $labels,
-			'show_ui' => true,
-			'show_admin_column' => true,
-			'update_count_callback' => '_update_post_term_count',
-			'query_var' => true,
-			'rewrite' => array( 'slug' => 'venue-category' )
+		    'hierarchical' => true,
+		    'labels' => $labels,
+		    'show_ui' => true,
+		    'show_admin_column' => true,
+		    'update_count_callback' => '_update_post_term_count',
+		    'query_var' => true,
+		    'rewrite' => array( 'slug' => $venueCategorySlug )
 		);
 
 		register_taxonomy( EventsConfig::venueCategoryName, EventsConfig::venueTypeName, $args );
@@ -208,26 +211,27 @@ class EventsConfig {
 			'not_found_in_trash' => __( 'No presenters found in Trash', 'text_domain' ),
 		);
 
-		$slug = EventsConfig::presenterTypeName;
+		$presenterSlug = apply_filters( 'core/config/presenterSlug', 'presenter' );
+		
 		$args = array(
-			'label' => __( EventsConfig::presenterTypeName, 'text_domain' ),
-			'description' => __( 'Presenters', 'text_domain' ),
-			'labels' => $labels,
-			'supports' => array(),
-			'hierarchical' => true,
-			'public' => true,
-			'show_ui' => true,
-			'show_in_menu' => true,
-			'show_in_nav_menus' => true,
-			'show_in_admin_bar' => true,
-			'menu_position' => 5,
-			'menu_icon' => $registry->getImagesUrl() . "icon.png",
-			'can_export' => true,
-			'has_archive' => true,
-			'exclude_from_search' => false,
-			'publicly_queryable' => true,
-			'capability_type' => 'post',
-			'rewrite' => array( 'slug' => $slug, 'with_front' => false )
+		    'label' => __( EventsConfig::presenterTypeName, 'text_domain' ),
+		    'description' => __( 'Presenters', 'text_domain' ),
+		    'labels' => $labels,
+		    'supports' => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
+		    'hierarchical' => true,
+		    'public' => true,
+		    'show_ui' => true,
+		    'show_in_menu' => true,
+		    'show_in_nav_menus' => true,
+		    'show_in_admin_bar' => true,
+		    'menu_position' => 5,
+		    'menu_icon' => $registry->getImagesUrl()."icon.png",
+		    'can_export' => true,
+		    'has_archive' => true,
+		    'exclude_from_search' => false,
+		    'publicly_queryable' => true,
+		    'capability_type' => 'post',
+		    'rewrite' => array( 'slug' => $presenterSlug, 'with_front' => false )
 		);
 
 		register_post_type( EventsConfig::presenterTypeName, $args );
@@ -252,14 +256,15 @@ class EventsConfig {
 			'menu_name' => __( 'Presenter Categories' )
 		);
 
+		$presenterCategorySlug = apply_filters( 'core/config/presenterCategorySlug', 'presenter-category' );
 		$args = array(
-			'hierarchical' => true,
-			'labels' => $labels,
-			'show_ui' => true,
-			'show_admin_column' => true,
-			'update_count_callback' => '_update_post_term_count',
-			'query_var' => true,
-			'rewrite' => array( 'slug' => 'presenter-category' )
+		    'hierarchical' => true,
+		    'labels' => $labels,
+		    'show_ui' => true,
+		    'show_admin_column' => true,
+		    'update_count_callback' => '_update_post_term_count',
+		    'query_var' => true,
+		    'rewrite' => array( 'slug' => $presenterCategorySlug )
 		);
 
 		register_taxonomy( EventsConfig::presenterCategoryName, EventsConfig::presenterTypeName, $args );
