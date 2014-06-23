@@ -6,7 +6,7 @@
   Description: Maven Events™
   Author: SiteMavens.com
   Version: 0.1
-  Author URI:
+  Author URI: http://www.sitemavens.com/
  */
 
 namespace MavenEvents;
