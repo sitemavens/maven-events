@@ -14,7 +14,7 @@
 					<div class="col-sm-5">
 						<div class="input-group">
 							<span class="input-group-addon">$</span>
-							<input class="form-control" type="number" step="0.01" ng-model="event.price" name="mvn[event][price]"  />
+							<input class="form-control" type="text" ng-model="event.price" name="mvn[event][price]"  />
 						</div>
 					</div>
 				</div>
@@ -212,7 +212,7 @@
 										<div class="col-sm-8">
 											<div class="input-group">
 												<span class="input-group-addon">$</span>
-												<input class="form-control" name="mvn[event][combinations][{{$index}}][price]"  type="number" step="0.01" ng-model="variationCombination.price" />
+												<input class="form-control" name="mvn[event][combinations][{{$index}}][price]"  type="text" ng-model="variationCombination.price" />
 											</div>
 
 										</div>
