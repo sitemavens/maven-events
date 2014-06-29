@@ -175,13 +175,13 @@
 					<div class="panel-body">
 						<div class="row  form-group"  ng-repeat="variation in variations">
 							<div class="col-md-6" >
-								<label for="" class="col-sm-4 control-label">{{variation.name}}</label>
-								<div class="col-sm-8">
+								<label for="" class="col-sm-2 control-label">{{variation.name}}</label>
+								<div class="col-sm-10">
 									<select class="form-control" ng-model="selectedCombination[$index]" ng-options="option.name for option in variation.options"></select>
 								</div>
 							</div>
 						</div>
-						<div class='row pull-right'>
+						<div class='pull-right'>
 							<button type="button" ng-click="addCombination(selectedCombination)" ng-disabled="addCombinationDisabled()" class="btn btn-primary">Add combination</button>
 							<button type="button" ng-click="addAllCombinations()" ng-disabled="allCombinationsDisabled()" class="btn btn-primary"  >Add all</button>
 						</div>
@@ -193,37 +193,37 @@
 							<div class="panel-body">
 								<h4 class="options">
 									<span class="label label-default" ng-repeat="option in variationCombination.options">{{option.name}}</span>
-									<button type="button" ng-click="deleteCombination(variationCombination.groupKey)" class="btn btn-danger btn-xs pull-right">Remove</button>																		
+									<button type="button" ng-click="deleteCombination(variationCombination.groupKey)" class="btn btn-danger btn-xs pull-right">Remove</button>
 								</h4>
-								<div class="form-group">
-
+								<div class="form-horizontal">
 									<input type="hidden" name="mvn[event][combinations][{{$index}}][groupKey]" ng-value="variationCombination.groupKey" />
 									<input type="hidden" name="mvn[event][combinations][{{$index}}][id]" ng-value="variationCombination.id" />
 									<input type="hidden" ng-repeat="option in variationCombination.options" name="mvn[event][combinations][{{$parent.$index}}][options][{{option.variationId}}][variationId]" ng-value="option.variationId"/>
 									<input type="hidden" ng-repeat="option in variationCombination.options" name="mvn[event][combinations][{{$parent.$index}}][options][{{option.variationId}}][id]" ng-value="option.id"/>
-									<div class="row">
-										<label for=""  class="col-sm-4 control-label">Operator</label>
-										<div class="col-sm-8">
+									<div class="form-group">
+										<label for="" class="col-sm-3 control-label">Operator</label>
+										<div class="col-sm-9">
 											<select class="form-control" name="mvn[event][combinations][{{$index}}][priceOperator]" ng-model="variationCombination.priceOperator" ng-options="key as  value for (key, value) in priceOperators"></select>
 										</div>
 									</div>
-									<div class="row">
-										<label for=""  class="col-sm-4 control-label">Price</label>
-										<div class="col-sm-8">
+
+									<div class="form-group">
+										<label for="" class="col-sm-3 control-label">Price</label>
+										<div class="col-sm-9">
 											<div class="input-group">
 												<span class="input-group-addon">$</span>
 												<input class="form-control" name="mvn[event][combinations][{{$index}}][price]"  type="text" ng-model="variationCombination.price" />
 											</div>
+										</div>
+									</div>
 
+									<div class="form-group">
+										<label for="" class="col-sm-3 control-label">Seats</label>
+										<div class="col-sm-9">
+											<input class="form-control" name="mvn[event][combinations][{{$index}}][quantity]"  type="text" ng-model="variationCombination.quantity" />
 										</div>
 									</div>
-									<div class="row">
-										<label for=""  class="col-sm-4 control-label">Seats</label>
-										<div class="col-sm-8">
-											<input class="form-control" name="mvn[event][combinations][{{$index}}][quantity]"  type="text" ng-model="variationCombination.quantity" />										
-										</div>
-									</div>
-								</div>
+								</div><!-- form horizontal -->
 							</div>
 						</div>
 					</div>						
