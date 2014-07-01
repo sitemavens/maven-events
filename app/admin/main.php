@@ -14,8 +14,8 @@ class Main {
 		$eventController = new \MavenEvents\Admin\Wp\EventController();
 		$eventController->init();
 
-		//$eventListController = new Wp\EventListController();
-		//$eventListController->init();
+		$venueController = new \MavenEvents\Admin\Wp\VenueController();
+		$venueController->init();
 	}
 
 	  

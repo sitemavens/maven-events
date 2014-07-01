@@ -63,7 +63,7 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 					wp_enqueue_script( 'angular-google-chart', $registry->getBowerComponentUrl() . "angular-google-chart/ng-google-chart.js", 'angular', $registry->getPluginVersion() );
 
 					wp_enqueue_script( 'mavenEventsApp', $registry->getScriptsUrl() . "admin/app.js", 'angular', $registry->getPluginVersion() );
-					wp_enqueue_script( 'admin/controllers/event.js', $registry->getScriptsUrl() . "admin/controllers/event.js", 'mavenEventsApp', $registry->getPluginVersion() );
+					wp_enqueue_script( 'admin/events/controllers/event.js', $registry->getScriptsUrl() . "admin/events/controllers/event.js", 'mavenEventsApp', $registry->getPluginVersion() );
 
 
 					wp_enqueue_style( 'bootstrap', $registry->getBowerComponentUrl() . "bootstrap/dist/css/bootstrap.css", null, $registry->getPluginVersion() );

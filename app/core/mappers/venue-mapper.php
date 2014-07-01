@@ -128,29 +128,23 @@ class VenueMapper extends \Maven\Core\Db\WordpressMapper {
 		    '%s'
 		);
 
-		if ( ! $venue->getId() ) {
-			try {
-
-				$result = wp_insert_term( $venue->getName(), EventsConfig::venueTypeName );
-
-				if ( is_wp_error( $result ) )
-					throw new \Maven\Exceptions\MapperException( $result->get_error_message() );
-
-				$venueData[ 'term_id' ] = $result[ 'term_id' ];
-				$venueData[ 'term_taxonomy_id' ] = $result[ 'term_taxonomy_id' ];
-				$venueData[ 'id' ] = $result[ 'term_id' ];
-
-				$venueId = $this->insert( $venueData, $format );
-			} catch ( \Exception $ex ) {
-
-				return \Maven\Core\Message\MessageManager::createErrorMessage( $ex->getMessage() );
-			}
-
-			$venue->setId( $venueId );
-		} else {
-			$this->updateById( $venue->getId(), $venueData, $format );
+		$columns = '';
+		$values  = '';
+		$updateValues = '';
+		$i =0;
+		
+		foreach( $venueData as $key=>$value ){
+			$columns =  $columns ?  $columns.", ".$key : $key;
+			$values = $values ? $values.", ".$format[$i] : $format[$i];
+			$updateValues = $updateValues ? $updateValues.", "."{$key}=values({$key})" : "{$key}=values({$key})";
+			$i++;
 		}
-
+		
+		$query = $this->prepare( "INSERT INTO {$this->tableName} ({$columns}) VALUES ($values)
+					ON DUPLICATE KEY UPDATE {$updateValues};",  array_values($eventData));
+		//die($query);
+		$this->executeQuery($query);
+		
 		return $venue;
 	}
 

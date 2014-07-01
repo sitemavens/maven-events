@@ -68,14 +68,14 @@ angular.module('mavenEventsApp').controller('VariationsCtrl', ['$scope', '$http'
 				var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
 				return v.toString(16);
 			});
-		}
+		};
 		$scope.lastId = 1;
 		$scope.newClientId = function() {
 			var id = $scope.lastId + '*';
 			$scope.lastId++;
 			return id;
 
-		}
+		};
 
 		$scope.eventId = CachedEvent.id;
 		$scope.variations = CachedEvent.variations;
@@ -212,7 +212,7 @@ angular.module('mavenEventsApp').controller('VariationsCtrl', ['$scope', '$http'
 			//if there is no variations, disable combination button
 			return $scope.variations.length === 0;
 
-		}
+		};
 
 		$scope.addCombinationDisabled = function() {
 			//if there is no variations, disable combination button
