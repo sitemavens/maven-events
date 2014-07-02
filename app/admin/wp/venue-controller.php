@@ -46,9 +46,8 @@ class VenueController extends \MavenEvents\Admin\EventsAdminController {
 	function addScripts( $hook ) {
 
 		global $post;
-
 		if ( $hook == 'post-new.php' || $hook == 'post.php' ) {
-			if ( 'mvn_event' === $post->post_type ) {
+			if ( 'mvne_venue' === $post->post_type ) {
 
 				$registry = \MavenEvents\Settings\EventsRegistry::instance();
 
@@ -70,7 +69,7 @@ class VenueController extends \MavenEvents\Admin\EventsAdminController {
 					wp_enqueue_style( 'bootstrap-theme', $registry->getBowerComponentUrl() . "bootstrap/dist/css/bootstrap-theme.css", null, $registry->getPluginVersion() );
 
 					wp_enqueue_style( 'main', $registry->getStylesUrl() . "main.css", array( 'bootstrap', 'bootstrap-theme' ), $registry->getPluginVersion() );
-				}else{
+				} else {
 					wp_enqueue_script( 'mainApp', $registry->getScriptsUrl() . "main.min.js", 'angular', $registry->getPluginVersion() );
 					wp_enqueue_style( 'mainCss', $registry->getStylesUrl() . "main.min.css", array(), $registry->getPluginVersion() );
 				}
@@ -89,8 +88,11 @@ class VenueController extends \MavenEvents\Admin\EventsAdminController {
 		global $post;
 
 		\Maven\Loggers\Logger::log()->message( '\MavenEvents\Admin\Wp\VenueController: showVenue: ' . $post->ID );
-
-
+		$venueManager = new \MavenEvents\Core\VenueManager();
+		$venue = $venueManager->get( $post->ID );
+		$countries = \Maven\Core\CountriesApi::getAllCountries();
+		$this->addJSONData( 'venue', $venue );
+		$this->addJSONData( "cachedCountries", $countries );
 		echo $this->getOutput()->getWpAdminView( "venue" );
 	}
 
@@ -100,16 +102,29 @@ class VenueController extends \MavenEvents\Admin\EventsAdminController {
 	 * @param object $post
 	 */
 	public function save( $postId, $post ) {
-
 		\Maven\Loggers\Logger::log()->message( '\MavenEvents\Admin\Wp\VenueController: save: ' . $postId );
 
 		$this->saveVenue( $post );
 	}
 
-
 	private function saveVenue( $post ) {
 
-		 
+		$venue = new \MavenEvents\Core\Domain\Venue();
+
+		$mvn = $this->getRequest()->getProperty( 'mvn' );
+
+		//Check if we have something in the post, because it can be the quick edit mode
+
+
+		\Maven\Loggers\Logger::log()->message( '\MavenEvents\Admin\Wp\VenueController: saveVenue: ' . $post->ID );
+
+		$venue->load( $mvn[ 'venue' ] );
+
+		$venue->setId( $post->ID );
+		$venue->setName( $post->post_title );
+		$venue->setDescription( $post->post_content );
+		$venueManager = new \MavenEvents\Core\VenueManager();
+		$venueManager->addVenue( $venue );
 	}
 
 	/**

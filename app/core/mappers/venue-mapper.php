@@ -55,7 +55,7 @@ class VenueMapper extends \Maven\Core\Db\WordpressMapper {
 		$row = $this->getRowById( $id );
 
 		if ( ! $row )
-			throw new \Maven\Exceptions\NotFoundException();
+			return $venue;
 
 		$this->fillObject( $venue, $row );
 
@@ -85,10 +85,11 @@ class VenueMapper extends \Maven\Core\Db\WordpressMapper {
 	 * @return \MavenEvents\Core\Domain\Venue
 	 */
 	public function save( \MavenEvents\Core\Domain\Venue $venue ) {
-
+		
 		$venue->sanitize();
 		
 		$venueData = array(
+			'id' => $venue->getId(),
 		    'name' => $venue->getName(),
 		    'address' => $venue->getAddress(),
 		    'address2' => $venue->getAddress2(),
@@ -107,8 +108,9 @@ class VenueMapper extends \Maven\Core\Db\WordpressMapper {
 		    'term_taxonomy_id' => $venue->getTermTaxonomyId(),
 		    'seating_chart' => $venue->getSeatingChart(),
 		);
-
+		
 		$format = array(
+			'%d', //id
 		    '%s', //name
 		    '%s', //address
 		    '%s', //address2
@@ -127,7 +129,6 @@ class VenueMapper extends \Maven\Core\Db\WordpressMapper {
 		    '%d', //term_taxonomy_id
 		    '%s'
 		);
-
 		$columns = '';
 		$values  = '';
 		$updateValues = '';
@@ -141,7 +142,8 @@ class VenueMapper extends \Maven\Core\Db\WordpressMapper {
 		}
 		
 		$query = $this->prepare( "INSERT INTO {$this->tableName} ({$columns}) VALUES ($values)
-					ON DUPLICATE KEY UPDATE {$updateValues};",  array_values($eventData));
+					ON DUPLICATE KEY UPDATE {$updateValues};",  array_values($venueData));
+		
 		//die($query);
 		$this->executeQuery($query);
 		
