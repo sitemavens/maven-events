@@ -61,7 +61,10 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 					wp_enqueue_script( 'angular-route', $registry->getBowerComponentUrl() . "angular-route/angular-route.js", 'angular', $registry->getPluginVersion() );
 					wp_enqueue_script( 'angular-bootstrap', $registry->getBowerComponentUrl() . "angular-bootstrap/ui-bootstrap-tpls.js", 'angular', $registry->getPluginVersion() );
 					wp_enqueue_script( 'angular-google-chart', $registry->getBowerComponentUrl() . "angular-google-chart/ng-google-chart.js", 'angular', $registry->getPluginVersion() );
-
+					wp_enqueue_script( 'googlemap', '//maps.googleapis.com/maps/api/js?sensor=false', 'googlemap', $registry->getPluginVersion() );
+					wp_enqueue_script( 'lodash_', $registry->getBowerComponentUrl() . "lodash/dist/lodash.underscore.min.js", 'lodash', $registry->getPluginVersion() );
+					wp_enqueue_script( 'google-map-angular', $registry->getBowerComponentUrl() . "angular-google-maps/dist/angular-google-maps.min.js", 'angular', $registry->getPluginVersion() );
+					
 					wp_enqueue_script( 'mavenEventsApp', $registry->getScriptsUrl() . "admin/app.js", 'angular', $registry->getPluginVersion() );
 					wp_enqueue_script( 'admin/events/controllers/event.js', $registry->getScriptsUrl() . "admin/events/controllers/event.js", 'mavenEventsApp', $registry->getPluginVersion() );
 

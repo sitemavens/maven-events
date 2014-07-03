@@ -5,6 +5,7 @@ angular.module('mavenEventsApp', [
 	'ngSanitize',
 	'ngRoute',
 	'ui.bootstrap',
+	'google-maps',
 		//'googlechart'
 ]).config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
 

@@ -78,3 +78,13 @@ h4.options span{
 	font-weight: normal;
 	line-height: 1em;
 }
+
+.angular-google-map-container { height: 272px; }
+
+.col-sm-4.venue-map {
+    margin-top: -244px;
+}
+
+.btn.btn-primary.search-map {
+    padding: 8px;
+}
