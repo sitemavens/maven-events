@@ -10,8 +10,7 @@ angular.module('mavenEventsApp').controller('VenueCtrl', ['$scope', '$http', 'ge
 		$scope.venue = CachedVenue;
 
 		$scope.refreshAddress = function() {
-			$scope.completeAddress = $scope.venue.address;
-//			$scope.completeAddress = $scope.venue.address + ', ' + $scope.venue.state + ', ' + $scope.venue.country; //commented for testing purposes
+			$scope.completeAddress = $scope.venue.address + ' ' + $scope.venue.city + ' ' + $scope.venue.state + ' ' + $scope.venue.country;
 			var result = geocoder.geocode($scope.completeAddress, function(callbackResult) {
 				var lat = callbackResult.results[0].geometry.location.lat();
 				var lng = callbackResult.results[0].geometry.location.lng();
@@ -21,7 +20,7 @@ angular.module('mavenEventsApp').controller('VenueCtrl', ['$scope', '$http', 'ge
 						longitude: lng
 					},
 					refresh: true,
-					zoom: 8
+					zoom: 17
 				};
 				$scope.$apply();
 			});

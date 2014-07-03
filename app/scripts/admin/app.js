@@ -5,6 +5,7 @@ angular.module('mavenEventsApp', [
 	'ngSanitize',
 	'ngRoute',
 	'ui.bootstrap',
+	'ui.bootstrap.showErrors',
 	'google-maps',
 		//'googlechart'
 ]).config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
@@ -40,6 +41,7 @@ angular.module('mavenEventsListApp', [
 	'ngSanitize',
 	'ngRoute',
 	'ui.bootstrap',
+	'ui.bootstrap.showErrors',
 	'googlechart',
 	'mavenEventsApp.services'
 ]).config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {

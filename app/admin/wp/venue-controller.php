@@ -66,6 +66,7 @@ class VenueController extends \MavenEvents\Admin\EventsAdminController {
 					wp_enqueue_script( 'mavenEventsApp', $registry->getScriptsUrl() . "admin/app.js", 'angular', $registry->getPluginVersion() );
 					wp_enqueue_script( 'admin/venues/controllers/venue.js', $registry->getScriptsUrl() . "admin/venues/controllers/venue.js", 'mavenEventsApp', $registry->getPluginVersion() );
 					wp_enqueue_script( 'admin/venues/services/geocoder.js', $registry->getScriptsUrl() . "admin/venues/services/geocoder.js", 'mavenEventsApp', $registry->getPluginVersion() );
+					wp_enqueue_script( 'admin/global/directives/show-errors.js', $registry->getScriptsUrl() . "admin/global/directives/show-errors.js", 'mavenEventsApp', $registry->getPluginVersion() );
 
 
 					wp_enqueue_style( 'bootstrap', $registry->getBowerComponentUrl() . "bootstrap/dist/css/bootstrap.css", null, $registry->getPluginVersion() );

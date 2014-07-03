@@ -88,3 +88,11 @@ h4.options span{
 .btn.btn-primary.search-map {
     padding: 8px;
 }
+
+.form-group .help-block {
+	display: none;
+}
+
+.form-group.has-error .help-block {
+	display: block;
+}

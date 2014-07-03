@@ -42,6 +42,7 @@ class VenueManager {
 		else
 			$venueToUpdate = $venue;
 		
+
 		$venueMapper = new Mappers\VenueMapper();
 		
 		return $venueMapper->save( $venueToUpdate );
@@ -75,7 +76,7 @@ class VenueManager {
 		$eventMapper = new Mappers\EventMapper();
 		
 		// We need to remove the venue from all the events
-		$eventMapper->removeVenue( $id );
+		$venueMapper->removeVenue( $id );
 		
 		// We remove the term
 		wp_delete_term($id, EventsConfig::venueTypeName );

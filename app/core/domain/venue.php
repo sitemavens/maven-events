@@ -57,7 +57,7 @@ class Venue extends \Maven\Core\DomainObject {
 			'termId'		=> \Maven\Core\SanitizationRule::Integer,
 			'termTaxonomyId'=> \Maven\Core\SanitizationRule::Integer,
 			'slug'			=> \Maven\Core\SanitizationRule::Slug,
-			'seatingChart'	=> \Maven\Core\SanitizationRule::Integer
+			'seatingChart'	=> \Maven\Core\SanitizationRule::URL
 			
 		);
 		

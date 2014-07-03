@@ -6,88 +6,110 @@
 	<tabset>
 		<tab heading="General">
 			<div class="form-horizontal" style="margin:15px 0;">
-				<div class="form-group"  >
-					<label for="" class="col-sm-2 control-label">Phone:</label>
-					<div class="col-sm-6">
-							<input class="form-control" type="text" ng-model="venue.phone" name="mvn[venue][phone]"  />
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="" class="col-sm-2 control-label">Address 1</label>
-					<div class="col-sm-6 input-append">
-						<div class="input-group">
-							<input class="form-control" type="text" ng-model="venue.address" name="mvn[venue][address]"  />
-							<span class="input-group-btn">
-								<button type="button" class="btn btn-primary search-map" ng-click="refreshAddress()">
-									<span class="glyphicon glyphicon-search">	
-									</span>
-								</button>
-							</span>
+				<ng-form name="venueForm">
+					<div class="form-group" show-errors>
+						<label for="" class="col-sm-2 control-label">Phone*</label>
+						<div class="col-sm-6">
+							<input required class="form-control" type="text" ng-model="venue.phone" name="venuePhone"  />
+							<p class="help-block" ng-if="venueForm.venuePhone.$error.required ">The venue's phone is required</p>
+							<input type='hidden' ng-bind="venue.phone" name='mvn[venue][phone]'/>
 						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label for="" class="col-sm-2 control-label">Address 2</label>
-					<div class="col-sm-6">
-						<input class="form-control" type="text" ng-model="venue.address2" name="mvn[venue][address2]"  />
+					<div class="form-group" show-errors>
+						<label for="" class="col-sm-2 control-label">Address 1*</label>
+						<div class="col-sm-6 input-append">
+							<div ng-class="{'input-group': venueForm.venueAddress.$valid && venueForm.venueCity.$valid && venueForm.venueState.$valid && venueForm.venueCountry.$valid }">
+								<input class="form-control" required type="text" ng-model="venue.address" ng-change="checkAddressIsComplete()" name="venueAddress"  />
+								<p class="help-block" ng-if="venueForm.venueAddress.$error.required">The venue's Address is required</p>
+								<input type='hidden' ng-bind="venue.address" name='mvn[venue][address]'/>
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-primary search-map" 
+											ng-if='venueForm.venueAddress.$valid && venueForm.venueCity.$valid && venueForm.venueState.$valid && venueForm.venueCountry.$valid'
+											ng-click="refreshAddress()">
+										<span class="glyphicon glyphicon-search">	
+										</span>
+									</button>
+								</span>
+							</div>
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label for="" class="col-sm-2 control-label">City</label>
-					<div class="col-sm-6">
-						<input class="form-control" type="text" ng-model="venue.city" name="mvn[venue][city]"  />
+					<div class="form-group" show-errors>
+						<label for="" class="col-sm-2 control-label">Address 2 </label>
+						<div class="col-sm-6">
+							<input class="form-control" type="text" ng-model="venue.address2" name="mvn[venue][address2]"  />
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label for="" class="col-sm-2 control-label">State</label>
-					<div class="col-sm-6">
-						<input class="form-control" type="text" ng-model="venue.state" name="mvn[venue][state]"  />
+					<div class="form-group" show-errors>
+						<label for="" class="col-sm-2 control-label">City*</label>
+						<div class="col-sm-6">
+							<input class="form-control" required type="text" ng-model="venue.city" name="venueCity"  />
+							<p class="help-block" ng-if="venueForm.venueCity.$error.required">The venue's City is required</p>
+							<input type='hidden' ng-bind="venue.city" name='mvn[venue][city]'/>
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label for="" class="col-sm-2 control-label">Zip</label>
-					<div class="col-sm-6">
-						<input class="form-control" type="text" ng-model="venue.zip" name="mvn[venue][zip]"  />
+					<div class="form-group" show-errors>
+						<label for="" class="col-sm-2 control-label">State*</label>
+						<div class="col-sm-6">
+							<input class="form-control" required type="text" ng-model="venue.state" name="venueState"  />
+							<p class="help-block" ng-if="venueForm.venueState.$error.required">The venue's State is required</p>
+							<input type='hidden' ng-bind="venue.state" name='mvn[venue][state]'/>
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label for="" class="col-sm-2 control-label">Country</label>
-					<div class="col-sm-6">
-						<select class="form-control" ng-model="venue.country"
-								ng-options="countryI as country.name for (countryI, country) in countries" id="addressSelect" />
-						<input type="hidden" value="{{venue.country}}" name="mvn[venue][country]"/>
+					<div class="form-group" show-errors>
+						<label for="" class="col-sm-2 control-label">Zip*</label>
+						<div class="col-sm-6">
+							<input class="form-control" required type="text" ng-model="venue.zip" name="venueZip"  />
+							<p class="help-block" ng-if="venueForm.venueZip.$error.required">The venue's Zip is required</p>
+							<input type='hidden' ng-bind="venue.zip" name='mvn[venue][zip]'/>
+						</div>
 					</div>
-					<div class="col-sm-4 venue-map">
-						<google-map center="map.center" zoom="map.zoom"></google-map>
+					<div class="form-group" show-errors>
+						<label for="" class="col-sm-2 control-label">Country*</label>
+						<div class="col-sm-6">
+							<select class="form-control"  required ng-model="venue.country" name='venueCountry'
+									ng-options="countryI as country.name for (countryI, country) in countries" id="addressSelect" />
+							<input type="hidden" value="{{venue.country}}" name="mvn[venue][country]"/>
+							<p class="help-block" ng-if="venueForm.venueCountry.$error.required">The venue's Country is required</p>
+						</div>
+						<div class="col-sm-4 venue-map">
+							<google-map center="map.center" zoom="map.zoom"></google-map>
+						</div>
+					</div>	
+					<div class="form-group" show-errors>
+						<label for="" class="col-sm-2 control-label">Contact*</label>
+						<div class="col-sm-10">
+							<input class="form-control" required type="text" ng-model="venue.contact" name="venueContact"  />
+							<p class="help-block" ng-if="venueForm.venueContact.$error.required">The venue's Contact is required</p>
+							<input type='hidden' ng-bind="venue.contact" name='mvn[venue][contact]'/>
+						</div>
 					</div>
-				</div>	
-				<div class="form-group">
-					<label for="" class="col-sm-2 control-label">Contact</label>
-					<div class="col-sm-10">
-						<input class="form-control" type="text" ng-model="venue.contact" name="mvn[venue][contact]"  />
+					<div class="form-group" show-errors>
+						<label for="" class="col-sm-2 control-label">Seating Chart*</label>
+						<div class="col-sm-10">
+							<input class="form-control" required type="text" ng-model="venue.seatingChart" name="venueSeatingChart"  />
+							<p class="help-block" ng-if="venueForm.venueSeatingChart.$error.required">The venue's Seating Chart is required</p>
+							<input type='hidden' ng-bind="venue.seatingChart" name='mvn[venue][seatingChart]'/>
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label for="" class="col-sm-2 control-label">Twitter</label>
-					<div class="col-sm-10">
-						<input class="form-control" type="text" ng-model="venue.twitter" name="mvn[venue][twitter]"  />
+					<div class="form-group">
+						<label for="" class="col-sm-2 control-label">Twitter </label>
+						<div class="col-sm-10">
+							<input class="form-control" type="text" ng-model="venue.twitter" name="mvn[venue][twitter]"  />
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label for="" class="col-sm-2 control-label">Website</label>
-					<div class="col-sm-10">
-						<input class="form-control" type="text" ng-model="venue.website" name="mvn[venue][website]"  />
+					<div class="form-group">
+						<label for="" class="col-sm-2 control-label">Website </label>
+						<div class="col-sm-10">
+							<input class="form-control" type="text" ng-model="venue.website" name="mvn[venue][website]"  />
+						</div>
 					</div>
-				</div>
+				</ng-form>
 			</div>
 		</tab>
 	</tabset>
-
-
+<!--
 	<div class="alert alert-danger" ng-show="post.$invalid">
 		<span ng-show="post.$error.required">Required elements</span>
 		<span ng-show="post.$error.invalid">Invalid elements</span>
-	</div>
-
-
+	</div>-->
 </div>

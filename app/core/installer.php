@@ -95,7 +95,7 @@ class Installer {
 				`gallery_images` VARCHAR(256),
 				`term_id` INT NOT NULL ,
 				`term_taxonomy_id` INT NOT NULL,
-				`seating_chart` VARCHAR(45) NULL,
+				`seating_chart` VARCHAR(256) NULL,
 				`timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 				PRIMARY KEY (`id`) );
 			  ", 
