@@ -66,7 +66,10 @@
 							<p class="help-block" ng-if="venueForm['mvn[venue][country]'].$error.required">The venue's Country is required</p>
 						</div>
 						<div class="col-sm-4 venue-map">
-							<google-map center="map.center" zoom="map.zoom"></google-map>
+							<google-map center="map.center" pan="true" draggable="true" zoom="map.zoom">
+								<markers models="markers" coords="'location'">
+								</markers>
+							</google-map>
 						</div>
 					</div>
 					<div class="form-group" show-errors>

@@ -14,11 +14,24 @@ angular.module('mavenEventsApp').controller('VenueCtrl', ['$scope', '$http', 'ge
 				if (callbackResult.success) {
 					var lat = callbackResult.results[0].geometry.location.lat();
 					var lng = callbackResult.results[0].geometry.location.lng();
+					$scope.markers = [{
+							id: "first",
+							stuff: "Venue",
+							location: {
+								latitude: lat,
+								longitude: lng
+							}
+						}];
+					console.log($scope.markers)
 					$scope.map = {
 						center: {
 							latitude: lat,
 							longitude: lng
 						},
+						markers: [{
+								latitude: lat,
+								longitude: lng
+							}],
 						refresh: true,
 						zoom: 17
 					};
