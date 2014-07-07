@@ -1,5 +1,5 @@
 angular.module('mavenEventsApp').controller('EventCtrl', ['$scope', '$http', function($scope, $http) {
-		
+		$scope.venuesList = CachedVenuesList;
 		//We need to fix the dates and times, and initialize them in case of new events
 		var midnight = new Date();
 		midnight.setHours(0, 0, 0, 0);

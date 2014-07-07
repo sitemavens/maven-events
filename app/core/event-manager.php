@@ -84,7 +84,6 @@ class EventManager implements iSearchManager {
 	 * @return \Maven\Core\Message\Message
 	 */
 	function addEvent( \MavenEvents\Core\Domain\Event $event ) {
-
 		$venueMapper = new VenueMapper();
 		$attendeeManager = new AttendeeManager();
 		$eventPricesMapper = new Mappers\EventPricesMapper();

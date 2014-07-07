@@ -64,7 +64,7 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 					wp_enqueue_script( 'googlemap', '//maps.googleapis.com/maps/api/js?sensor=false', 'googlemap', $registry->getPluginVersion() );
 					wp_enqueue_script( 'lodash-underscore', $registry->getBowerComponentUrl() . "lodash/dist/lodash.underscore.js", 'lodash', $registry->getPluginVersion() );
 					wp_enqueue_script( 'angular-google-maps', $registry->getBowerComponentUrl() . "angular-google-maps/dist/angular-google-maps.js", 'angular', $registry->getPluginVersion() );
-					
+
 					wp_enqueue_script( 'mavenEventsApp', $registry->getScriptsUrl() . "admin/app.js", 'angular', $registry->getPluginVersion() );
 					wp_enqueue_script( 'admin/events/controllers/event.js', $registry->getScriptsUrl() . "admin/events/controllers/event.js", 'mavenEventsApp', $registry->getPluginVersion() );
 					wp_enqueue_script( 'admin/global/directives/show-errors.js', $registry->getScriptsUrl() . "admin/global/directives/show-errors.js", 'mavenEventsApp', $registry->getPluginVersion() );
@@ -73,9 +73,9 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 					wp_enqueue_style( 'bootstrap-theme', $registry->getBowerComponentUrl() . "bootstrap/dist/css/bootstrap-theme.css", null, $registry->getPluginVersion() );
 
 					wp_enqueue_style( 'main', $registry->getStylesUrl() . "main.css", array( 'bootstrap', 'bootstrap-theme' ), $registry->getPluginVersion() );
-				}else{
+				} else {
 					wp_enqueue_script( 'googlemap', '//maps.googleapis.com/maps/api/js?sensor=false', $registry->getPluginVersion() );
-					wp_enqueue_script( 'mainApp', $registry->getScriptsUrl() . "main.min.js", array('googlemap'), $registry->getPluginVersion() );
+					wp_enqueue_script( 'mainApp', $registry->getScriptsUrl() . "main.min.js", array( 'googlemap' ), $registry->getPluginVersion() );
 					wp_enqueue_style( 'mainCss', $registry->getStylesUrl() . "main.min.css", array(), $registry->getPluginVersion() );
 				}
 			}
@@ -93,7 +93,7 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 		global $post;
 
 		\Maven\Loggers\Logger::log()->message( '\MavenEvents\Admin\Wp\EventController: showEvents: ' . $post->ID );
-
+		$venueManager = new \MavenEvents\Core\VenueManager();
 		$eventManager = new \MavenEvents\Core\EventManager();
 		$event = $eventManager->get( $post->ID );
 
@@ -105,9 +105,11 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 		}
 
 		$this->addJSONData( 'event', $event );
-
+		$venuesList = $venueManager->getAll();
 		$pricesOperators = \Maven\Core\Domain\VariationOptionPriceOperator::getOperators();
 
+		$this->addJSONData( 'venuesList', $venuesList );
+		
 		$this->addJSONData( 'priceOperators', $pricesOperators );
 
 		$this->addJSONData( 'defaultPriceOperator', \Maven\Core\Domain\VariationOptionPriceOperator::NoChange );
@@ -150,10 +152,10 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 				$option = $variationOptionManager->get( $key );
 
 				$options[] = array(
-				    'id' => $option->getId(),
-				    'name' => $option->getName(),
-				    'variationId' => $option->getVariationId(),
-				    'variation' => ''
+					'id' => $option->getId(),
+					'name' => $option->getName(),
+					'variationId' => $option->getVariationId(),
+					'variation' => ''
 				);
 			}
 			$combination[ 'options' ] = $options;
@@ -175,7 +177,6 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 			\Maven\Loggers\Logger::log()->message( '\MavenEvents\Admin\Wp\EventController: saveEvent: ' . $post->ID );
 
 			$event->load( $mvn[ 'event' ] );
-
 			$event->setId( $post->ID );
 			$event->setName( $post->post_title );
 			$event->setDescription( $post->post_content );

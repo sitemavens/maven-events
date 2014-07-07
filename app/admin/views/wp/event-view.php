@@ -1,3 +1,4 @@
+<?php \Maven\Core\UI\HtmlComponent::jSonComponent( 'CachedVenuesList', $venuesList ); ?>
 <?php \Maven\Core\UI\HtmlComponent::jSonComponent( 'CachedEvent', $event ); ?>
 <?php \Maven\Core\UI\HtmlComponent::jSonComponent( 'CachedPriceOperators', $priceOperators ); ?>
 <?php \Maven\Core\UI\HtmlComponent::jSonComponent( 'CachedCombinations', $combinations ); ?>
@@ -9,6 +10,14 @@
 	<tabset>
 		<tab heading="General">
 			<div class="form-horizontal" style="margin:15px 0;">
+				<div class="form-group"  >
+					<label for="" class="col-sm-2 control-label">Venue:</label>
+					<div class="col-sm-5">
+							<select class="form-control" ng-model="event.venueId"
+									ng-options="venue.id as venue.name for venue in venuesList" id="addressSelect"></select>
+							<input type="hidden" value="{{event.venueId}}" name="mvn[event][venueId]"/>
+					</div>
+				</div>
 				<div class="form-group"  >
 					<label for="" class="col-sm-2 control-label">Price:</label>
 					<div class="col-sm-5">
@@ -23,7 +32,7 @@
 					<div class="col-sm-5">
 						<input type="hidden" ng-value="event.registrationStartDate| date:'yyyy-MM-dd'" name="mvn[event][registrationStartDate]" />
 						<input class="form-control" required type="text" ng-model="event.registrationStartDate" datepicker-popup="{{dateFormat}}"   
-						       datepicker-options="dateOptions" close-text="Close" show-button-bar="false" show-weeks="false"/>
+							   datepicker-options="dateOptions" close-text="Close" show-button-bar="false" show-weeks="false"/>
 					</div>
 				</div>
 				<div class="form-group"  >
@@ -39,7 +48,7 @@
 					<div class="col-sm-5">
 						<input type="hidden" ng-value="event.registrationEndDate| date:'yyyy-MM-dd'" name="mvn[event][registrationEndDate]" />
 						<input class="form-control" required ng-model="event.registrationEndDate" type="text" datepicker-popup="{{dateFormat}}"   
-						       datepicker-options="dateOptions" close-text="Close" show-button-bar="false" show-weeks="false"/>
+							   datepicker-options="dateOptions" close-text="Close" show-button-bar="false" show-weeks="false"/>
 					</div>
 				</div>
 
@@ -56,7 +65,7 @@
 					<div class="col-sm-5">
 						<input type="hidden" ng-value="event.eventStartDate| date:'yyyy-MM-dd'" name="mvn[event][eventStartDate]" />
 						<input class="form-control" required ng-model="event.eventStartDate" type="text" datepicker-popup="{{dateFormat}}"   
-						       datepicker-options="dateOptions" close-text="Close" show-button-bar="false" show-weeks="false"/>
+							   datepicker-options="dateOptions" close-text="Close" show-button-bar="false" show-weeks="false"/>
 					</div>
 				</div>
 
@@ -74,7 +83,7 @@
 						<input type="hidden" ng-value="event.eventEndDate| date:'yyyy-MM-dd'" name="mvn[event][eventEndDate]" />
 
 						<input class="form-control" required ng-model="event.eventEndDate" type="text" datepicker-popup="{{dateFormat}}"   
-						       datepicker-options="dateOptions" close-text="Close" show-button-bar="false" show-weeks="false"/>
+							   datepicker-options="dateOptions" close-text="Close" show-button-bar="false" show-weeks="false"/>
 					</div>
 				</div>
 

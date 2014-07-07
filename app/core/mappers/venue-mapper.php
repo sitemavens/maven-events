@@ -13,6 +13,7 @@ class VenueMapper extends \Maven\Core\Db\WordpressMapper {
 
 	public function getAll( $orderBy = "name", $orderType = 'desc', $start = 0, $limit = 1000 ) {
 		$venues = array();
+		$isPublished = false;
 		if ( ! $orderBy )
 			$orderBy = 'id';
 
@@ -23,12 +24,14 @@ class VenueMapper extends \Maven\Core\Db\WordpressMapper {
 			$this->fillObject( $venue, $row );
 
 			// If we fell that performance is an issue, this line can be improved, reading all the term data together with the venues.
-			$term = get_term( $venue->getId(), EventsConfig::venueTypeName );
-
-			if ( $term )
-				$venue->setSlug( $term->slug );
-
-			$venues[] = $venue;
+//			$term = get_term( $venue->getId(), EventsConfig::venueTypeName );
+//
+//			if ( $term )
+//				$venue->setSlug( $term->slug );
+			//TODO: This way of check for published post is highly inneficient. Must find another way.
+			if ( get_post_status( $row->id ) == 'publish' ) {
+				$venues[] = $venue;
+			}
 		}
 
 		return $venues;
