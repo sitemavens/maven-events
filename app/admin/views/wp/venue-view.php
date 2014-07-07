@@ -8,7 +8,7 @@
 			<div class="form-horizontal" style="margin:15px 0;">
 				<ng-form name="venueForm">
 					<div class="form-group">
-						<label for="" class="col-sm-2 control-label">Phone*</label>
+						<label for="" class="col-sm-2 control-label">Phone</label>
 						<div class="col-sm-6">
 							<input class="form-control" type="text" ng-model="venue.phone" name="mvn[venue][phone]"  />
 						</div>
@@ -72,13 +72,13 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="" class="col-sm-2 control-label">Contact*</label>
+						<label for="" class="col-sm-2 control-label">Contact</label>
 						<div class="col-sm-10">
 							<input class="form-control" type="text" ng-model="venue.contact" name="mvn[venue][contact]"  />
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="" class="col-sm-2 control-label">Seating Chart*</label>
+						<label for="" class="col-sm-2 control-label">Seating Chart</label>
 						<div class="col-sm-10">
 							<input class="form-control" type="text" ng-model="venue.seatingChart" name="mvn[venue][seatingChart]"  />
 						</div>
