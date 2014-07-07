@@ -7,11 +7,10 @@
 		<tab heading="General">
 			<div class="form-horizontal" style="margin:15px 0;">
 				<ng-form name="venueForm">
-					<div class="form-group" show-errors>
+					<div class="form-group">
 						<label for="" class="col-sm-2 control-label">Phone*</label>
 						<div class="col-sm-6">
-							<input required class="form-control" type="text" ng-model="venue.phone" name="mvn[venue][phone]"  />
-							<p class="help-block" ng-if="venueForm['mvn[venue][phone]'].$error.required">The venue's phone is required</p>
+							<input class="form-control" type="text" ng-model="venue.phone" name="mvn[venue][phone]"  />
 						</div>
 					</div>
 					<div class="form-group" show-errors>
@@ -72,18 +71,16 @@
 							</google-map>
 						</div>
 					</div>
-					<div class="form-group" show-errors>
+					<div class="form-group">
 						<label for="" class="col-sm-2 control-label">Contact*</label>
 						<div class="col-sm-10">
-							<input class="form-control" required type="text" ng-model="venue.contact" name="mvn[venue][contact]"  />
-							<p class="help-block" ng-if="venueForm['mvn[venue][contact]'].$error.required">The venue's Contact is required</p>
+							<input class="form-control" type="text" ng-model="venue.contact" name="mvn[venue][contact]"  />
 						</div>
 					</div>
-					<div class="form-group" show-errors>
+					<div class="form-group">
 						<label for="" class="col-sm-2 control-label">Seating Chart*</label>
 						<div class="col-sm-10">
-							<input class="form-control" required type="text" ng-model="venue.seatingChart" name="mvn[venue][seatingChart]"  />
-							<p class="help-block" ng-if="venueForm['mvn[venue][seatingChart]'].$error.required">The venue's Seating Chart is required</p>
+							<input class="form-control" type="text" ng-model="venue.seatingChart" name="mvn[venue][seatingChart]"  />
 						</div>
 					</div>
 					<div class="form-group">
