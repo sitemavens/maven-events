@@ -75,8 +75,8 @@ class VenueController extends \MavenEvents\Admin\EventsAdminController {
 					wp_enqueue_style( 'main', $registry->getStylesUrl() . "main.css", array( 'bootstrap', 'bootstrap-theme' ), $registry->getPluginVersion() );
 					
 				} else {
-					wp_enqueue_script( 'googlemap', '//maps.googleapis.com/maps/api/js?sensor=false', 'googlemap', $registry->getPluginVersion() );
-					wp_enqueue_script( 'mainApp', $registry->getScriptsUrl() . "main.min.js", array('angular','googlemap'), $registry->getPluginVersion() );
+					wp_enqueue_script( 'googlemap', '//maps.googleapis.com/maps/api/js?sensor=false', $registry->getPluginVersion() );
+					wp_enqueue_script( 'mainApp', $registry->getScriptsUrl() . "main.min.js", array('googlemap'), $registry->getPluginVersion() );
 					wp_enqueue_style( 'mainCss', $registry->getStylesUrl() . "main.min.css", array(), $registry->getPluginVersion() );
 				}
 			}
