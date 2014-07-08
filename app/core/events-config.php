@@ -85,22 +85,22 @@ class EventsConfig {
 
 		// Add category taxonomy. It's not hierarchical
 		$labels = array(
-			'name' => _x( 'Event Category', 'taxonomy general name' ),
-			'singular_name' => _x( 'Event Category', 'taxonomy singular name' ),
+			'name' => _x( 'Category', 'taxonomy general name' ),
+			'singular_name' => _x( 'Category', 'taxonomy singular name' ),
 			'search_items' => __( 'Search Event Categories' ),
 			'popular_items' => __( 'Popular Event Categories' ),
 			'all_items' => __( 'All Event Categories' ),
 			'parent_item' => null,
 			'parent_item_colon' => null,
-			'edit_item' => __( 'Edit Event Category' ),
-			'update_item' => __( 'Update Event Category' ),
-			'add_new_item' => __( 'Add New Event Category' ),
-			'new_item_name' => __( 'New Event Category Name' ),
+			'edit_item' => __( 'Edit Category' ),
+			'update_item' => __( 'Update Category' ),
+			'add_new_item' => __( 'Add New Category' ),
+			'new_item_name' => __( 'New Category Name' ),
 			'separate_items_with_commas' => __( 'Separate event categories with commas' ),
 			'add_or_remove_items' => __( 'Add or remove event categories' ),
 			'choose_from_most_used' => __( 'Choose from the most used event categories' ),
-			'not_found' => __( 'No event category found.' ),
-			'menu_name' => __( 'Event Categories' )
+			'not_found' => __( 'No category found.' ),
+			'menu_name' => __( 'Categories' )
 		);
 
 		$categorySlug = apply_filters( 'core/config/eventCategorySlug', 'event-category' );
