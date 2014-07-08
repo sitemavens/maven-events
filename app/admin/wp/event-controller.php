@@ -53,17 +53,17 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 				$registry = \MavenEvents\Settings\EventsRegistry::instance();
 
 				if ( $registry->isDevEnv() ) {
-					wp_enqueue_script( 'angular', $registry->getBowerComponentUrl() . "angular/angular.js", 'jquery', $registry->getPluginVersion() );
-					wp_enqueue_script( 'bootstrap', $registry->getBowerComponentUrl() . "bootstrap/dist/js/bootstrap.js", 'jquery', $registry->getPluginVersion() );
-					wp_enqueue_script( 'angular-resource', $registry->getBowerComponentUrl() . "angular-resource/angular-resource.js", 'angular', $registry->getPluginVersion() );
-					wp_enqueue_script( 'angular-cookies', $registry->getBowerComponentUrl() . "angular-cookies/angular-cookies.js", 'angular', $registry->getPluginVersion() );
-					wp_enqueue_script( 'angular-sanitize', $registry->getBowerComponentUrl() . "angular-sanitize/angular-sanitize.js", 'angular', $registry->getPluginVersion() );
-					wp_enqueue_script( 'angular-route', $registry->getBowerComponentUrl() . "angular-route/angular-route.js", 'angular', $registry->getPluginVersion() );
-					wp_enqueue_script( 'angular-bootstrap', $registry->getBowerComponentUrl() . "angular-bootstrap/ui-bootstrap-tpls.js", 'angular', $registry->getPluginVersion() );
-					wp_enqueue_script( 'angular-google-chart', $registry->getBowerComponentUrl() . "angular-google-chart/ng-google-chart.js", 'angular', $registry->getPluginVersion() );
+					wp_enqueue_script( 'angular', $registry->getBowerComponentUrl() . "angular/angular.js", array('jquery'), $registry->getPluginVersion() );
+					wp_enqueue_script( 'bootstrap', $registry->getBowerComponentUrl() . "bootstrap/dist/js/bootstrap.js",  array('jquery'), $registry->getPluginVersion() );
+					wp_enqueue_script( 'angular-resource', $registry->getBowerComponentUrl() . "angular-resource/angular-resource.js", array('angular'), $registry->getPluginVersion() );
+					wp_enqueue_script( 'angular-cookies', $registry->getBowerComponentUrl() . "angular-cookies/angular-cookies.js", array('angular'), $registry->getPluginVersion() );
+					wp_enqueue_script( 'angular-sanitize', $registry->getBowerComponentUrl() . "angular-sanitize/angular-sanitize.js", array('angular'), $registry->getPluginVersion() );
+					wp_enqueue_script( 'angular-route', $registry->getBowerComponentUrl() . "angular-route/angular-route.js", array('angular'), $registry->getPluginVersion() );
+					wp_enqueue_script( 'angular-bootstrap', $registry->getBowerComponentUrl() . "angular-bootstrap/ui-bootstrap-tpls.js", array('angular'), $registry->getPluginVersion() );
+					wp_enqueue_script( 'angular-google-chart', $registry->getBowerComponentUrl() . "angular-google-chart/ng-google-chart.js", array('angular'), $registry->getPluginVersion() );
 					wp_enqueue_script( 'googlemap', '//maps.googleapis.com/maps/api/js?sensor=false', 'googlemap', $registry->getPluginVersion() );
-					wp_enqueue_script( 'lodash-underscore', $registry->getBowerComponentUrl() . "lodash/dist/lodash.underscore.js", 'lodash', $registry->getPluginVersion() );
-					wp_enqueue_script( 'angular-google-maps', $registry->getBowerComponentUrl() . "angular-google-maps/dist/angular-google-maps.js", 'angular', $registry->getPluginVersion() );
+					wp_enqueue_script( 'lodash-underscore', $registry->getBowerComponentUrl() . "lodash/dist/lodash.underscore.js", array( 'googlemap' ), $registry->getPluginVersion() );
+					wp_enqueue_script( 'angular-google-maps', $registry->getBowerComponentUrl() . "angular-google-maps/dist/angular-google-maps.js", array('angular','googlemap'), $registry->getPluginVersion() );
 
 					wp_enqueue_script( 'mavenEventsApp', $registry->getScriptsUrl() . "admin/app.js", 'angular', $registry->getPluginVersion() );
 					wp_enqueue_script( 'admin/events/controllers/event.js', $registry->getScriptsUrl() . "admin/events/controllers/event.js", 'mavenEventsApp', $registry->getPluginVersion() );
@@ -74,8 +74,9 @@ class EventController extends \MavenEvents\Admin\EventsAdminController {
 
 					wp_enqueue_style( 'main', $registry->getStylesUrl() . "main.css", array( 'bootstrap', 'bootstrap-theme' ), $registry->getPluginVersion() );
 				} else {
+					 
 					wp_enqueue_script( 'googlemap', '//maps.googleapis.com/maps/api/js?sensor=false', $registry->getPluginVersion() );
-					wp_enqueue_script( 'mainApp', $registry->getScriptsUrl() . "main.min.js", array( 'googlemap' ), $registry->getPluginVersion() );
+					wp_enqueue_script( 'mainApp', $registry->getScriptsUrl() . "main.min.js", array( 'jquery','jquery-ui-core', 'googlemap' ), $registry->getPluginVersion() );
 					wp_enqueue_style( 'mainCss', $registry->getStylesUrl() . "main.min.css", array(), $registry->getPluginVersion() );
 				}
 			}

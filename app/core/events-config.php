@@ -63,7 +63,7 @@ class EventsConfig {
 			'label' => __( 'mvn_event', 'text_domain' ),
 			'description' => __( 'Events', 'text_domain' ),
 			'labels' => $labels,
-			'supports' => array(),
+			'supports' => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
 			//'taxonomies' => array( 'mvn_venue' ),
 			'hierarchical' => true,
 			'public' => true,
