@@ -364,7 +364,7 @@ class AttendeeMapper extends \Maven\Core\Mappers\ProfileMapper {
 	 * @param \MavenEvents\Core\Domain\Event $event
 	 * @return \MavenEvents\Core\Domain\Event
 	 */
-	public function save( \MavenEvents\Core\Domain\Attendee $attendee ) {
+	public function saveAttendee( \MavenEvents\Core\Domain\Attendee $attendee ) {
 
 		$attendee->sanitize();
 

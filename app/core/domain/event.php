@@ -369,7 +369,8 @@ class Event extends \Maven\Core\DomainObject {
 	public function setVenue( \MavenEvents\Core\Domain\Venue $venue ) {
 		$this->venue = $venue;
 	}
-
+	
+	
 	public function getDescription() {
 		return $this->description;
 	}
@@ -462,10 +463,7 @@ class Event extends \Maven\Core\DomainObject {
 
 		$venueId = ( int ) $this->getVenue()->getId();
 
-		if ( $this->getVenue() && $venueId > 0 )
-			return true;
-
-		return false;
+		return $this->getVenue() && $venueId > 0 ;
 	}
 
 	public function hasAttendees() {

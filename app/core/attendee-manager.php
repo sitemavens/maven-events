@@ -77,7 +77,7 @@ class AttendeeManager {
 
 		$forUpdate = (( int ) $attendeeToUpdate->getId()) > 0;
 
-		$attendeeToUpdate = $attendeeMapper->save( $attendeeToUpdate );
+		$attendeeToUpdate = $attendeeMapper->saveAttendee( $attendeeToUpdate );
 
 		Actions::updateAttendee( $attendeeToUpdate, $forUpdate );
 

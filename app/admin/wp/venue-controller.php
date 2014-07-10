@@ -85,7 +85,7 @@ class VenueController extends \MavenEvents\Admin\EventsAdminController {
 
 	// Add the Events Meta Boxes
 	function addEventsMetaBox() {
-		add_meta_box( 'wpt_events_location', 'Event Information', array( $this, 'showEvents' ), \MavenEvents\Core\EventsConfig::venueTypeName, 'normal', 'default' );
+		add_meta_box( 'wpt_events_location', 'General', array( $this, 'showEvents' ), \MavenEvents\Core\EventsConfig::venueTypeName, 'normal', 'default' );
 	}
 
 	// The Event Location Metabox
