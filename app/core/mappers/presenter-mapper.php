@@ -91,7 +91,7 @@ class PresenterMapper extends \Maven\Core\Mappers\ProfileMapper {
 
 		$this->executeQuery( $query );
 
-		parent::delete( $presenterId );
+		parent::deleteRow( $presenterId );
 
 		return true;
 	}

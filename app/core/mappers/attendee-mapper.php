@@ -548,7 +548,7 @@ class AttendeeMapper extends \Maven\Core\Mappers\ProfileMapper {
 		$this->executeQuery( $query );
 
 		//delete attende
-		$this->delete( $id, "%d", $this->attendeesTable );
+		$this->deleteRow( $id, "%d", $this->attendeesTable );
 	}
 
 }

@@ -85,7 +85,7 @@ class CategoryMapper extends \Maven\Core\Db\WordpressMapper {
 
 		$this->executeQuery( $query );
 
-		parent::delete( $categoryId );
+		parent::deleteRow( $categoryId );
 
 		return true;
 	}

@@ -82,10 +82,11 @@ class VenueMapper extends \Maven\Core\Db\WordpressMapper {
 
 		$result = wp_delete_term( $venueId, EventsConfig::venueTypeName );
 
-		if ( is_wp_error( $result ) )
+		if ( is_wp_error( $result ) ) {
 			throw new \Maven\Exceptions\MapperException( $result->get_error_message() );
+		}
 
-		parent::delete( $venueId );
+		parent::deleteRow( $venueId );
 
 		return true;
 	}
