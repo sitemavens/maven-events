@@ -86,7 +86,7 @@ class EventManager implements iSearchManager {
 	function addEvent( \MavenEvents\Core\Domain\Event $event ) {
 		$venueMapper = new VenueMapper();
 		$attendeeManager = new AttendeeManager();
-		$eventPricesMapper = new Mappers\EventPricesMapper();
+	 
 		$presentersMapper = new Mappers\PresenterMapper();
 		$categoriesMapper = new Mappers\CategoryMapper();
 
@@ -141,8 +141,6 @@ class EventManager implements iSearchManager {
 					$mailList->subscribe( $attendee, false );
 		}
 
-		//if ( $event->hasPrices() ) {
-		$eventPricesMapper->addEventPrices( $event->getPrices(), $savedEvent );
 		//}
 		//if ( $event->hasPresenters() ) {
 		$presentersMapper->addPresenters( $event->getPresenters(), $savedEvent );
@@ -338,9 +336,7 @@ class EventManager implements iSearchManager {
 		// By default events are closed
 		$event->setClosed(false);
 		
-		$venueMapper = new VenueMapper();
-		//$attendeeManager = new AttendeeManager();
-		$eventPricesMapper = new Mappers\EventPricesMapper();
+		$venueMapper = new VenueMapper(); 
 		$presentersMapper = new Mappers\PresenterMapper();
 		$categoriesMapper = new Mappers\CategoryMapper();
 
@@ -349,8 +345,7 @@ class EventManager implements iSearchManager {
 
 		//Removed Attendees list on the event load, it should be loaded async.
 		//$event->setAttendees( $attendeeManager->getEventAttendees( $event->getId() ) );
-
-		$event->setPrices( $eventPricesMapper->getEventPrices( $event->getId() ) );
+ 
 		$event->setPresenters( $presentersMapper->getEventPresenters( $event->getId() ) );
 		$event->setCategories( $categoriesMapper->getEventCategories( $event->getId() ) );
 

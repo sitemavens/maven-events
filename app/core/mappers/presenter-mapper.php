@@ -14,8 +14,9 @@ class PresenterMapper extends \Maven\Core\Mappers\ProfileMapper {
 	public function getAll( $orderBy = "display_name", $orderType = 'desc', $start = 0, $limit = 1000 ) {
 
 		$presenters = array( );
-		if ( ! $orderBy )
+		if ( !$orderBy ) {
 			$orderBy = 'id';
+		}
 
 		$results = $this->getResults( $orderBy, $orderType, $start, $limit );
 
@@ -39,12 +40,12 @@ class PresenterMapper extends \Maven\Core\Mappers\ProfileMapper {
 		return $presenters;
 	}
 
-	public function getCount() {
-
-		$query = "select	count(*)
-					from {$this->tableName}";
-		return $this->getVar( $query );
-	}
+//	public function getCount() {
+//
+//		$query = "select	count(*)
+//					from {$this->tableName}";
+//		return $this->getVar( $query );
+//	}
 
 	/**
 	 * Return a Venue object
