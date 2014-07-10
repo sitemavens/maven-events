@@ -49,7 +49,7 @@ class PresenterManager {
 		
 		$presenterMapper = new Mappers\PresenterMapper();
 		
-		$presenterMapper->save( $presenterToUpdate );
+		$presenterMapper->savePresenter( $presenterToUpdate );
 		
 		
 		if ( $update ){

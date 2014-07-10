@@ -138,7 +138,7 @@ class PresenterMapper extends \Maven\Core\Mappers\ProfileMapper {
 	 * @param \MavenEvents\Core\Domain\Venue $venue
 	 * @return \MavenEvents\Core\Domain\Venue
 	 */
-	public function save( \MavenEvents\Core\Domain\Presenter $presenter ) {
+	public function savePresenter( \MavenEvents\Core\Domain\Presenter $presenter ) {
 
 		$presenter->sanitize();
 
