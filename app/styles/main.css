@@ -102,3 +102,48 @@ h4.options span{
 .form-group.has-error .help-block {
 	display: block;
 }
+.tabs-panel ul, ol{
+	margin: 13px 0;
+}
+.tabs-panel label{
+	font-weight: normal;
+}
+.category-tabs li.tabs{
+	border-bottom-color: white;
+}
+ul.category-tabs li {
+    padding: 3px 5px 6px !important;
+}
+ul.category-tabs li a {
+    text-decoration: none !important;
+}
+ul.category-tabs li a:hover, ul.category-tabs li a:active {
+    text-decoration: none !important;
+	color: #2ea2cc;
+}
+#mvne_category-add-toggle{
+	color: #0074a2 !important;
+	font-weight: 600 !important;
+}
+#mvne_category-add-toggle:hover{
+	color: #2ea2cc !important;
+}
+.postbox h4 a {
+	font-family: "Open Sans", sans-serif !important;
+	font-size: 13px !important;
+}
+.postbox a{
+	color: #0074a2 !important;
+	text-decoration: underline !important;
+	transition-duration: 0.05s !important;
+    transition-property: border, background, color !important;
+    transition-timing-function: ease-in-out !important;
+}
+
+.postbox {
+	font-family: "Open Sans", sans-serif !important;
+}
+
+.postbox h1, .postbox h2, .postbox h3, .postbox h4, .postbox h5, .postbox h6 {
+    font-weight: 600 !important;
+}
