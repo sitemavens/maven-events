@@ -116,7 +116,6 @@ class VariationManager extends \Maven\Core\VariationManager {
 			sort( $fixedGroupKey );
 
 			$variationGroup = new \Maven\Core\Domain\VariationGroup();
-
 			$variationGroup->setId( $combination[ 'id' ] );
 			$variationGroup->setGroupKey( implode( '-', $fixedGroupKey ) );
 			$variationGroup->setPrice( $combination[ 'price' ] );

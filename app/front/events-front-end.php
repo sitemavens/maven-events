@@ -78,13 +78,12 @@ class EventsFrontEnd {
 		} else {
 
 			// Create the cart
-			$item->setProduct( $product );
-			$item->setPrice( ShopApi::calculateProductPrice( $product ) );
+			$item->setPrice( $event->getPrice()  );
 			$item->setQuantity( $thing->getQuantity() );
-			$item->setName( $product->getName() . $variationName );
-			$item->setThingId( $product->getId() );
+			$item->setName( $event->getName() . $variationName );
+			$item->setThingId( $event->getId() );
 
-			$this->addAttributes( $thing, $item );
+			//$item->addAttribute( $thing, $item );
 
 			return $item;
 		}

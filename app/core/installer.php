@@ -40,6 +40,7 @@ class Installer {
 				`attendee_limit` tinyint(4) DEFAULT NULL,
 				`gallery_images` varchar(256) DEFAULT NULL,
 				`timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                `posts_content` text,
 				`summary` varchar(500) DEFAULT NULL,
 				`price` float DEFAULT NULL,
 				`seats_enabled` BOOLEAN NOT NULL,
