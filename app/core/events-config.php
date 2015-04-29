@@ -28,6 +28,8 @@ class EventsConfig {
 	public static function init () {
 
 		\Maven\Core\HookManager::instance()->addInit( array( __CLASS__, 'registerTypes' ) );
+        \Maven\Core\HookManager::instance()->addAction( 'maven/cart/itemPaid/mavenevents', array( __CLASS__, 'paidEvent' ), 10, 1 );
+        \Maven\Core\HookManager::instance()->addAction( 'maven/cart/checkStock', array( __CLASS__, 'checkEventStock' ), 10, 1 );
 	}
 
 	static function registerTypes () {
@@ -268,6 +270,40 @@ class EventsConfig {
 		);
 
 		register_taxonomy( EventsConfig::presenterCategoryName, EventsConfig::presenterTypeName, $args );
+	}
+    
+    public static function paidEvent ( $orderItem ) {
+        
+        $eventManager = new \MavenEvents\Core\EventManager();
+        $variationGroupManager = new \MavenEvents\Core\VariationGroupManager();
+		$event = $eventManager->get( $orderItem->getThingId());
+		$variationGroup = $variationGroupManager->get($orderItem->getThingVariationId());
+        if ($event->isSeatsEnabled() && $event->getAvailableSeats() >= $orderItem->getQuantity()) {
+        	if ($variationGroup->getQuantity() >= $orderItem->getQuantity()) {
+        		$variationGroup->setQuantity($variationGroup->getQuantity() - $orderItem->getQuantity());
+        		$variationGroupManager->save($variationGroup);
+        		$event->setAvailableSeats($event->getAvailableSeats() - $orderItem->getQuantity());
+        		$eventManager->addEvent($event);
+        	}
+        }
+	}
+    
+    public static function checkEventStock ( $orderItems ) {
+        $eventManager = new \MavenEvents\Core\EventManager();
+        $variationGroupManager = new \MavenEvents\Core\VariationGroupManager();
+        $hasStock = true;
+        foreach($orderItems as $orderItem){
+            if ($hasStock) {
+                $event = $eventManager->get( $orderItem->getThingId());
+                $variationGroup = $variationGroupManager->get($orderItem->getThingVariationId());
+                if ($event->isSeatsEnabled() && $event->getAvailableSeats() == 0) {
+                    $hasStock = false;
+                } else if ($variationGroup->getQuantity() < $orderItem->getQuantity()) {
+                	$hasStock = false;
+                }
+            }
+        }
+        return $hasStock;
 	}
 
 }
