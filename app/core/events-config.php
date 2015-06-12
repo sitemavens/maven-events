@@ -29,7 +29,7 @@ class EventsConfig {
 
 		\Maven\Core\HookManager::instance()->addInit( array( __CLASS__, 'registerTypes' ) );
         \Maven\Core\HookManager::instance()->addAction( 'maven/cart/itemPaid/mavenevents', array( __CLASS__, 'paidEvent' ), 10, 1 );
-        \Maven\Core\HookManager::instance()->addAction( 'maven/cart/checkStock/mavenevents', array( __CLASS__, 'checkEventStock' ), 10, 1 );
+        \Maven\Core\HookManager::instance()->addAction( 'maven/cart/checkStock', array( __CLASS__, 'checkEventStock' ), 10, 1 );
 	}
 
 	static function registerTypes () {
